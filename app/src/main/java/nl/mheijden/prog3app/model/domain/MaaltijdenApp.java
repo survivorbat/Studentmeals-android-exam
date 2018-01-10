@@ -1,46 +1,59 @@
 package nl.mheijden.prog3app.model.domain;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
 
-import nl.mheijden.prog3app.model.data.MealDB;
+import nl.mheijden.prog3app.controller.callbacks.LoginControllerCallback;
+import nl.mheijden.prog3app.model.Callbacks.APICallbacks;
+import nl.mheijden.prog3app.model.data.Database;
+import nl.mheijden.prog3app.model.data.FellowEaterDAO;
+import nl.mheijden.prog3app.model.data.MealDAO;
+import nl.mheijden.prog3app.model.data.StudentDAO;
+import nl.mheijden.prog3app.model.services.APIServices;
 
 /**
  * Gemaakt door Maarten van der Heijden on 9-1-2018.
  */
 
-public class MaaltijdenApp {
-    private MealDB db;
+public class MaaltijdenApp implements APICallbacks {
+    private Database db;
     private Context context;
+    private APIServices api;
     private ArrayList<Meal> meals;
     private ArrayList<Student> students;
 
-    public void addDummy(){
-        Student gerben = new Student("Gerben","","Droogers","g@droog.com","0293712947");
-        students.add(gerben);
-        Meal maaltijd = new Meal(0,"Spaghetti","Voedsame maaltijd gemaakt met allergieën","20-12-2017",gerben,2.30,10,"20:23","link",false);
-        meals.add(maaltijd);
-        maaltijd = new Meal(1,"Pizza","Voedsame maaltijd gemaakt met allergieën","20-12-2017",gerben,2.30,10,"20:23","link",false);
-        meals.add(maaltijd);
-        maaltijd = new Meal(2,"Pizza","Voedsame maaltijd gemaakt met allergieën","20-12-2017",gerben,2.30,10,"20:23","link",false);
-        meals.add(maaltijd);
-        maaltijd = new Meal(3,"Pizza","Voedsame maaltijd gemaakt met allergieën","20-12-2017",gerben,2.30,10,"20:23","link",false);
-        meals.add(maaltijd);
-    }
+    private StudentDAO studentDAO;
+    private MealDAO mealDAO;
+    private FellowEaterDAO fellowEaterDAO;
 
-    public boolean refreshData(){
-        return false;
-    }
+    private LoginControllerCallback callback;
 
     public MaaltijdenApp(Context context) {
         this.context = context;
-        this.db=new MealDB(context);
+        this.db=new Database(context);
         this.meals = new ArrayList<>();
         this.students = new ArrayList<>();
+
+        this.api = new APIServices(context, this);
+        this.studentDAO = new StudentDAO(db);
+        this.mealDAO = new MealDAO(db,studentDAO);
+        this.fellowEaterDAO = new FellowEaterDAO(db,studentDAO,mealDAO);
+    }
+
+    public void refreshData(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
+        api.getStudents(sharedPreferences.getString("APITOKEN","0"));
+        api.getMeals(sharedPreferences.getString("APITOKEN","0"));
+        api.getFellowEaters(sharedPreferences.getString("APITOKEN","0"));
+        System.out.println(sharedPreferences.getString("APITOKEN","0"));
+    }
+
+    public boolean loadData(){
+
+        return false;
     }
 
     public ArrayList<Meal> getMeals() {
@@ -49,5 +62,43 @@ public class MaaltijdenApp {
 
     public ArrayList<Student> getStudents() {
         return students;
+    }
+
+    public boolean login(Context context, String studentNumber, String password, LoginControllerCallback callback){
+        this.callback = callback;
+        api.login(context, studentNumber, password);
+        return false;
+    }
+
+    public void loginCallback(String response){
+        if(response.equals("error")){
+            System.out.println(response);
+        } else {
+            SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("APITOKEN",response);
+            editor.commit();
+        }
+    }
+
+    @Override
+    public void loadStudents(ArrayList<Student> students) {
+        studentDAO.clear();
+        studentDAO.insertData(students);
+        for(Student i : students){
+            System.out.println(i);
+        }
+    }
+
+    @Override
+    public void loadMeals(ArrayList<Meal> meals) {
+        mealDAO.clear();
+        mealDAO.insertData(meals);
+    }
+
+    @Override
+    public void loadFellowEaters(ArrayList<FellowEater> fellowEaters) {
+        fellowEaterDAO.clear();
+        fellowEaterDAO.insertData(fellowEaters);
     }
 }

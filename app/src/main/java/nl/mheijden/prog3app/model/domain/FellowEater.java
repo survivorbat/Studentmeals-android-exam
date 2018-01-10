@@ -56,4 +56,14 @@ public class FellowEater {
     public void setMeal(Meal meal) {
         this.meal = meal;
     }
+
+    @Override
+    public String toString() {
+        return "FellowEater{" +
+                "id=" + id +
+                ", student=" + student +
+                ", guests=" + guests +
+                ", meal=" + meal +
+                '}';
+    }
 }

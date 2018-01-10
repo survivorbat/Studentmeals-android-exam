@@ -21,7 +21,7 @@ public class Meal {
     private boolean doesCookEat;
     private ArrayList<FellowEater> felloweaters;
 
-    Meal(int id, String dish, String info, String date, Student chefID, double price, int max, String time, String imageUrl, boolean doesCookEat) {
+    public Meal(int id, String dish, String info, String date, Student chefID, double price, int max, String time, String imageUrl, boolean doesCookEat) {
         this.id = id;
         this.dish = dish;
         this.info = info;

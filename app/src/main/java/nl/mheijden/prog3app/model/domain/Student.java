@@ -5,13 +5,15 @@ package nl.mheijden.prog3app.model.domain;
  */
 
 public class Student {
+    private String studentNumber;
     private String firstname;
     private String insertion;
     private String lastname;
     private String email;
     private String phonenumber;
 
-    Student(String firstname, String insertion, String lastname, String email, String phonenumber) {
+    public Student(String studentNumber, String firstname, String insertion, String lastname, String email, String phonenumber) {
+        this.studentNumber = studentNumber;
         this.firstname = firstname;
         this.insertion = insertion;
         this.lastname = lastname;
@@ -21,6 +23,26 @@ public class Student {
 
     public Student(){
 
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "studentNumber='" + studentNumber + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", insertion='" + insertion + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", phonenumber='" + phonenumber + '\'' +
+                '}';
+    }
+
+    public String getstudentNumber() {
+        return studentNumber;
+    }
+
+    public void setStudentNumber(String studentNumber) {
+        this.studentNumber = studentNumber;
     }
 
     public String getFirstname() {
