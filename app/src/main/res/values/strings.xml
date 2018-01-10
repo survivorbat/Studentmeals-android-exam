@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">De Maaltijd App</string>
+    <string name="app_meal_image">Foto van het gerecht</string>
 </resources>

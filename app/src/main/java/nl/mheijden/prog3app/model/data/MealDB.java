@@ -8,11 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Gemaakt door Maarten van der Heijden on 1-1-2018.
  */
 
-public class MaaltijdDB extends SQLiteOpenHelper {
+public class MealDB extends SQLiteOpenHelper {
     private static String DATABASE_NAME = "Prog3LocalDB";
     private static int DATABASE_VERSION = 1;
 
-    public MaaltijdDB(Context context) {
+    public MealDB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
