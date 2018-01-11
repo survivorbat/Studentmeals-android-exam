@@ -1,28 +1,28 @@
-package nl.mheijden.prog3app.model.data;
+package nl.mheijden.prog3app.model.data.DAOs;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.util.ArrayList;
 
+import nl.mheijden.prog3app.model.data.SQLiteDatabase;
 import nl.mheijden.prog3app.model.domain.Student;
 
 /**
  * Gemaakt door Maarten van der Heijden on 10-1-2018.
  */
 
-public class StudentDAO {
-    private Database db;
-    public StudentDAO(Database db){
+public class StudentDAO implements DAO<Student> {
+    private SQLiteDatabase db;
+    public StudentDAO(SQLiteDatabase db){
         this.db=db;
     }
 
     public ArrayList<Student> getAll(){
-        Log.i("Database","Retrieving all students");
+        Log.i("SQLiteDatabase","Retrieving all students");
         ArrayList<Student> rs = new ArrayList<>();
-        SQLiteDatabase db = this.db.getReadableDatabase();
+        android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
         Cursor i = db.rawQuery("SELECT * FROM Students ORDER BY LastName", null);
         if(i.moveToFirst()){
             while(!i.isAfterLast()){
@@ -37,13 +37,13 @@ public class StudentDAO {
                 i.moveToNext();
             }
         }
-        Log.i("Database","Found "+rs.size()+" students");
+        Log.i("SQLiteDatabase","Found "+rs.size()+" students");
         i.close();
         return rs;
     }
-    public Student getStudent(String id){
-        Log.i("Database","Retrieving student with ID "+id);
-        SQLiteDatabase db = this.db.getReadableDatabase();
+    public Student getOne(int id){
+        Log.i("SQLiteDatabase","Retrieving student with ID "+id);
+        android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
         Cursor i = db.rawQuery("SELECT * FROM Students WHERE StudentNumber ="+id, null);
         if(i.moveToFirst()){
             while(!i.isAfterLast()){
@@ -59,34 +59,29 @@ public class StudentDAO {
         }
         return null;
     }
-    public boolean insertData(ArrayList<Student> data){
-        Log.i("Database","Adding "+data.size()+" students");
-        SQLiteDatabase db = this.db.getReadableDatabase();
+    public void insertData(ArrayList<Student> data){
+        Log.i("SQLiteDatabase","Adding "+data.size()+" students");
+        android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
         for(Student student : data){
-            if(!addStudent(student)){
-                return false;
-            };
+            insertOne(student);
         }
-        return true;
     }
-    private boolean addStudent(Student student){
-        SQLiteDatabase t = db.getWritableDatabase();
+    public void insertOne(Student object){
+        android.database.sqlite.SQLiteDatabase t = db.getWritableDatabase();
         ContentValues i = new ContentValues();
-        i.put("StudentNumber", student.getstudentNumber());
-        i.put("FirstName", student.getFirstname());
-        i.put("Insertion", student.getInsertion());
-        i.put("LastName", student.getLastname());
-        i.put("Email", student.getEmail());
-        i.put("PhoneNumber", student.getPhonenumber());
+        i.put("StudentNumber", object.getstudentNumber());
+        i.put("FirstName", object.getFirstname());
+        i.put("Insertion", object.getInsertion());
+        i.put("LastName", object.getLastname());
+        i.put("Email", object.getEmail());
+        i.put("PhoneNumber", object.getPhonenumber());
         if (t.insert("Students", "StudentNumber, Firstname, Insertion, Lastname, Email, PhoneNumber", i) != -1) {
             t.close();
-            return true;
         }
         t.close();
-        return false;
     }
     public void clear(){
-        SQLiteDatabase db = this.db.getWritableDatabase();
+        android.database.sqlite.SQLiteDatabase db = this.db.getWritableDatabase();
         db.execSQL("DELETE FROM Students");
     }
 }

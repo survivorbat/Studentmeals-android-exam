@@ -9,10 +9,9 @@ import java.util.ArrayList;
 
 import nl.mheijden.prog3app.controller.callbacks.LoginControllerCallback;
 import nl.mheijden.prog3app.model.Callbacks.APICallbacks;
-import nl.mheijden.prog3app.model.data.Database;
-import nl.mheijden.prog3app.model.data.FellowEaterDAO;
-import nl.mheijden.prog3app.model.data.MealDAO;
-import nl.mheijden.prog3app.model.data.StudentDAO;
+import nl.mheijden.prog3app.model.data.DAOFactory;
+import nl.mheijden.prog3app.model.data.DAOs.DAO;
+import nl.mheijden.prog3app.model.data.SQLiteDatabase;
 import nl.mheijden.prog3app.model.services.APIServices;
 
 /**
@@ -20,28 +19,16 @@ import nl.mheijden.prog3app.model.services.APIServices;
  */
 
 public class MaaltijdenApp implements APICallbacks {
-    private Database db;
     private Context context;
     private APIServices api;
-    private ArrayList<Meal> meals;
-    private ArrayList<Student> students;
-
-    private StudentDAO studentDAO;
-    private MealDAO mealDAO;
-    private FellowEaterDAO fellowEaterDAO;
+    private DAOFactory daoFactory;
 
     private LoginControllerCallback callback;
 
     public MaaltijdenApp(Context context) {
         this.context = context;
-        this.db=new Database(context);
-        this.meals = new ArrayList<>();
-        this.students = new ArrayList<>();
-
         this.api = new APIServices(context, this);
-        this.studentDAO = new StudentDAO(db);
-        this.mealDAO = new MealDAO(db,studentDAO);
-        this.fellowEaterDAO = new FellowEaterDAO(db,studentDAO,mealDAO);
+        this.daoFactory = new DAOFactory(new SQLiteDatabase(context));
     }
 
     public void refreshData(){
@@ -51,18 +38,12 @@ public class MaaltijdenApp implements APICallbacks {
         api.getFellowEaters(sharedPreferences.getString("APITOKEN","0"));
     }
 
-    public boolean loadData(){
-        this.students = studentDAO.getAll();
-        this.meals = mealDAO.getAll();
-        return false;
-    }
-
     public ArrayList<Meal> getMeals() {
-        return meals;
+        return daoFactory.getMealDAO().getAll();
     }
 
     public ArrayList<Student> getStudents() {
-        return students;
+        return daoFactory.getStudentDAO().getAll();
     }
 
     public void login(Context context, String studentNumber, String password, LoginControllerCallback callback){
@@ -85,18 +66,21 @@ public class MaaltijdenApp implements APICallbacks {
 
     @Override
     public void loadStudents(ArrayList<Student> students) {
+        DAO<Student> studentDAO = daoFactory.getStudentDAO();
         studentDAO.clear();
         studentDAO.insertData(students);
     }
 
     @Override
     public void loadMeals(ArrayList<Meal> meals) {
+        DAO<Meal> mealDAO = daoFactory.getMealDAO();
         mealDAO.clear();
         mealDAO.insertData(meals);
     }
 
     @Override
     public void loadFellowEaters(ArrayList<FellowEater> fellowEaters) {
+        DAO<FellowEater> fellowEaterDAO = daoFactory.getFellowEaterDAO();
         fellowEaterDAO.clear();
         fellowEaterDAO.insertData(fellowEaters);
     }

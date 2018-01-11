@@ -9,16 +9,16 @@ import android.util.Log;
  * Gemaakt door Maarten van der Heijden on 1-1-2018.
  */
 
-public class Database extends SQLiteOpenHelper {
+public class SQLiteDatabase extends SQLiteOpenHelper {
     private static String DATABASE_NAME = "StudentMaaltijden";
     private static int DATABASE_VERSION = 2;
 
-    public Database(Context context) {
+    public SQLiteDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+    public void onCreate(android.database.sqlite.SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS`FellowEaters` (\n" +
                 "  `ID` int(11) NOT NULL,\n" +
                 "  `AmountOfGuests` int(11) NOT NULL DEFAULT '0',\n" +
@@ -47,16 +47,8 @@ public class Database extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        Log.i("INFO", "Local database updated");
+    public void onUpgrade(android.database.sqlite.SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Students; DROP TABLE IF EXISTS Meals; DROP TABLE IF EXISTS FellowEaters");
         this.onCreate(sqLiteDatabase);
-    }
-
-    public void resetDatabase(){
-        SQLiteDatabase db = getWritableDatabase();
-        db.delete("Students",null,null);
-        db.delete("Meals",null,null);
-        db.delete("FellowEaters",null,null);
     }
 }
