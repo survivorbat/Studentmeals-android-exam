@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">De Maaltijd App</string>
     <string name="app_meal_image">Foto van het gerecht</string>
+    <string name="app_login_title">Inloggen op de MaaltijdApp</string>
+    <string name="app_input_studentnumber">Studentnummer</string>
+    <string name="app_input_password">Wachtwoord</string>
+    <string name="app_input_loginbuton">Inloggen</string>
+    <string name="app_input_error_nousername">Geen gebruikersnaam ingevuld</string>
+    <string name="app_input_error_nopass">Geen wachtwoord ingevuld</string>
+    <string name="app_input_error_wrong">Gebruikersnaam en wachtwoord worden niet herkend</string>
+    <string name="app_input_error_loading">Aan het verifiëren...</string>
 </resources>

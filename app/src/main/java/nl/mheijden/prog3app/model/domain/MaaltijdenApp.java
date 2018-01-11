@@ -2,6 +2,7 @@ package nl.mheijden.prog3app.model.domain;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 
 import java.util.ArrayList;
@@ -64,20 +65,21 @@ public class MaaltijdenApp implements APICallbacks {
         return students;
     }
 
-    public boolean login(Context context, String studentNumber, String password, LoginControllerCallback callback){
+    public void login(Context context, String studentNumber, String password, LoginControllerCallback callback){
         this.callback = callback;
         api.login(context, studentNumber, password);
-        return false;
     }
 
     public void loginCallback(String response){
         if(response.equals("error")){
-            System.out.println(response);
+            callback.login("error");
         } else {
+            Log.i("API",response);
             SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("APITOKEN",response);
-            editor.commit();
+            callback.login("success");
+            editor.apply();
         }
     }
 
@@ -85,9 +87,6 @@ public class MaaltijdenApp implements APICallbacks {
     public void loadStudents(ArrayList<Student> students) {
         studentDAO.clear();
         studentDAO.insertData(students);
-        for(Student i : students){
-            System.out.println(i);
-        }
     }
 
     @Override

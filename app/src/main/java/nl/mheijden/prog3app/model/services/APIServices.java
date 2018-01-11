@@ -73,7 +73,7 @@ public class APIServices {
                 try {
                     if(response.getString("token")==null){
                         APICallbacks.loginCallback("error");
-                        Log.i("API","Error!");
+                        Log.i("API","Error: "+response);
                     } else {
                         APICallbacks.loginCallback(response.getString("token"));
                         Log.i("API","Token received!");
