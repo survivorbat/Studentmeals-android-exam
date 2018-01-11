@@ -6,7 +6,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import nl.mheijden.prog3app.model.data.SQLiteDatabase;
+import nl.mheijden.prog3app.model.data.SQLiteLocalDatabase;
 import nl.mheijden.prog3app.model.domain.Meal;
 
 /**
@@ -14,15 +14,15 @@ import nl.mheijden.prog3app.model.domain.Meal;
  */
 
 public class MealDAO implements DAO<Meal> {
-    private SQLiteDatabase db;
+    private SQLiteLocalDatabase db;
     private StudentDAO studentDAO;
-    public MealDAO(SQLiteDatabase db, StudentDAO studentDAO){
+    public MealDAO(SQLiteLocalDatabase db, StudentDAO studentDAO){
         this.db=db;
         this.studentDAO = studentDAO;
     }
 
     public ArrayList<Meal> getAll(){
-        Log.i("SQLiteDatabase","Retrieving all students");
+        Log.i("SQLiteLocalDatabase","Retrieving all students");
         ArrayList<Meal> rs = new ArrayList<>();
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
         Cursor i = db.rawQuery("SELECT * FROM Meals ORDER BY DateTime", null);
@@ -46,12 +46,12 @@ public class MealDAO implements DAO<Meal> {
                 i.moveToNext();
             }
         }
-        Log.i("SQLiteDatabase","Found "+rs.size()+" meals");
+        Log.i("SQLiteLocalDatabase","Found "+rs.size()+" meals");
         i.close();
         return rs;
     }
     public Meal getOne(int id){
-        Log.i("SQLiteDatabase","Retrieving Meal with ID "+id);
+        Log.i("SQLiteLocalDatabase","Retrieving Meal with ID "+id);
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
         Cursor i = db.rawQuery("SELECT * FROM Meals WHERE ID ="+id, null);
         if(i.moveToFirst()){
@@ -76,14 +76,14 @@ public class MealDAO implements DAO<Meal> {
         return null;
     }
     public void insertData(ArrayList<Meal> data){
-        Log.i("SQLiteDatabase","Adding "+data.size()+" students");
+        Log.i("SQLiteLocalDatabase","Adding "+data.size()+" students");
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
         for(Meal meal : data){
             insertOne(meal);
         }
     }
     public void insertOne(Meal object){
-        Log.i("SQLiteDatabase","Inserting meals "+object.getDish());
+        Log.i("SQLiteLocalDatabase","Inserting meals "+object.getDish());
         android.database.sqlite.SQLiteDatabase t = db.getWritableDatabase();
         ContentValues i = new ContentValues();
         i.put("ID", object.getId());

@@ -2,6 +2,7 @@ package nl.mheijden.prog3app.model.services;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Base64;
 import android.util.Log;
 
@@ -41,6 +42,7 @@ public class APIServices {
     private RequestQueue mRequestQueue;
     private APICallbacks APICallbacks;
     private String APIKey;
+    private Context context;
 
     public APIServices(Context context, APICallbacks APICallbacks){
         Cache cache = new DiskBasedCache(context.getCacheDir(), 1024 * 1024); // 1MB cap
@@ -48,13 +50,12 @@ public class APIServices {
         mRequestQueue = new RequestQueue(cache, network);
         mRequestQueue.start();
         this.APICallbacks = APICallbacks;
+        this.context=context;
     }
 
-    public ArrayList<Meal> getData(){
-        ArrayList<Meal> result = new ArrayList<Meal>();
-        return result;
-    }
     public boolean addMaaltijd(Meal meal){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("APITOKEN",null);
         return false;
     }
     public void login(final Context context, String studentNumber, String password){
@@ -93,7 +94,9 @@ public class APIServices {
         });
         mRequestQueue.add(request);
     }
-    public void getStudents(final String token){
+    public void getStudents(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
+        final String token = sharedPreferences.getString("APITOKEN",null);
         final ArrayList<Student> rs = new ArrayList<Student>();
         Student gerben = new Student("212199233","Gerben","","Droogers","g@droog.com","0293712947");
         rs.add(gerben);
@@ -127,24 +130,32 @@ public class APIServices {
         };
         mRequestQueue.add(jsObjRequest);
     }
-    public ArrayList<Meal> getMeals(final String token){
+    public void getMeals(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("APITOKEN",null);
         ArrayList<Meal> rs = new ArrayList<>();
-        Meal pizza = new Meal(1,"Pizza","Voedsame maaltijd gemaakt met allergieën","20-12-2017",getStudent("1",token),2.30,10,"20:23","link",false);
+        Meal pizza = new Meal(1,"Pizza","Voedsame maaltijd gemaakt met allergieën","20-12-2017",getStudent("1"),2.30,10,"20:23","link",false);
         rs.add(pizza);
-        return rs;
+        APICallbacks.loadMeals(rs);
     }
 
-    public Student getStudent(String number, final String token){
+    public Student getStudent(String number){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("APITOKEN",null);
         return new Student("212199233","Gerben","","Droogers","g@droog.com","0293712947");
     }
 
-    public Meal getMeal(String meal, final String token){
-        return new Meal(1,"Pizza","Voedsame maaltijd gemaakt met allergieën","20-12-2017",getStudent("1", token),2.30,10,"20:23","link",false);
+    public Meal getMeal(String meal){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("APITOKEN",null);
+        return new Meal(1,"Pizza","Voedsame maaltijd gemaakt met allergieën","20-12-2017",getStudent("1"),2.30,10,"20:23","link",false);
     }
 
-    public ArrayList<FellowEater> getFellowEaters(final String token){
+    public void getFellowEaters(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("APITOKEN",null);
         ArrayList<FellowEater> rs = new ArrayList<>();
-        rs.add(new FellowEater(0,getStudent("2", token),5,getMeal("2",token)));
-        return rs;
+        rs.add(new FellowEater(0,getStudent("2"),5,getMeal("2")));
+        APICallbacks.loadFellowEaters(rs);
     }
 }

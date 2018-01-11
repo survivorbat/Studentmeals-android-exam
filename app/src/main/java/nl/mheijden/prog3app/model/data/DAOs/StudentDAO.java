@@ -6,7 +6,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import nl.mheijden.prog3app.model.data.SQLiteDatabase;
+import nl.mheijden.prog3app.model.data.SQLiteLocalDatabase;
 import nl.mheijden.prog3app.model.domain.Student;
 
 /**
@@ -14,13 +14,13 @@ import nl.mheijden.prog3app.model.domain.Student;
  */
 
 public class StudentDAO implements DAO<Student> {
-    private SQLiteDatabase db;
-    public StudentDAO(SQLiteDatabase db){
+    private SQLiteLocalDatabase db;
+    public StudentDAO(SQLiteLocalDatabase db){
         this.db=db;
     }
 
     public ArrayList<Student> getAll(){
-        Log.i("SQLiteDatabase","Retrieving all students");
+        Log.i("SQLiteLocalDatabase","Retrieving all students");
         ArrayList<Student> rs = new ArrayList<>();
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
         Cursor i = db.rawQuery("SELECT * FROM Students ORDER BY LastName", null);
@@ -37,12 +37,12 @@ public class StudentDAO implements DAO<Student> {
                 i.moveToNext();
             }
         }
-        Log.i("SQLiteDatabase","Found "+rs.size()+" students");
+        Log.i("SQLiteLocalDatabase","Found "+rs.size()+" students");
         i.close();
         return rs;
     }
     public Student getOne(int id){
-        Log.i("SQLiteDatabase","Retrieving student with ID "+id);
+        Log.i("SQLiteLocalDatabase","Retrieving student with ID "+id);
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
         Cursor i = db.rawQuery("SELECT * FROM Students WHERE StudentNumber ="+id, null);
         if(i.moveToFirst()){
@@ -60,7 +60,7 @@ public class StudentDAO implements DAO<Student> {
         return null;
     }
     public void insertData(ArrayList<Student> data){
-        Log.i("SQLiteDatabase","Adding "+data.size()+" students");
+        Log.i("SQLiteLocalDatabase","Adding "+data.size()+" students");
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
         for(Student student : data){
             insertOne(student);

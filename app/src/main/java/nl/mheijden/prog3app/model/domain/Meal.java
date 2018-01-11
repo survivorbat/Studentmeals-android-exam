@@ -1,5 +1,6 @@
 package nl.mheijden.prog3app.model.domain;
 
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,7 +9,7 @@ import java.util.Date;
  * Gemaakt door Maarten van der Heijden on 9-1-2018.
  */
 
-public class Meal {
+public class Meal implements Serializable {
     private int id;
     private String dish;
     private String info;

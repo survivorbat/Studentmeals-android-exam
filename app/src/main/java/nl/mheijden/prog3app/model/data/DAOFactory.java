@@ -9,17 +9,17 @@ import nl.mheijden.prog3app.model.data.DAOs.StudentDAO;
  */
 
 public class DAOFactory {
-    private SQLiteDatabase SQLiteDatabase;
-    public DAOFactory(SQLiteDatabase SQLiteDatabase){
-        this.SQLiteDatabase = SQLiteDatabase;
+    private SQLiteLocalDatabase SQLiteLocalDatabase;
+    public DAOFactory(SQLiteLocalDatabase SQLiteLocalDatabase){
+        this.SQLiteLocalDatabase = SQLiteLocalDatabase;
     }
     public StudentDAO getStudentDAO(){
-        return new StudentDAO(SQLiteDatabase);
+        return new StudentDAO(SQLiteLocalDatabase);
     }
     public MealDAO getMealDAO(){
-        return new MealDAO(SQLiteDatabase,getStudentDAO());
+        return new MealDAO(SQLiteLocalDatabase,getStudentDAO());
     }
     public FellowEaterDAO getFellowEaterDAO(){
-        return new FellowEaterDAO(SQLiteDatabase,getStudentDAO(),getMealDAO());
+        return new FellowEaterDAO(SQLiteLocalDatabase,getStudentDAO(),getMealDAO());
     }
 }

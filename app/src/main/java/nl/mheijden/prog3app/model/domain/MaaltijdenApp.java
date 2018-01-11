@@ -11,7 +11,10 @@ import nl.mheijden.prog3app.controller.callbacks.LoginControllerCallback;
 import nl.mheijden.prog3app.model.Callbacks.APICallbacks;
 import nl.mheijden.prog3app.model.data.DAOFactory;
 import nl.mheijden.prog3app.model.data.DAOs.DAO;
-import nl.mheijden.prog3app.model.data.SQLiteDatabase;
+import nl.mheijden.prog3app.model.data.DAOs.FellowEaterDAO;
+import nl.mheijden.prog3app.model.data.DAOs.MealDAO;
+import nl.mheijden.prog3app.model.data.DAOs.StudentDAO;
+import nl.mheijden.prog3app.model.data.SQLiteLocalDatabase;
 import nl.mheijden.prog3app.model.services.APIServices;
 
 /**
@@ -22,28 +25,24 @@ public class MaaltijdenApp implements APICallbacks {
     private Context context;
     private APIServices api;
     private DAOFactory daoFactory;
-
     private LoginControllerCallback callback;
+
+    public ArrayList<FellowEater> getFellowEaters() {
+        return daoFactory.getFellowEaterDAO().getAll();
+    }
 
     public MaaltijdenApp(Context context) {
         this.context = context;
         this.api = new APIServices(context, this);
-        this.daoFactory = new DAOFactory(new SQLiteDatabase(context));
-    }
-
-    public void refreshData(){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
-        api.getStudents(sharedPreferences.getString("APITOKEN","0"));
-        api.getMeals(sharedPreferences.getString("APITOKEN","0"));
-        api.getFellowEaters(sharedPreferences.getString("APITOKEN","0"));
-    }
-
-    public ArrayList<Meal> getMeals() {
-        return daoFactory.getMealDAO().getAll();
+        this.daoFactory = new DAOFactory(new SQLiteLocalDatabase(context));
     }
 
     public ArrayList<Student> getStudents() {
         return daoFactory.getStudentDAO().getAll();
+    }
+
+    public ArrayList<Meal> getMeals() {
+        return daoFactory.getMealDAO().getAll();
     }
 
     public void login(Context context, String studentNumber, String password, LoginControllerCallback callback){
@@ -62,6 +61,11 @@ public class MaaltijdenApp implements APICallbacks {
             callback.login("success");
             editor.apply();
         }
+    }
+
+    @Override
+    public void invalidToken() {
+
     }
 
     @Override

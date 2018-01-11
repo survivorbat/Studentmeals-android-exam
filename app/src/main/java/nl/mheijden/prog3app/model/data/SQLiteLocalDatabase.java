@@ -9,11 +9,11 @@ import android.util.Log;
  * Gemaakt door Maarten van der Heijden on 1-1-2018.
  */
 
-public class SQLiteDatabase extends SQLiteOpenHelper {
+public class SQLiteLocalDatabase extends SQLiteOpenHelper {
     private static String DATABASE_NAME = "StudentMaaltijden";
     private static int DATABASE_VERSION = 2;
 
-    public SQLiteDatabase(Context context) {
+    public SQLiteLocalDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

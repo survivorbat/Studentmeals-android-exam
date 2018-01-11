@@ -60,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements LoginControllerCa
             errorfield.setText(R.string.app_input_error_wrong);
         } else if(response.equals("success")) {
             Intent i = new Intent(this,DashboardActivity.class);
+            i.putExtra("students",app.getStudents());
+            i.putExtra("meals",app.getMeals());
+            i.putExtra("fellowEaters",app.getFellowEaters());
             startActivity(i);
         }
     }

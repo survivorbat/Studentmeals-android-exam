@@ -6,7 +6,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import nl.mheijden.prog3app.model.data.SQLiteDatabase;
+import nl.mheijden.prog3app.model.data.SQLiteLocalDatabase;
 import nl.mheijden.prog3app.model.domain.FellowEater;
 
 /**
@@ -14,11 +14,11 @@ import nl.mheijden.prog3app.model.domain.FellowEater;
  */
 
 public class FellowEaterDAO implements DAO<FellowEater> {
-    private SQLiteDatabase db;
+    private SQLiteLocalDatabase db;
     private MealDAO mealDAO;
     private StudentDAO studentDAO;
 
-    public FellowEaterDAO(SQLiteDatabase db, StudentDAO studentDAO, MealDAO mealDAO){
+    public FellowEaterDAO(SQLiteLocalDatabase db, StudentDAO studentDAO, MealDAO mealDAO){
         this.db=db;
         this.studentDAO=studentDAO;
         this.mealDAO=mealDAO;
@@ -38,7 +38,7 @@ public class FellowEaterDAO implements DAO<FellowEater> {
                 i.moveToNext();
             }
         }
-        Log.i("SQLiteDatabase","Found "+rs.size()+" students");
+        Log.i("SQLiteLocalDatabase","Found "+rs.size()+" students");
         i.close();
         return rs;
     }
@@ -46,13 +46,13 @@ public class FellowEaterDAO implements DAO<FellowEater> {
         return new FellowEater();
     }
     public void insertData(ArrayList<FellowEater> data){
-        Log.i("SQLiteDatabase","Adding "+data.size()+" felloweaters");
+        Log.i("SQLiteLocalDatabase","Adding "+data.size()+" felloweaters");
         for(FellowEater fellowEater : data){
             insertOne(fellowEater);
         }
     }
     public void insertOne(FellowEater object){
-        Log.i("SQLiteDatabase","Inserting fellowEater with id = "+object.getId());
+        Log.i("SQLiteLocalDatabase","Inserting fellowEater with id = "+object.getId());
         android.database.sqlite.SQLiteDatabase t = db.getWritableDatabase();
         ContentValues i = new ContentValues();
         i.put("ID", object.getId());
