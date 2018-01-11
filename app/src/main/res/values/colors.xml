@@ -6,8 +6,9 @@
     <color name="colorDarkBlue">#000016</color>
     <color name="colorSemiWhite">#FAFAFA</color>
     <color name="colorBlueShade">#00004d</color>
-    <color name="colorBlue">#460a00ce</color>
-    <color name="colorDarkRed">#7ed40000</color>
-    <color name="colorYellow">#6aafb42b</color>
-    <color name="colorGreen">#61009f0b</color>
+    <color name="colorBlue">#0900bc</color>
+    <color name="colorDarkRed">#0099ff</color>
+    <color name="colorYellow">#008acf</color>
+    <color name="colorGreen">#0088dc</color>
+    <color name="colorTransparent">#00ffffff</color>
 </resources>

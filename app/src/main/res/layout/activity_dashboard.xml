@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorDarkBlue"
     android:orientation="vertical"
+    android:paddingHorizontal="16dp"
     android:weightSum="6"
     tools:context="nl.mheijden.prog3app.controller.activities.MainActivity">
 
@@ -21,15 +22,14 @@
             android:layout_height="wrap_content"
             android:text="@string/app_dashboard_title"
             android:textColor="@color/colorSemiWhite"
-            android:textSize="30sp"
+            android:textSize="37sp"
             tools:text="@string/app_dashboard_title" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="@color/colorSemiWhite"
-            tools:text="@string/app_dashboard_desc" />
+            android:text="@string/app_dashboard_desc" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -43,18 +43,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/colorBlue"
+            android:background="@color/colorTransparent"
             android:text="@string/app_dashboard_button_meals"
-            android:textSize="24sp" />
+            android:textSize="120sp" />
 
         <Button
             android:id="@+id/studentsButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/colorDarkRed"
+            android:background="@color/colorTransparent"
             android:text="@string/app_dashboard_button_students"
-            android:textSize="24sp" />
+            android:textSize="120sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -68,17 +68,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/colorYellow"
+            android:background="@color/colorTransparent"
             android:text="@string/app_dashboard_button_newmeal"
-            android:textSize="24sp" />
+            android:textSize="120sp" />
 
         <Button
             android:id="@+id/accountButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/colorGreen"
+            android:background="@color/colorTransparent"
             android:text="@string/app_dashboard_button_account"
-            android:textSize="24sp" />
+            android:textSize="120sp" />
     </LinearLayout>
 </LinearLayout>

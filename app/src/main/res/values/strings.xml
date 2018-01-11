@@ -11,8 +11,12 @@
     <string name="app_input_error_loading">Aan het verifiëren...</string>
     <string name="app_dashboard_title">Studentendashboard</string>
     <string name="app_dashboard_desc">Lorem ipsum</string>
-    <string name="app_dashboard_button_meals">Maaltijden</string>
-    <string name="app_dashboard_button_students">Studenten</string>
-    <string name="app_dashboard_button_newmeal">Nieuwe maaltijd</string>
-    <string name="app_dashboard_button_account">Mijn account</string>
+    <string name="app_dashboard_button_meals">🍝</string>
+    <string name="app_dashboard_button_students">👨</string>
+    <string name="app_dashboard_button_newmeal">➕</string>
+    <string name="app_dashboard_button_account">⚙</string>
+    <string name="app_meals_title">Maaltijden</string>
+    <string name="app_meals_desc">Dit is een overzicht aan maaltijden die gepland staan</string>
+    <string name="app_students_title">Studenten</string>
+    <string name="app_students_desc">Dit is een overzicht aan studenten</string>
 </resources>

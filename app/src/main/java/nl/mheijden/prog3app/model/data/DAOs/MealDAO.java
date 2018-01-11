@@ -88,7 +88,7 @@ public class MealDAO implements DAO<Meal> {
         ContentValues i = new ContentValues();
         i.put("ID", object.getId());
         i.put("Dish", object.getDish());
-        i.put("DateTime", object.getDate());
+        i.put("DateTime", object.getDate()+" "+object.getTime());
         i.put("Info", object.getInfo());
         i.put("ChefID", object.getChefID().getstudentNumber());
         i.put("Picture", object.getInfo());

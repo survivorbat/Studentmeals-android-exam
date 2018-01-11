@@ -11,52 +11,50 @@ import java.util.ArrayList;
 
 import nl.mheijden.prog3app.R;
 import nl.mheijden.prog3app.model.domain.Meal;
+import nl.mheijden.prog3app.model.domain.Student;
 
 /**
  * Gemaakt door Maarten van der Heijden on 9-1-2018.
  */
 
-public class MealAdapter extends ArrayAdapter<Meal> {
-    private ArrayList<Meal> data;
+public class StudentAdapter extends ArrayAdapter<Student> {
+    private ArrayList<Student> data;
 
-    public MealAdapter(Context context, int resource, ArrayList<Meal> data) {
+    public StudentAdapter(Context context, int resource, ArrayList<Student> data) {
         super(context, resource, data);
         this.data = data;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Meal meal = getItem(position);
+        Student student = getItem(position);
         ViewHolder viewHolder;
 
         if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.listview_meal, parent, false);
-            viewHolder.dish = convertView.findViewById(R.id.meal_titel);
-            viewHolder.date = convertView.findViewById(R.id.meal_datumtijd);
-            viewHolder.info = convertView.findViewById(R.id.meal_beschrijving);
+            convertView = inflater.inflate(R.layout.listview_student, parent, false);
+            viewHolder.name = convertView.findViewById(R.id.student_name);
+            viewHolder.email = convertView.findViewById(R.id.student_email);
+            viewHolder.phonenumber = convertView.findViewById(R.id.student_phonenumber);
 
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.dish.setText(meal.getDish() + " ");
-        viewHolder.date.setText(meal.getDate() + " ");
-        viewHolder.info.setText(meal.getInfo() + " ");
+        viewHolder.name.setText(student.getFirstname()+" "+student.getInsertion()+" "+student.getLastname()+"");
+        viewHolder.email.setText(student.getEmail()+"");
+        viewHolder.phonenumber.setText(student.getPhonenumber()+"");
         return convertView;
     }
 
-    public Meal getItem(int position) {
+    public Student getItem(int position) {
         return data.get(position);
     }
 
     private static class ViewHolder {
-        TextView dish;
-        TextView info;
-        TextView date;
-        TextView chefID;
-        TextView price;
-        TextView imageUrl;
+        TextView name;
+        TextView email;
+        TextView phonenumber;
     }
 }

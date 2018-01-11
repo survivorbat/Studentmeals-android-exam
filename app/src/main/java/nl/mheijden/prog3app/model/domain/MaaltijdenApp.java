@@ -51,10 +51,10 @@ public class MaaltijdenApp implements APICallbacks {
     }
 
     public void loginCallback(String response){
+        Log.i("API",response);
         if(response.equals("error")){
-            callback.login("error");
+            callback.login(response);
         } else {
-            Log.i("API",response);
             SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("APITOKEN",response);
@@ -68,6 +68,11 @@ public class MaaltijdenApp implements APICallbacks {
 
     }
 
+    public void reloadData(){
+        api.getMeals();
+        api.getFellowEaters();
+        api.getStudents();
+    }
     @Override
     public void loadStudents(ArrayList<Student> students) {
         DAO<Student> studentDAO = daoFactory.getStudentDAO();

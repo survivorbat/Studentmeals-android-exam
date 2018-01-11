@@ -2,6 +2,8 @@ package nl.mheijden.prog3app.controller.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -54,10 +56,12 @@ public class MainActivity extends AppCompatActivity implements LoginControllerCa
             app.login(this, user, pass, this);
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void login(String response) {
-        if(response.equals("wrong")){
+        if(response.equals("error")){
             errorfield.setText(R.string.app_input_error_wrong);
+            errorfield.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         } else if(response.equals("success")) {
             Intent i = new Intent(this,DashboardActivity.class);
             i.putExtra("students",app.getStudents());

@@ -22,7 +22,7 @@
         android:paddingHorizontal="8dp">
 
         <TextView
-            android:id="@+id/meal_titel"
+            android:id="@+id/student_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""
@@ -31,7 +31,7 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/meal_datumtijd"
+            android:id="@+id/student_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""
@@ -39,7 +39,7 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/meal_beschrijving"
+            android:id="@+id/student_phonenumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""

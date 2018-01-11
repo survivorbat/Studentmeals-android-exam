@@ -136,6 +136,14 @@ public class APIServices {
         ArrayList<Meal> rs = new ArrayList<>();
         Meal pizza = new Meal(1,"Pizza","Voedsame maaltijd gemaakt met allergieën","20-12-2017",getStudent("1"),2.30,10,"20:23","link",false);
         rs.add(pizza);
+        pizza.setId(2);
+        rs.add(pizza);
+        pizza.setId(3);
+        rs.add(pizza);
+        pizza.setId(4);
+        rs.add(pizza);
+        pizza.setId(5);
+        rs.add(pizza);
         APICallbacks.loadMeals(rs);
     }
 

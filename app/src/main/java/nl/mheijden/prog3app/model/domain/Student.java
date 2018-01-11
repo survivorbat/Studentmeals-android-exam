@@ -7,17 +7,16 @@ import java.io.Serializable;
  */
 
 public class Student implements Serializable {
-    private String studentNumber;
-    private String firstname;
-    private String insertion;
-    private String lastname;
-    private String email;
-    private String phonenumber;
+    private String studentNumber,firstname,insertion,lastname,email,phonenumber;
 
     public Student(String studentNumber, String firstname, String insertion, String lastname, String email, String phonenumber) {
         this.studentNumber = studentNumber;
         this.firstname = firstname;
-        this.insertion = insertion;
+        if(insertion!=null){
+            this.insertion = insertion;
+        } else {
+            this.insertion="";
+        }
         this.lastname = lastname;
         this.email = email;
         this.phonenumber = phonenumber;
