@@ -48,11 +48,11 @@ public class MaaltijdenApp implements APICallbacks {
         api.getStudents(sharedPreferences.getString("APITOKEN","0"));
         api.getMeals(sharedPreferences.getString("APITOKEN","0"));
         api.getFellowEaters(sharedPreferences.getString("APITOKEN","0"));
-        System.out.println(sharedPreferences.getString("APITOKEN","0"));
     }
 
     public boolean loadData(){
-
+        this.students = studentDAO.getAll();
+        this.meals = mealDAO.getAll();
         return false;
     }
 
