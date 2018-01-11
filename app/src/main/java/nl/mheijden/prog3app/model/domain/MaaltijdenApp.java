@@ -23,8 +23,6 @@ public class MaaltijdenApp implements APICallbacks {
     private Database db;
     private Context context;
     private APIServices api;
-    private ArrayList<Meal> meals;
-    private ArrayList<Student> students;
 
     private StudentDAO studentDAO;
     private MealDAO mealDAO;
@@ -32,11 +30,13 @@ public class MaaltijdenApp implements APICallbacks {
 
     private LoginControllerCallback callback;
 
+    public ArrayList<FellowEater> getFellowEaters() {
+        return fellowEaterDAO.getAll();
+    }
+
     public MaaltijdenApp(Context context) {
         this.context = context;
         this.db=new Database(context);
-        this.meals = new ArrayList<>();
-        this.students = new ArrayList<>();
 
         this.api = new APIServices(context, this);
         this.studentDAO = new StudentDAO(db);
@@ -45,24 +45,17 @@ public class MaaltijdenApp implements APICallbacks {
     }
 
     public void refreshData(){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
-        api.getStudents(sharedPreferences.getString("APITOKEN","0"));
-        api.getMeals(sharedPreferences.getString("APITOKEN","0"));
-        api.getFellowEaters(sharedPreferences.getString("APITOKEN","0"));
-    }
-
-    public boolean loadData(){
-        this.students = studentDAO.getAll();
-        this.meals = mealDAO.getAll();
-        return false;
+        api.getStudents();
+        api.getFellowEaters();
+        api.getMeals();
     }
 
     public ArrayList<Meal> getMeals() {
-        return meals;
+        return mealDAO.getAll();
     }
 
     public ArrayList<Student> getStudents() {
-        return students;
+        return studentDAO.getAll();
     }
 
     public void login(Context context, String studentNumber, String password, LoginControllerCallback callback){
@@ -81,6 +74,11 @@ public class MaaltijdenApp implements APICallbacks {
             callback.login("success");
             editor.apply();
         }
+    }
+
+    @Override
+    public void invalidToken() {
+
     }
 
     @Override

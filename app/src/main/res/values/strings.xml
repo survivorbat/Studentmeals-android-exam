@@ -9,4 +9,10 @@
     <string name="app_input_error_nopass">Geen wachtwoord ingevuld</string>
     <string name="app_input_error_wrong">Gebruikersnaam en wachtwoord worden niet herkend</string>
     <string name="app_input_error_loading">Aan het verifiëren...</string>
+    <string name="app_dashboard_title">Studentendashboard</string>
+    <string name="app_dashboard_desc">Lorem ipsum</string>
+    <string name="app_dashboard_button_meals">Maaltijden</string>
+    <string name="app_dashboard_button_students">Studenten</string>
+    <string name="app_dashboard_button_newmeal">Nieuwe maaltijd</string>
+    <string name="app_dashboard_button_account">Mijn account</string>
 </resources>

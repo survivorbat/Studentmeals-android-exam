@@ -15,4 +15,5 @@ public interface APICallbacks {
     void loadMeals(ArrayList<Meal> meals);
     void loadFellowEaters(ArrayList<FellowEater> fellowEaters);
     void loginCallback(String response);
+    void invalidToken();
 }

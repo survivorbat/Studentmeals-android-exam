@@ -1,10 +1,12 @@
 package nl.mheijden.prog3app.model.domain;
 
+import java.io.Serializable;
+
 /**
  * Gemaakt door Maarten van der Heijden on 9-1-2018.
  */
 
-public class Student {
+public class Student implements Serializable {
     private String studentNumber;
     private String firstname;
     private String insertion;
