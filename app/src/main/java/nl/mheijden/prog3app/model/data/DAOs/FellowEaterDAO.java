@@ -15,13 +15,9 @@ import nl.mheijden.prog3app.model.domain.FellowEater;
 
 public class FellowEaterDAO implements DAO<FellowEater> {
     private SQLiteLocalDatabase db;
-    private MealDAO mealDAO;
-    private StudentDAO studentDAO;
 
-    public FellowEaterDAO(SQLiteLocalDatabase db, StudentDAO studentDAO, MealDAO mealDAO){
+    public FellowEaterDAO(SQLiteLocalDatabase db) {
         this.db=db;
-        this.studentDAO=studentDAO;
-        this.mealDAO=mealDAO;
     }
     public ArrayList<FellowEater> getAll(){
         ArrayList<FellowEater> rs = new ArrayList<>();
@@ -32,8 +28,8 @@ public class FellowEaterDAO implements DAO<FellowEater> {
                 FellowEater s = new FellowEater();
                 s.setId(i.getInt(0));
                 s.setGuests(i.getInt(1));
-                s.setStudent(studentDAO.getOne(Integer.parseInt(i.getString(2))));
-                s.setMeal(mealDAO.getOne(i.getInt(3)));
+                s.setStudent(i.getInt(2));
+                s.setMeal(i.getInt(3));
                 rs.add(s);
                 i.moveToNext();
             }
@@ -57,8 +53,8 @@ public class FellowEaterDAO implements DAO<FellowEater> {
         ContentValues i = new ContentValues();
         i.put("ID", object.getId());
         i.put("AmountOfGuests", object.getAmount());
-        i.put("StudentNumber",object.getStudent().getstudentNumber());
-        i.put("MealID",object.getMeal().getId());
+        i.put("StudentNumber", object.getStudent());
+        i.put("MealID", object.getMeal());
         if (t.insert("FellowEaters", "ID, AmountOfGuests, StudentNumber, MealID", i) != -1) {
             t.close();
         }

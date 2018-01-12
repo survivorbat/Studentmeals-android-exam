@@ -3,7 +3,6 @@ package nl.mheijden.prog3app.model.services;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -31,8 +30,6 @@ import nl.mheijden.prog3app.model.Callbacks.APICallbacks;
 import nl.mheijden.prog3app.model.domain.FellowEater;
 import nl.mheijden.prog3app.model.domain.Meal;
 import nl.mheijden.prog3app.model.domain.Student;
-
-import static com.android.volley.VolleyLog.TAG;
 
 /**
  * Gemaakt door Maarten van der Heijden on 9-1-2018.
@@ -120,7 +117,7 @@ public class APIServices {
     public void getStudents(){
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("APITOKEN",null);
-        final ArrayList<Student> rs = new ArrayList<Student>();
+        final ArrayList<Student> rs = new ArrayList<>();
         Student gerben = new Student("212199233","Gerben","","Droogers","g@droog.com","0293712947");
         rs.add(gerben);
         JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, "https://prog4node.herokuapp.com/api/student", null, new Response.Listener<JSONArray>() {
@@ -129,13 +126,13 @@ public class APIServices {
                 try {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject student = response.getJSONObject(i);
-                        Student user = new Student(student.getString("StudentNumber"),student.getString("FirstName"),student.getString("Insertion"),student.getString("LastName"),student.getString("Email"),student.getString("PhoneNumber"));
+                        Student user = new Student(student.getString("StudentNumber"), student.getString("Firstname"), student.getString("Insertion"), student.getString("Lastname"), student.getString("Email"), student.getString("PhoneNumber"));
                         rs.add(user);
                     }
-                    APICallbacks.loadStudents(rs);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                APICallbacks.loadStudents(rs);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -186,7 +183,7 @@ public class APIServices {
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("APITOKEN",null);
         ArrayList<FellowEater> rs = new ArrayList<>();
-        rs.add(new FellowEater(0,getStudent("2"),5,getMeal("2")));
+        rs.add(new FellowEater(0, 10, 3, 2));
         APICallbacks.loadFellowEaters(rs);
     }
 }

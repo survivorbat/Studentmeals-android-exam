@@ -1,9 +1,8 @@
 package nl.mheijden.prog3app.controller.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -36,7 +35,7 @@ public class MealsActivity extends AppCompatActivity implements ReloadCallback {
 
     @Override
     public void reloaded(boolean result) {
-        ListAdapter adapter = new MealAdapter(this,R.layout.listview_meal,app.getMeals());
+        ListAdapter adapter = new MealAdapter(this, R.layout.listview_meal, app.getMeals(), app.getUser());
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

@@ -7,6 +7,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import nl.mheijden.prog3app.model.data.SQLiteLocalDatabase;
+import nl.mheijden.prog3app.model.domain.FellowEater;
 import nl.mheijden.prog3app.model.domain.Meal;
 
 /**
@@ -16,14 +17,18 @@ import nl.mheijden.prog3app.model.domain.Meal;
 public class MealDAO implements DAO<Meal> {
     private SQLiteLocalDatabase db;
     private StudentDAO studentDAO;
-    public MealDAO(SQLiteLocalDatabase db, StudentDAO studentDAO){
+    private FellowEaterDAO fellowEaterDAO;
+
+    public MealDAO(SQLiteLocalDatabase db, StudentDAO studentDAO, FellowEaterDAO fellowEaterDAO) {
         this.db=db;
         this.studentDAO = studentDAO;
+        this.fellowEaterDAO = fellowEaterDAO;
     }
 
     public ArrayList<Meal> getAll(){
         Log.i("SQLiteLocalDatabase","Retrieving all students");
         ArrayList<Meal> rs = new ArrayList<>();
+        ArrayList<FellowEater> fellowEaters = fellowEaterDAO.getAll();
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
         Cursor i = db.rawQuery("SELECT * FROM Meals ORDER BY DateTime", null);
         if(i.moveToFirst()){
@@ -37,12 +42,13 @@ public class MealDAO implements DAO<Meal> {
                 s.setImageUrl(i.getString(5));
                 s.setPrice(i.getDouble(6));
                 s.setMax(i.getInt(7));
-                if(i.getInt(8)==1){
-                    s.setDoesCookEat(true);
-                } else {
-                    s.setDoesCookEat(false);
-                }
+                s.setDoesCookEat(Boolean.parseBoolean(i.getInt(8) + ""));
                 rs.add(s);
+                for (FellowEater e : fellowEaters) {
+                    if (e.getMeal() == s.getId()) {
+                        s.addFellowEater(e);
+                    }
+                }
                 i.moveToNext();
             }
         }

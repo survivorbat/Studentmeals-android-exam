@@ -17,9 +17,9 @@ public class DAOFactory {
         return new StudentDAO(SQLiteLocalDatabase);
     }
     public MealDAO getMealDAO(){
-        return new MealDAO(SQLiteLocalDatabase,getStudentDAO());
+        return new MealDAO(SQLiteLocalDatabase, getStudentDAO(), getFellowEaterDAO());
     }
     public FellowEaterDAO getFellowEaterDAO(){
-        return new FellowEaterDAO(SQLiteLocalDatabase,getStudentDAO(),getMealDAO());
+        return new FellowEaterDAO(SQLiteLocalDatabase);
     }
 }

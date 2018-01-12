@@ -6,12 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import nl.mheijden.prog3app.R;
 import nl.mheijden.prog3app.model.domain.Meal;
+import nl.mheijden.prog3app.model.domain.Student;
 
 /**
  * Gemaakt door Maarten van der Heijden on 9-1-2018.
@@ -20,11 +22,13 @@ import nl.mheijden.prog3app.model.domain.Meal;
 public class MealAdapter extends ArrayAdapter<Meal> {
     private ArrayList<Meal> data;
     private Context context;
+    private Student user;
 
-    public MealAdapter(Context context, int resource, ArrayList<Meal> data) {
+    public MealAdapter(Context context, int resource, ArrayList<Meal> data, Student user) {
         super(context, resource, data);
         this.data = data;
         this.context = context;
+        this.user = user;
     }
 
     @Override
@@ -45,7 +49,12 @@ public class MealAdapter extends ArrayAdapter<Meal> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.dish.setText(meal.getDish() + " ");
-        viewHolder.date.setText(context.getText(R.string.app_meals_timeicon)+meal.getDate() + " ");
+//        if(){
+//            viewHolder.date.setText(context.getText(R.string.app_meals_timeicon)+meal.getDate() + " "+context.getText(R.string.app_meals_checkicon));
+//            viewHolder.date.setTextColor(context.getResources().getColor(R.color.colorGreen));
+//        } else {
+        viewHolder.date.setText(context.getText(R.string.app_meals_timeicon) + meal.getDate() + " ");
+//        }
         if(meal.getChefID().getInsertion()!="null"){
             viewHolder.chefID.setText(context.getText(R.string.app_meals_cheficon)+meal.getChefID().getFirstname() + " "+meal.getChefID().getInsertion()+ "" + meal.getChefID().getLastname());
         } else {
@@ -64,5 +73,6 @@ public class MealAdapter extends ArrayAdapter<Meal> {
         TextView date;
         TextView chefID;
         ImageView imageUrl;
+        LinearLayout linearLayout;
     }
 }

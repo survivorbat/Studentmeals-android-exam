@@ -25,6 +25,7 @@
     <string name="app_meals_timeicon">⏰ </string>
     <string name="app_meals_mailicon">📧</string>
     <string name="app_meals_phoneicon">☎</string>
+    <string name="app_meals_checkicon">✔</string>
     <string name="app_meals_title">Maaltijden</string>
     <string name="app_meals_desc">Dit is een overzicht aan maaltijden die gepland staan</string>
     <string name="app_students_title">Studenten</string>

@@ -8,15 +8,11 @@ import java.io.Serializable;
 
 public class FellowEater implements Serializable {
     private int id;
-    private Student student;
+    private int student;
     private int guests;
-    private Meal meal;
+    private int meal;
 
-    public int getAmount(){
-        return ++guests;
-    }
-
-    public FellowEater(int id, Student student, int guests, Meal meal) {
+    public FellowEater(int id, int student, int guests, int meal) {
         this.id = id;
         this.student = student;
         this.guests = guests;
@@ -27,6 +23,10 @@ public class FellowEater implements Serializable {
 
     }
 
+    public int getAmount() {
+        return ++guests;
+    }
+
     public int getId() {
         return id;
     }
@@ -35,11 +35,11 @@ public class FellowEater implements Serializable {
         this.id = id;
     }
 
-    public Student getStudent() {
+    public int getStudent() {
         return student;
     }
 
-    public void setStudent(Student student) {
+    public void setStudent(int student) {
         this.student = student;
     }
 
@@ -51,11 +51,11 @@ public class FellowEater implements Serializable {
         this.guests = guests;
     }
 
-    public Meal getMeal() {
+    public int getMeal() {
         return meal;
     }
 
-    public void setMeal(Meal meal) {
+    public void setMeal(int meal) {
         this.meal = meal;
     }
 
