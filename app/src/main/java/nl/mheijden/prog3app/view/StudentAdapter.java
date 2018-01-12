@@ -1,5 +1,6 @@
 package nl.mheijden.prog3app.view;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +20,12 @@ import nl.mheijden.prog3app.model.domain.Student;
 
 public class StudentAdapter extends ArrayAdapter<Student> {
     private ArrayList<Student> data;
+    private Context context;
 
     public StudentAdapter(Context context, int resource, ArrayList<Student> data) {
         super(context, resource, data);
         this.data = data;
+        this.context = context;
     }
 
     @Override
@@ -42,9 +45,13 @@ public class StudentAdapter extends ArrayAdapter<Student> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.name.setText(student.getFirstname()+" "+student.getInsertion()+" "+student.getLastname()+"");
-        viewHolder.email.setText(student.getEmail()+"");
-        viewHolder.phonenumber.setText(student.getPhonenumber()+"");
+        if(student.getInsertion()==null || student.getInsertion().equals("null")){
+            viewHolder.name.setText(student.getFirstname() + " " + student.getLastname() + "");
+        } else {
+            viewHolder.name.setText(student.getFirstname() + " " + student.getInsertion() + " " + student.getLastname() + "");
+        }
+        viewHolder.email.setText(context.getText(R.string.app_meals_mailicon)+" "+student.getEmail()+"");
+        viewHolder.phonenumber.setText(context.getText(R.string.app_meals_phoneicon)+" "+student.getPhonenumber()+"");
         return convertView;
     }
 

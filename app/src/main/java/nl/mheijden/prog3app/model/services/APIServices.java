@@ -41,7 +41,6 @@ import static com.android.volley.VolleyLog.TAG;
 public class APIServices {
     private RequestQueue mRequestQueue;
     private APICallbacks APICallbacks;
-    private String APIKey;
     private Context context;
 
     public APIServices(Context context, APICallbacks APICallbacks){
@@ -57,6 +56,30 @@ public class APIServices {
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("APITOKEN",null);
         return false;
+    }
+
+    public void addStudent(Student student){
+        JSONObject post = new JSONObject();
+        try {
+            post = new JSONObject("{\"firstname\": "+student.getFirstname()+",\"password\":\""+student.getPassword()+"\"}"+",\"lastname\":\""+student.getLastname()+"\"}"+",\"insertion\":\""+student.getInsertion()+"\"}"+",\"email\":\""+student.getEmail()+"\"}"+",\"phonenumber\":\""+student.getPhonenumber()+"\",\"phonenumber\":\""+student.getstudentNumber()+"\"}");
+        }
+        catch (JSONException e){
+            e.printStackTrace();
+            APICallbacks.loginCallback("error");
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, "https://prog4node.herokuapp.com/api/student", post, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                APICallbacks.addedStudent(true);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                APICallbacks.addedStudent(false);
+                error.printStackTrace();
+            }
+        });
+        mRequestQueue.add(request);
     }
     public void login(final Context context, String studentNumber, String password){
         Log.i("API","Login attempt for student number "+studentNumber);

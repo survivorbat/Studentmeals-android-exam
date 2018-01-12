@@ -8,12 +8,11 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import nl.mheijden.prog3app.controller.callbacks.LoginControllerCallback;
+import nl.mheijden.prog3app.controller.callbacks.RegisterControllerCallback;
+import nl.mheijden.prog3app.controller.callbacks.ReloadCallback;
 import nl.mheijden.prog3app.model.Callbacks.APICallbacks;
 import nl.mheijden.prog3app.model.data.DAOFactory;
 import nl.mheijden.prog3app.model.data.DAOs.DAO;
-import nl.mheijden.prog3app.model.data.DAOs.FellowEaterDAO;
-import nl.mheijden.prog3app.model.data.DAOs.MealDAO;
-import nl.mheijden.prog3app.model.data.DAOs.StudentDAO;
 import nl.mheijden.prog3app.model.data.SQLiteLocalDatabase;
 import nl.mheijden.prog3app.model.services.APIServices;
 
@@ -25,7 +24,9 @@ public class MaaltijdenApp implements APICallbacks {
     private Context context;
     private APIServices api;
     private DAOFactory daoFactory;
-    private LoginControllerCallback callback;
+    private LoginControllerCallback loginCallback;
+    private ReloadCallback reloadCallback;
+    private RegisterControllerCallback registerCallback;
 
     public ArrayList<FellowEater> getFellowEaters() {
         return daoFactory.getFellowEaterDAO().getAll();
@@ -46,19 +47,19 @@ public class MaaltijdenApp implements APICallbacks {
     }
 
     public void login(Context context, String studentNumber, String password, LoginControllerCallback callback){
-        this.callback = callback;
+        this.loginCallback = callback;
         api.login(context, studentNumber, password);
     }
 
     public void loginCallback(String response){
         Log.i("API",response);
         if(response.equals("error")){
-            callback.login(response);
+            loginCallback.login(response);
         } else {
             SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("APITOKEN",response);
-            callback.login("success");
+            loginCallback.login("success");
             editor.apply();
         }
     }
@@ -68,10 +69,22 @@ public class MaaltijdenApp implements APICallbacks {
 
     }
 
-    public void reloadData(){
+    @Override
+    public void addedStudent(boolean result) {
+        registerCallback.newStudentAdded(result);
+    }
+
+    public void register(Student newStudent, RegisterControllerCallback callback){
+        this.registerCallback = callback;
+        api.addStudent(newStudent);
+    }
+
+    public void reloadData(ReloadCallback callback){
+        this.reloadCallback = callback;
         api.getMeals();
         api.getFellowEaters();
         api.getStudents();
+        reloadCallback.reloaded(true);
     }
     @Override
     public void loadStudents(ArrayList<Student> students) {
@@ -93,4 +106,5 @@ public class MaaltijdenApp implements APICallbacks {
         fellowEaterDAO.clear();
         fellowEaterDAO.insertData(fellowEaters);
     }
+
 }

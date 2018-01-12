@@ -23,7 +23,9 @@
         <activity android:name=".controller.activities.NewMealActivity" />
         <activity android:name=".controller.activities.StudentsActivity" />
         <activity android:name=".controller.activities.AccountsActivity" />
-        <activity android:name=".controller.activities.MealsActivity_Detail"></activity>
+        <activity android:name=".controller.activities.MealsActivity_Detail" />
+        <activity android:name=".controller.activities.RegisterActivity" />
+        <activity android:name=".controller.activities.MealsActivity_Join"></activity>
     </application>
 
 </manifest>

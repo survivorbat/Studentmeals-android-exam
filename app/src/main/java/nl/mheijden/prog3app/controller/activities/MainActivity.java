@@ -41,21 +41,40 @@ public class MainActivity extends AppCompatActivity implements LoginControllerCa
                 submitLogin();
             }
         });
+        Button registerbutton = findViewById(R.id.registerbutton);
+        registerbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registerHandler();
+            }
+        });
     }
 
-    public void submitLogin(){
+    private void submitLogin(){
         errorfield.setText("");
         String user = studentNumber.getText().toString();
         String pass = password.getText().toString();
+
+        boolean errorFree=true;
         if(user.equals("") || user.length()==0){
-            errorfield.setText(R.string.app_input_error_nousername);
-        } else if(pass.equals("") || password.length()==0){
-            errorfield.setText(R.string.app_input_error_nopass);
-        } else {
+            studentNumber.setError(getText(R.string.app_input_error_nousername));
+            errorFree=false;
+        }
+        if(pass.equals("") || password.length()==0){
+            password.setError(getText(R.string.app_input_error_nopass));
+            errorFree=false;
+        }
+
+        if(errorFree){
             errorfield.setText(R.string.app_input_error_loading);
             app.login(this, user, pass, this);
         }
     }
+    private void registerHandler(){
+        Intent i = new Intent(this, RegisterActivity.class);
+        startActivity(i);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void login(String response) {
@@ -63,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements LoginControllerCa
             errorfield.setText(R.string.app_input_error_wrong);
             errorfield.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         } else if(response.equals("success")) {
+            errorfield.setText("");
             Intent i = new Intent(this,DashboardActivity.class);
             i.putExtra("students",app.getStudents());
             i.putExtra("meals",app.getMeals());

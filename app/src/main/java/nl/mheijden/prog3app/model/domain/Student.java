@@ -1,13 +1,15 @@
 package nl.mheijden.prog3app.model.domain;
 
 import java.io.Serializable;
+import java.sql.Blob;
 
 /**
  * Gemaakt door Maarten van der Heijden on 9-1-2018.
  */
 
 public class Student implements Serializable {
-    private String studentNumber,firstname,insertion,lastname,email,phonenumber;
+    private String studentNumber,firstname,insertion,lastname,email,phonenumber,password="";
+    private Blob image;
 
     public Student(String studentNumber, String firstname, String insertion, String lastname, String email, String phonenumber) {
         this.studentNumber = studentNumber;
@@ -21,9 +23,20 @@ public class Student implements Serializable {
         this.email = email;
         this.phonenumber = phonenumber;
     }
-
+    public Student(String studentNumber, String firstname, String insertion, String lastname, String email, String phonenumber, Blob image) {
+        this.studentNumber = studentNumber;
+        this.firstname = firstname;
+        if(insertion!=null){
+            this.insertion = insertion;
+        } else {
+            this.insertion="";
+        }
+        this.lastname = lastname;
+        this.email = email;
+        this.phonenumber = phonenumber;
+        this.image=image;
+    }
     public Student(){
-
     }
 
     @Override
@@ -84,5 +97,21 @@ public class Student implements Serializable {
 
     public void setPhonenumber(String phonenumber) {
         this.phonenumber = phonenumber;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Blob getImage() {
+        return image;
+    }
+
+    public void setImage(Blob image) {
+        this.image = image;
     }
 }

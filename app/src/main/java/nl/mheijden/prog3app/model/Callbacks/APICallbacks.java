@@ -16,4 +16,5 @@ public interface APICallbacks {
     void loadFellowEaters(ArrayList<FellowEater> fellowEaters);
     void loginCallback(String response);
     void invalidToken();
+    void addedStudent(boolean result);
 }

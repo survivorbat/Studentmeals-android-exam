@@ -33,10 +33,11 @@ public class Meal implements Serializable {
         this.imageUrl = imageUrl;
         this.doesCookEat = doesCookEat;
         this.time = time;
+        this.felloweaters = new ArrayList<>();
     }
 
     public Meal(){
-
+        this.felloweaters = new ArrayList<>();
     }
 
     public int getId() {
@@ -125,6 +126,18 @@ public class Meal implements Serializable {
 
     public void setFelloweaters(ArrayList<FellowEater> felloweaters) {
         this.felloweaters = felloweaters;
+    }
+
+    public void addFellowEater(FellowEater fellowEater){
+        this.felloweaters.add(fellowEater);
+    }
+
+    public int getAmountOfEaters(){
+        int rs=0;
+        for(FellowEater e : felloweaters){
+            rs+=e.getAmount();
+        }
+        return rs;
     }
 
     @Override
