@@ -1,6 +1,7 @@
 package nl.mheijden.prog3app.model.domain;
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,12 +18,11 @@ public class Meal implements Serializable {
     private Student chefID;
     private double price;
     private int max;
-    private String time;
-    private String imageUrl;
+    private byte[] imageUrl;
     private boolean doesCookEat;
     private ArrayList<FellowEater> felloweaters;
 
-    public Meal(int id, String dish, String info, String date, Student chefID, double price, int max, String time, String imageUrl, boolean doesCookEat) {
+    public Meal(int id, String dish, String info, String date, Student chefID, double price, int max, byte[] imageUrl, boolean doesCookEat) {
         this.id = id;
         this.dish = dish;
         this.info = info;
@@ -32,9 +32,10 @@ public class Meal implements Serializable {
         this.max = max;
         this.imageUrl = imageUrl;
         this.doesCookEat = doesCookEat;
-        this.time = time;
         this.felloweaters = new ArrayList<>();
     }
+
+    public Meal(int id){this.id=id;}
 
     public Meal(){
         this.felloweaters = new ArrayList<>();
@@ -96,19 +97,11 @@ public class Meal implements Serializable {
         this.max = max;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getImageUrl() {
+    public byte[] getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    public void setImageUrl(byte[] imageUrl) {
         this.imageUrl = imageUrl;
     }
 
@@ -134,8 +127,17 @@ public class Meal implements Serializable {
 
     public int getAmountOfEaters(){
         int rs=0;
+        if(doesCookEat) rs++;
         for(FellowEater e : felloweaters){
             rs+=e.getAmount();
+        }
+        return rs;
+    }
+
+    public ArrayList<Student> getStudents(){
+        ArrayList<Student> rs = new ArrayList<>();
+        for(FellowEater e : felloweaters){
+            rs.add(e.getStudent());
         }
         return rs;
     }
@@ -150,8 +152,6 @@ public class Meal implements Serializable {
                 ", chefID=" + chefID +
                 ", price=" + price +
                 ", max=" + max +
-                ", time=" + time +
-                ", imageUrl='" + imageUrl + '\'' +
                 ", doesCookEat=" + doesCookEat +
                 ", felloweaters=" + felloweaters +
                 '}';

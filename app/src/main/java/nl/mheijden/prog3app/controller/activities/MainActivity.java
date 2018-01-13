@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements LoginControllerCa
 
         if(errorFree){
             errorfield.setText(R.string.app_input_error_loading);
-            app.login(this, user, pass, this);
+            app.login(user, pass, this);
         }
     }
     private void registerHandler(){
@@ -84,9 +84,6 @@ public class MainActivity extends AppCompatActivity implements LoginControllerCa
         } else if(response.equals("success")) {
             errorfield.setText("");
             Intent i = new Intent(this,DashboardActivity.class);
-            i.putExtra("students",app.getStudents());
-            i.putExtra("meals",app.getMeals());
-            i.putExtra("fellowEaters",app.getFellowEaters());
             startActivity(i);
         }
     }

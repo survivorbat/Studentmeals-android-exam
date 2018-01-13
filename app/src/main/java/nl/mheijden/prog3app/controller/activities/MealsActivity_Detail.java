@@ -1,20 +1,28 @@
 package nl.mheijden.prog3app.controller.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 import nl.mheijden.prog3app.R;
 import nl.mheijden.prog3app.model.domain.FellowEater;
+import nl.mheijden.prog3app.model.domain.MaaltijdenApp;
 import nl.mheijden.prog3app.model.domain.Meal;
 
 public class MealsActivity_Detail extends AppCompatActivity {
     private Meal meal;
+    private MaaltijdenApp app;
 
-
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,31 +38,55 @@ public class MealsActivity_Detail extends AppCompatActivity {
             TextView meal_amount = findViewById(R.id.meal_eaters);
             TextView meal_eaters = findViewById(R.id.meal_felloweaterlist);
             Button meal_addbutton = findViewById(R.id.meal_eatwithbutton);
+            app = new MaaltijdenApp(this);
 
             meal_title.setText(meal.getDish() + "");
             meal_desc.setText(meal.getInfo() + "");
-            if (meal.getChefID().getInsertion() != "null") {
+            if (!meal.getChefID().getInsertion().equals("null") && meal.getChefID().getInsertion()!=null) {
                 meal_chef.setText(getText(R.string.app_meals_cheficon)+" "+meal.getChefID().getFirstname() + " " + meal.getChefID().getInsertion() + "" + meal.getChefID().getLastname());
             } else {
                 meal_chef.setText(getText(R.string.app_meals_cheficon)+" "+meal.getChefID().getFirstname() + " " + meal.getChefID().getLastname());
             }
-            meal_price.setText(getText(R.string.app_meals_moneyicon)+" €"+meal.getPrice());
+            meal_price.setText(getText(R.string.app_meals_moneyicon)+" €"+ meal.getPrice());
             meal_date.setText(getText(R.string.app_meals_timeicon)+" "+meal.getDate() + "");
             meal_amount.setText(getText(R.string.app_dashboard_button_students)+" "+meal.getAmountOfEaters()+"/"+meal.getMax());
-            meal_addbutton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    eatWith();
-                }
-            });
 
-            StringBuilder eaters= new StringBuilder(getText(R.string.app_meals_eaters).toString());
+            if(meal.getChefID().equals(app.getUser())){
+                meal_addbutton.setText(getText(R.string.app_meal_removemeal));
+                meal_addbutton.setTextColor(getColor(R.color.colorDarkRed));
+                meal_addbutton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        deleteMeal();
+                    }
+                });
+            } else if(meal.getStudents().contains(app.getUser())){
+                meal_addbutton.setText(getText(R.string.app_meal_removebutton));
+                meal_addbutton.setTextColor(getColor(R.color.colorDarkRed));
+                meal_addbutton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        removeEatWith();
+                    }
+                });
+            } else if(meal.getAmountOfEaters() < meal.getMax()){
+                meal_addbutton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        eatWith();
+                    }
+                });
+            } else {
+                meal_addbutton.setTextColor(getColor(R.color.colorDarkRed));
+                meal_addbutton.setText(getText(R.string.app_joinmeal_fullalready));
+            }
+            StringBuilder eaters= new StringBuilder(getText(R.string.app_meals_eaters).toString()+" ");
             boolean first=true;
             for(FellowEater e : meal.getFelloweaters()){
                 if(!first){
                     eaters.append(", ");
                 }
-                eaters.append(e.getStudent()).append(" (").append(e.getAmount()).append(")");
+                eaters.append(e.getStudent().getFirstname()).append(" (+").append(e.getGuests()).append(")");
                 first=false;
             }
             meal_eaters.setText(eaters+"");
@@ -65,5 +97,16 @@ public class MealsActivity_Detail extends AppCompatActivity {
         Intent i = new Intent(this, MealsActivity_Join.class);
         i.putExtra("Meal",meal);
         startActivity(i);
+    }
+    private void removeEatWith(){
+        for(FellowEater fellowEater : meal.getFelloweaters()){
+            if(fellowEater.getStudent().equals(app.getUser())){
+                app.deleteFellowEater(fellowEater);
+            }
+        }
+    }
+
+    private void deleteMeal(){
+        app.deleteMeal(meal);
     }
 }

@@ -1,7 +1,7 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">De Maaltijd App</string>
     <string name="app_meal_image">Foto van het gerecht</string>
-    <string name="app_login_title">Inloggen op de MaaltijdApp</string>
+    <string name="app_login_title">De MaaltijdApp</string>
     <string name="app_input_studentnumber">Studentnummer</string>
     <string name="app_input_password">Wachtwoord</string>
     <string name="app_input_loginbuton">Inloggen</string>
@@ -13,9 +13,11 @@
     <string name="app_input_error_noemail">Geen email ingevuld</string>
     <string name="app_input_error_notelephonenumber">Geen telefoonnummer ingevuld</string>
     <string name="app_input_error_wrong">Gebruikersnaam en wachtwoord worden niet herkend</string>
-    <string name="app_input_error_loading">Aan het verifiëren...</string>
+    <string name="app_input_error_loading">Aan het verifiëren…</string>
+    <string name="app_input_error_tooManyPeople">Te veel gasten voor deze maaltijd</string>
+    <string name="app_input_error_notnegative">Dit mag niet lager dan 0 zijn</string>
     <string name="app_dashboard_title">Dashboard</string>
-    <string name="app_dashboard_desc">Lorem ipsum</string>
+    <string name="app_dashboard_desc">Welkom terug bij de MaaltijdApp. Hier kun je jezelf inschrijven voor maaltijden, zelf een maaltijd plannen en de lijst van studenten inzien.</string>
     <string name="app_dashboard_button_meals">🍝</string>
     <string name="app_dashboard_button_students">👨</string>
     <string name="app_dashboard_button_newmeal">➕</string>
@@ -27,9 +29,11 @@
     <string name="app_meals_phoneicon">☎</string>
     <string name="app_meals_checkicon">✔</string>
     <string name="app_meals_title">Maaltijden</string>
-    <string name="app_meals_desc">Dit is een overzicht aan maaltijden die gepland staan</string>
+    <string name="app_meals_desc">Dit is een overzicht aan maaltijden die gepland staan, klik op een maaltijd om de details te zien.</string>
+    <string name="app_meal_removebutton">Uitschrijven</string>
+    <string name="app_meal_removemeal">Maaltijd verwijderen</string>
     <string name="app_students_title">Studenten</string>
-    <string name="app_students_desc">Dit is een overzicht aan studenten</string>
+    <string name="app_students_desc">Dit is een overzicht aan studenten. Sleep naar beneden om te herladen.</string>
     <string name="app_meals_addbutton">Ik wil mee eten</string>
     <string name="app_placeholder">placeholdertext</string>
     <string name="app_login_registerbutton">Account aanmaken</string>
@@ -37,10 +41,14 @@
     <string name="app_register_voornaam">Voornaam</string>
     <string name="app_register_insertion">Tussenvoegsel</string>
     <string name="app_register_achternaam">Achternaam</string>
-    <string name="app_register_email">Email adres</string>
+    <string name="app_register_email" tools:ignore="Typos">Email adres</string>
     <string name="app_register_phone">Telefoonnummer</string>
     <string name="app_register_confirmbutton">Registreren</string>
     <string name="app_meals_eaters">Eet mee: </string>
     <string name="app_joinmeal_title">Mee eten</string>
     <string name="app_joinmeal_aantaltitel">Neem je nog mensen mee?</string>
+    <string name="app_joinmeal_fullalready">Deze maaltijd zit vol</string>
+    <string name="app_reload_success">Succesvol herladen!</string>
+    <string name="app_reload_failure">Er ging iets mis bij het herladen</string>
+    <string name="app_joinscreen_chooseamount">Aantal gasten</string>
 </resources>

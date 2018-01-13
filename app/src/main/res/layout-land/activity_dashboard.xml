@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:text="@string/app_dashboard_title"
             android:textColor="@color/colorSemiWhite"
-            android:textSize="37sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             tools:text="@string/app_dashboard_title" />
 
@@ -48,7 +48,7 @@
             android:layout_weight="1"
             android:background="@color/colorTransparent"
             android:text="@string/app_dashboard_button_meals"
-            android:textSize="120sp" />
+            android:textSize="60sp" />
 
         <Button
             android:id="@+id/studentsButton"
@@ -57,7 +57,7 @@
             android:layout_weight="1"
             android:background="@color/colorTransparent"
             android:text="@string/app_dashboard_button_students"
-            android:textSize="120sp" />
+            android:textSize="60sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -73,7 +73,7 @@
             android:layout_weight="1"
             android:background="@color/colorTransparent"
             android:text="@string/app_dashboard_button_newmeal"
-            android:textSize="120sp" />
+            android:textSize="60sp" />
 
         <Button
             android:id="@+id/accountButton"
@@ -82,6 +82,6 @@
             android:layout_weight="1"
             android:background="@color/colorTransparent"
             android:text="@string/app_dashboard_button_account"
-            android:textSize="120sp" />
+            android:textSize="60sp" />
     </LinearLayout>
 </LinearLayout>

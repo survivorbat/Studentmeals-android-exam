@@ -20,7 +20,6 @@ public class StudentDAO implements DAO<Student> {
     }
 
     public ArrayList<Student> getAll(){
-        Log.i("SQLiteLocalDatabase","Retrieving all students");
         ArrayList<Student> rs = new ArrayList<>();
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
         Cursor i = db.rawQuery("SELECT * FROM Students ORDER BY LastName", null);
@@ -42,7 +41,6 @@ public class StudentDAO implements DAO<Student> {
         return rs;
     }
     public Student getOne(int id){
-        Log.i("SQLiteLocalDatabase","Retrieving student with ID "+id);
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
         Cursor i = db.rawQuery("SELECT * FROM Students WHERE StudentNumber ="+id, null);
         if(i.moveToFirst()){

@@ -38,6 +38,9 @@ public class Student implements Serializable {
     }
     public Student(){
     }
+    public Student(String studentNumber){
+        this.studentNumber=studentNumber;
+    }
 
     @Override
     public String toString() {
@@ -113,5 +116,20 @@ public class Student implements Serializable {
 
     public void setImage(Blob image) {
         this.image = image;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Student student = (Student) o;
+
+        return studentNumber.equals(student.studentNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return studentNumber.hashCode();
     }
 }

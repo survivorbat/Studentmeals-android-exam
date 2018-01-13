@@ -35,8 +35,8 @@
             android:layout_height="wrap_content"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:text=""
-            android:textColor="@color/colorSemiWhite"
+            android:text="@string/app_placeholder"
+            android:textColor="@color/colorAccent"
             android:textIsSelectable="true"
             android:textSize="30sp" />
 

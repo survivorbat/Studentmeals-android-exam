@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import nl.mheijden.prog3app.controller.callbacks.JoinControllerCallback;
 import nl.mheijden.prog3app.controller.callbacks.LoginControllerCallback;
 import nl.mheijden.prog3app.controller.callbacks.RegisterControllerCallback;
 import nl.mheijden.prog3app.controller.callbacks.ReloadCallback;
@@ -26,18 +27,15 @@ public class MaaltijdenApp implements APICallbacks {
     private LoginControllerCallback loginCallback;
     private ReloadCallback reloadCallback;
     private RegisterControllerCallback registerCallback;
+    private JoinControllerCallback joinControllerCallback;
     private String userID;
 
     public MaaltijdenApp(Context context) {
         this.context = context;
-        this.api = new APIServices(context, this);
         this.daoFactory = new DAOFactory(new SQLiteLocalDatabase(context));
+        this.api = new APIServices(context, this);
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata", Context.MODE_PRIVATE);
         userID = sharedPreferences.getString("USERID", "");
-    }
-
-    public ArrayList<FellowEater> getFellowEaters() {
-        return daoFactory.getFellowEaterDAO().getAll();
     }
 
     public Student getUser() {
@@ -52,7 +50,7 @@ public class MaaltijdenApp implements APICallbacks {
         return daoFactory.getMealDAO().getAll();
     }
 
-    public void login(Context context, String studentNumber, String password, LoginControllerCallback callback){
+    public void login(String studentNumber, String password, LoginControllerCallback callback){
         this.loginCallback = callback;
         api.login(context, studentNumber, password);
         userID = studentNumber;
@@ -72,6 +70,11 @@ public class MaaltijdenApp implements APICallbacks {
         }
     }
 
+    public void addFellowEater(FellowEater fellowEater, JoinControllerCallback joinControllerCallback){
+        this.joinControllerCallback=joinControllerCallback;
+        api.addFellowEater(fellowEater);
+    }
+
     @Override
     public void invalidToken() {
 
@@ -82,22 +85,36 @@ public class MaaltijdenApp implements APICallbacks {
         registerCallback.newStudentAdded(result);
     }
 
+    public void deleteMeal(Meal meal){
+        api.deleteMeal(meal);
+    }
+
+    public void deleteFellowEater(FellowEater fellowEater){
+        api.deleteFellowEater(fellowEater);
+    }
+
     public void register(Student newStudent, RegisterControllerCallback callback){
         this.registerCallback = callback;
         api.addStudent(newStudent);
     }
 
-    public void reloadData(ReloadCallback callback){
-        this.reloadCallback = callback;
-        api.getMeals();
-        api.getFellowEaters();
+    public void reloadStudents(ReloadCallback callback){
+        this.reloadCallback=callback;
         api.getStudents();
     }
+
+    public void reloadMeals(ReloadCallback callback){
+        this.reloadCallback=callback;
+        api.getMeals();
+        api.getFellowEaters();
+    }
+
     @Override
     public void loadStudents(ArrayList<Student> students) {
         DAO<Student> studentDAO = daoFactory.getStudentDAO();
         studentDAO.clear();
         studentDAO.insertData(students);
+        Log.i("API>SQLITE","Importing "+students.size()+" students");
         reloadCallback.reloaded(true);
     }
 
@@ -106,6 +123,7 @@ public class MaaltijdenApp implements APICallbacks {
         DAO<Meal> mealDAO = daoFactory.getMealDAO();
         mealDAO.clear();
         mealDAO.insertData(meals);
+        Log.i("API>SQLITE","Importing "+meals.size()+" meals");
         reloadCallback.reloaded(true);
     }
 
@@ -114,6 +132,7 @@ public class MaaltijdenApp implements APICallbacks {
         DAO<FellowEater> fellowEaterDAO = daoFactory.getFellowEaterDAO();
         fellowEaterDAO.clear();
         fellowEaterDAO.insertData(fellowEaters);
+        Log.i("API>SQLITE","Importing "+fellowEaters.size()+" felloweaters");
         reloadCallback.reloaded(true);
     }
 }

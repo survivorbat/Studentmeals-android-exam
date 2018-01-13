@@ -3,13 +3,15 @@
     <color name="colorPrimary">#000016</color>
     <color name="colorPrimaryDark">#000016</color>
     <color name="colorAccent">#00ddff</color>
+    <color name="colorAccentTransparent">#3600ddff</color>
     <color name="colorDarkBlue">#000016</color>
     <color name="colorSemiWhite">#FAFAFA</color>
     <color name="colorBlueShade">#00004d</color>
     <color name="colorBlue">#0900bc</color>
-    <color name="colorDarkRed">#0099ff</color>
+    <color name="colorDarkRed">#e10000</color>
     <color name="colorYellow">#008acf</color>
     <color name="colorGreen">#00c20a</color>
+    <color name="colorGreenTransparent">#4b00ae09</color>
     <color name="colorTransparent">#00ffffff</color>
     <color name="colorDarkBlueTransparent">#92000016</color>
 </resources>

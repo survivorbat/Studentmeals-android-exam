@@ -7,22 +7,23 @@
     android:background="@drawable/restaurant_background"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
-    android:weightSum="13"
+    android:weightSum="16"
     tools:context="nl.mheijden.prog3app.controller.activities.MealsActivity">
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="6"
+        android:layout_weight="7"
         android:text="@string/app_meals_title"
         android:textColor="@color/colorSemiWhite"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="6"
+        android:layout_weight="7"
         android:text="@string/app_meals_desc"
         android:textSize="14sp" />
 
@@ -30,7 +31,7 @@
         android:id="@+id/meals_swiperefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="2">
 
         <ListView
             android:id="@+id/mealslist"

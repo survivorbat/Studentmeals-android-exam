@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import nl.mheijden.prog3app.model.Callbacks.APICallbacks;
+import nl.mheijden.prog3app.model.data.DAOFactory;
 import nl.mheijden.prog3app.model.domain.FellowEater;
 import nl.mheijden.prog3app.model.domain.Meal;
 import nl.mheijden.prog3app.model.domain.Student;
@@ -58,12 +59,13 @@ public class APIServices {
     public void addStudent(Student student){
         JSONObject post = new JSONObject();
         try {
-            post = new JSONObject("{\"firstname\": "+student.getFirstname()+",\"password\":\""+student.getPassword()+"\"}"+",\"lastname\":\""+student.getLastname()+"\"}"+",\"insertion\":\""+student.getInsertion()+"\"}"+",\"email\":\""+student.getEmail()+"\"}"+",\"phonenumber\":\""+student.getPhonenumber()+"\",\"phonenumber\":\""+student.getstudentNumber()+"\"}");
+            post = new JSONObject("{\"firstname\": "+student.getFirstname()+",\"password\":\""+student.getPassword()+"\",\"lastname\":\""+student.getLastname()+"\""+",\"insertion\":\""+student.getInsertion()+"\""+",\"email\":\""+student.getEmail()+"\""+",\"phonenumber\":\""+student.getPhonenumber()+"\",\"studentNumber\":\""+student.getstudentNumber()+"\"}");
         }
         catch (JSONException e){
             e.printStackTrace();
             APICallbacks.loginCallback("error");
         }
+        final JSONObject finalPost = post;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, "https://prog4node.herokuapp.com/api/student", post, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -77,6 +79,9 @@ public class APIServices {
             }
         });
         mRequestQueue.add(request);
+    }
+    public void addFellowEater(FellowEater fellowEater){
+
     }
     public void login(final Context context, String studentNumber, String password){
         Log.i("API","Login attempt for student number "+studentNumber);
@@ -118,8 +123,6 @@ public class APIServices {
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("APITOKEN",null);
         final ArrayList<Student> rs = new ArrayList<>();
-        Student gerben = new Student("212199233","Gerben","","Droogers","g@droog.com","0293712947");
-        rs.add(gerben);
         JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, "https://prog4node.herokuapp.com/api/student", null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -154,36 +157,35 @@ public class APIServices {
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("APITOKEN",null);
         ArrayList<Meal> rs = new ArrayList<>();
-        Meal pizza = new Meal(1,"Pizza","Voedsame maaltijd gemaakt met allergieën","20-12-2017",getStudent("1"),2.30,10,"20:23","link",false);
+        byte[] test = "test".getBytes();
+        Meal pizza = new Meal(1,"Pizza","Lorem ipsum test","20-12-2017 13:30",new Student("10"),1.50,4,test,false);
         rs.add(pizza);
-        pizza.setId(2);
+        pizza = new Meal(2,"Spagehetti","Lorem ipsum test","17-12-2017 12:30",new Student("11"),4.60,6,test,false);
         rs.add(pizza);
-        pizza.setId(3);
+        pizza = new Meal(3,"Grieks","Lorem ipsum test","05-12-2017 17:30",new Student("12"),9.70,5,test,false);
         rs.add(pizza);
-        pizza.setId(4);
+        pizza = new Meal(4,"Turks","Lorem ipsum test","19-12-2017 16:30",new Student("9"),5.90,14,test,false);
         rs.add(pizza);
-        pizza.setId(5);
+        pizza = new Meal(5,"Koffiebroodje","Lorem ipsum test","22-12-2017 18:30",new Student("0"),3.10,12,test,false);
         rs.add(pizza);
         APICallbacks.loadMeals(rs);
     }
 
-    public Student getStudent(String number){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString("APITOKEN",null);
-        return new Student("212199233","Gerben","","Droogers","g@droog.com","0293712947");
-    }
+    public void deleteMeal(Meal meal){
 
-    public Meal getMeal(String meal){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString("APITOKEN",null);
-        return new Meal(1,"Pizza","Voedsame maaltijd gemaakt met allergieën","20-12-2017",getStudent("1"),2.30,10,"20:23","link",false);
+    }
+    public void deleteFellowEater(FellowEater fellowEater){
+
     }
 
     public void getFellowEaters(){
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("APITOKEN",null);
         ArrayList<FellowEater> rs = new ArrayList<>();
-        rs.add(new FellowEater(0, 10, 3, 2));
+        rs.add(new FellowEater(0, new Student("11"), 1, new Meal(5)));
+        rs.add(new FellowEater(1, new Student("10"), 1, new Meal(4)));
+        rs.add(new FellowEater(2, new Student("12"), 1, new Meal(3)));
+        rs.add(new FellowEater(3, new Student("77"), 0, new Meal(3)));
         APICallbacks.loadFellowEaters(rs);
     }
 }

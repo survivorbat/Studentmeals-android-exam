@@ -4,10 +4,13 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.util.Log;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 
 import nl.mheijden.prog3app.model.data.SQLiteLocalDatabase;
 import nl.mheijden.prog3app.model.domain.FellowEater;
+import nl.mheijden.prog3app.model.domain.Meal;
+import nl.mheijden.prog3app.model.domain.Student;
 
 /**
  * Gemaakt door Maarten van der Heijden on 10-1-2018.
@@ -22,19 +25,19 @@ public class FellowEaterDAO implements DAO<FellowEater> {
     public ArrayList<FellowEater> getAll(){
         ArrayList<FellowEater> rs = new ArrayList<>();
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
-        Cursor i = db.rawQuery("SELECT * FROM FellowEaters ORDER BY ID", null);
+        Cursor i = db.rawQuery("SELECT FellowEaters.ID, AmountOfGuests, FellowEaters.StudentNumber, FirstName, Insertion, LastName, Email, PhoneNumber, MealID, Dish, DateTime, Info, ChefID, Picture, Price, MaxFellowEaters, DoesCookEat FROM FellowEaters INNER JOIN Students ON FellowEaters.StudentNumber = Students.StudentNumber INNER JOIN Meals ON Meals.ID = FellowEaters.MealID ORDER BY FellowEaters.ID", null);
         if(i.moveToFirst()){
             while(!i.isAfterLast()){
                 FellowEater s = new FellowEater();
                 s.setId(i.getInt(0));
                 s.setGuests(i.getInt(1));
-                s.setStudent(i.getInt(2));
-                s.setMeal(i.getInt(3));
+                s.setStudent(new Student(i.getString(2),i.getString(3),i.getString(4),i.getString(5),i.getString(6),i.getString(7)));
+                s.setMeal(new Meal(i.getInt(8),i.getString(9),i.getString(10),i.getString(11),new Student(),i.getDouble(14),i.getInt(15),i.getBlob(13),Boolean.parseBoolean(i.getString(16))));
                 rs.add(s);
                 i.moveToNext();
             }
         }
-        Log.i("SQLiteLocalDatabase","Found "+rs.size()+" students");
+        Log.i("SQLiteLocalDatabase","Found "+rs.size()+" fellowEaters");
         i.close();
         return rs;
     }
@@ -48,13 +51,12 @@ public class FellowEaterDAO implements DAO<FellowEater> {
         }
     }
     public void insertOne(FellowEater object){
-        Log.i("SQLiteLocalDatabase","Inserting fellowEater with id = "+object.getId());
         android.database.sqlite.SQLiteDatabase t = db.getWritableDatabase();
         ContentValues i = new ContentValues();
         i.put("ID", object.getId());
         i.put("AmountOfGuests", object.getAmount());
-        i.put("StudentNumber", object.getStudent());
-        i.put("MealID", object.getMeal());
+        i.put("StudentNumber", object.getStudent().getstudentNumber());
+        i.put("MealID", object.getMeal().getId());
         if (t.insert("FellowEaters", "ID, AmountOfGuests, StudentNumber, MealID", i) != -1) {
             t.close();
         }

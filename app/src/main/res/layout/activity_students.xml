@@ -26,9 +26,19 @@
         android:text="@string/app_students_desc"
         android:textSize="14sp" />
 
-    <ListView
-        android:id="@+id/studentslist"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/students_refreshlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/studentslist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+        </ListView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </LinearLayout>

@@ -1,5 +1,6 @@
 package nl.mheijden.prog3app.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,11 +32,11 @@ public class MealAdapter extends ArrayAdapter<Meal> {
         this.user = user;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Meal meal = getItem(position);
         ViewHolder viewHolder;
-
         if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -43,20 +44,26 @@ public class MealAdapter extends ArrayAdapter<Meal> {
             viewHolder.dish = convertView.findViewById(R.id.meal_titel);
             viewHolder.date = convertView.findViewById(R.id.meal_datumtijd);
             viewHolder.chefID = convertView.findViewById(R.id.meal_kok);
-
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.dish.setText(meal.getDish() + " ");
-//        if(){
-//            viewHolder.date.setText(context.getText(R.string.app_meals_timeicon)+meal.getDate() + " "+context.getText(R.string.app_meals_checkicon));
-//            viewHolder.date.setTextColor(context.getResources().getColor(R.color.colorGreen));
-//        } else {
-        viewHolder.date.setText(context.getText(R.string.app_meals_timeicon) + meal.getDate() + " ");
-//        }
-        if(meal.getChefID().getInsertion()!="null"){
-            viewHolder.chefID.setText(context.getText(R.string.app_meals_cheficon)+meal.getChefID().getFirstname() + " "+meal.getChefID().getInsertion()+ "" + meal.getChefID().getLastname());
+        if(meal.getChefID().equals(user)){
+            viewHolder.dish.setText(meal.getDish()+" "+context.getText(R.string.app_meals_cheficon));
+            viewHolder.dish.setTextColor(context.getResources().getColor(R.color.colorDarkRed));
+            viewHolder.chefID.setTextColor(context.getResources().getColor(R.color.colorAccent));
+        } else {
+            viewHolder.dish.setText(meal.getDish() + " ");
+        }
+        if(meal.getStudents().contains(user)){
+            viewHolder.date.setText(context.getText(R.string.app_meals_timeicon)+" "+meal.getDate() + " "+context.getText(R.string.app_meals_checkicon));
+            viewHolder.date.setTextColor(context.getResources().getColor(R.color.colorGreen));
+            viewHolder.dish.setTextColor(context.getResources().getColor(R.color.colorGreen));
+        } else {
+            viewHolder.date.setText(context.getText(R.string.app_meals_timeicon) +" "+ meal.getDate() + " ");
+        }
+        if(!meal.getChefID().getInsertion().equals("null")){
+            viewHolder.chefID.setText(context.getText(R.string.app_meals_cheficon)+meal.getChefID().getFirstname() + " "+meal.getChefID().getInsertion()+ " " + meal.getChefID().getLastname());
         } else {
             viewHolder.chefID.setText(context.getText(R.string.app_meals_cheficon)+meal.getChefID().getFirstname() + " " + meal.getChefID().getLastname());
         }
@@ -73,6 +80,5 @@ public class MealAdapter extends ArrayAdapter<Meal> {
         TextView date;
         TextView chefID;
         ImageView imageUrl;
-        LinearLayout linearLayout;
     }
 }
