@@ -3,14 +3,18 @@ package nl.mheijden.prog3app.view;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import nl.mheijden.prog3app.R;
 import nl.mheijden.prog3app.model.domain.Meal;
@@ -46,6 +50,7 @@ public class StudentAdapter extends ArrayAdapter<Student> {
             viewHolder.email = convertView.findViewById(R.id.student_email);
             viewHolder.number = convertView.findViewById(R.id.student_nummer);
             viewHolder.phonenumber = convertView.findViewById(R.id.student_phonenumber);
+            viewHolder.image = convertView.findViewById(R.id.student_image);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -61,6 +66,15 @@ public class StudentAdapter extends ArrayAdapter<Student> {
         }
         viewHolder.email.setText(context.getText(R.string.app_meals_mailicon)+" "+student.getEmail()+"");
         viewHolder.phonenumber.setText(context.getText(R.string.app_meals_phoneicon)+" "+student.getPhonenumber()+"");
+        try{
+            Bitmap image = BitmapFactory.decodeByteArray(student.getImage(),0,student.getImage().length);
+            if(image!=null){
+                viewHolder.image.setImageBitmap(image);
+            }
+        }
+        catch(NullPointerException e){
+            e.printStackTrace();
+        }
         return convertView;
     }
 
@@ -73,5 +87,6 @@ public class StudentAdapter extends ArrayAdapter<Student> {
         TextView email;
         TextView phonenumber;
         TextView number;
+        ImageView image;
     }
 }

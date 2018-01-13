@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class SQLiteLocalDatabase extends SQLiteOpenHelper {
     private static String DATABASE_NAME = "StudentMaaltijden";
-    private static int DATABASE_VERSION = 2;
+    private static int DATABASE_VERSION = 3;
 
     public SQLiteLocalDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -42,6 +42,7 @@ public class SQLiteLocalDatabase extends SQLiteOpenHelper {
                 "  `Insertion` varchar(50) DEFAULT NULL,\n" +
                 "  `LastName` varchar(50) NOT NULL,\n" +
                 "  `Email` varchar(50) NOT NULL,\n" +
+                "  `Image` BLOB NOT NULL,\n" +
                 "  `PhoneNumber` varchar(30) DEFAULT NULL\n" +
                 ")");
     }

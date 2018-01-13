@@ -9,21 +9,9 @@ import java.sql.Blob;
 
 public class Student implements Serializable {
     private String studentNumber,firstname,insertion,lastname,email,phonenumber,password="";
-    private Blob image;
+    private byte[] image;
 
-    public Student(String studentNumber, String firstname, String insertion, String lastname, String email, String phonenumber) {
-        this.studentNumber = studentNumber;
-        this.firstname = firstname;
-        if(insertion!=null){
-            this.insertion = insertion;
-        } else {
-            this.insertion="";
-        }
-        this.lastname = lastname;
-        this.email = email;
-        this.phonenumber = phonenumber;
-    }
-    public Student(String studentNumber, String firstname, String insertion, String lastname, String email, String phonenumber, Blob image) {
+    public Student(String studentNumber, String firstname, String insertion, String lastname, String email, String phonenumber, byte[] image) {
         this.studentNumber = studentNumber;
         this.firstname = firstname;
         if(insertion!=null){
@@ -110,11 +98,11 @@ public class Student implements Serializable {
         this.password = password;
     }
 
-    public Blob getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(Blob image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 

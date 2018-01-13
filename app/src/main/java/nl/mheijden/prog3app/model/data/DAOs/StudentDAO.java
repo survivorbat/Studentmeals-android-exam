@@ -22,7 +22,7 @@ public class StudentDAO implements DAO<Student> {
     public ArrayList<Student> getAll(){
         ArrayList<Student> rs = new ArrayList<>();
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
-        Cursor i = db.rawQuery("SELECT * FROM Students ORDER BY LastName", null);
+        Cursor i = db.rawQuery("SELECT StudentNumber, FirstName, Insertion, LastName, Email, Image, PhoneNumber FROM Students ORDER BY LastName", null);
         if(i.moveToFirst()){
             while(!i.isAfterLast()){
                 Student s = new Student();
@@ -31,7 +31,8 @@ public class StudentDAO implements DAO<Student> {
                 s.setInsertion(i.getString(2));
                 s.setLastname(i.getString(3));
                 s.setEmail(i.getString(4));
-                s.setPhonenumber(i.getString(5));
+                s.setImage(i.getBlob(5));
+                s.setPhonenumber(i.getString(6));
                 rs.add(s);
                 i.moveToNext();
             }
@@ -51,7 +52,8 @@ public class StudentDAO implements DAO<Student> {
                 s.setInsertion(i.getString(2));
                 s.setLastname(i.getString(3));
                 s.setEmail(i.getString(4));
-                s.setPhonenumber(i.getString(5));
+                s.setImage(i.getBlob(5));
+                s.setPhonenumber(i.getString(6));
                 return s;
             }
         }
@@ -73,7 +75,8 @@ public class StudentDAO implements DAO<Student> {
         i.put("LastName", object.getLastname());
         i.put("Email", object.getEmail());
         i.put("PhoneNumber", object.getPhonenumber());
-        if (t.insert("Students", "StudentNumber, Firstname, Insertion, Lastname, Email, PhoneNumber", i) != -1) {
+        i.put("Image",object.getImage());
+        if (t.insert("Students", "StudentNumber, Firstname, Insertion, Lastname, Email, PhoneNumber, Image", i) != -1) {
             t.close();
         }
         t.close();

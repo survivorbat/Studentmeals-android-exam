@@ -9,7 +9,7 @@
     android:weightSum="8">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/student_image"
         android:layout_width="93dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

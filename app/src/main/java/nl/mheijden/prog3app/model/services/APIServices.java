@@ -129,7 +129,7 @@ public class APIServices {
                 try {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject student = response.getJSONObject(i);
-                        Student user = new Student(student.getString("StudentNumber"), student.getString("Firstname"), student.getString("Insertion"), student.getString("Lastname"), student.getString("Email"), student.getString("PhoneNumber"));
+                        Student user = new Student(student.getString("StudentNumber"), student.getString("Firstname"), student.getString("Insertion"), student.getString("Lastname"), student.getString("Email"), student.getString("PhoneNumber"), student.getString("Image").getBytes("utf-8"));
                         rs.add(user);
                     }
                 } catch (Exception e) {
