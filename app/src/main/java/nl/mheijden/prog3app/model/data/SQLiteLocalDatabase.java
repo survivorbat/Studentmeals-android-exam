@@ -1,9 +1,7 @@
 package nl.mheijden.prog3app.model.data;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /**
  * Gemaakt door Maarten van der Heijden on 1-1-2018.
@@ -11,7 +9,7 @@ import android.util.Log;
 
 public class SQLiteLocalDatabase extends SQLiteOpenHelper {
     private static String DATABASE_NAME = "StudentMaaltijden";
-    private static int DATABASE_VERSION = 3;
+    private static int DATABASE_VERSION = 4;
 
     public SQLiteLocalDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -42,7 +40,6 @@ public class SQLiteLocalDatabase extends SQLiteOpenHelper {
                 "  `Insertion` varchar(50) DEFAULT NULL,\n" +
                 "  `LastName` varchar(50) NOT NULL,\n" +
                 "  `Email` varchar(50) NOT NULL,\n" +
-                "  `Image` BLOB NOT NULL,\n" +
                 "  `PhoneNumber` varchar(30) DEFAULT NULL\n" +
                 ")");
     }

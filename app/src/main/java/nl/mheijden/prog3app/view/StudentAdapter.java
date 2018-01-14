@@ -1,7 +1,6 @@
 package nl.mheijden.prog3app.view;
 
 import android.annotation.SuppressLint;
-import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,14 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import nl.mheijden.prog3app.R;
-import nl.mheijden.prog3app.model.domain.Meal;
 import nl.mheijden.prog3app.model.domain.Student;
 
 /**
@@ -56,7 +55,7 @@ public class StudentAdapter extends ArrayAdapter<Student> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.number.setText(context.getResources().getString(R.string.app_dashboard_button_students)+" "+student.getstudentNumber()+"");
-        if(student.getInsertion()==null || student.getInsertion().equals("null")){
+        if(student.getInsertion()==null || student.getInsertion().equals("null") || student.getInsertion().equals("")){
             viewHolder.name.setText(student.getFirstname() + " " + student.getLastname() + "");
         } else {
             viewHolder.name.setText(student.getFirstname() + " " + student.getInsertion() + " " + student.getLastname() + "");
@@ -65,15 +64,20 @@ public class StudentAdapter extends ArrayAdapter<Student> {
             viewHolder.name.setTextColor(context.getResources().getColor(R.color.colorGreen));
         }
         viewHolder.email.setText(context.getText(R.string.app_meals_mailicon)+" "+student.getEmail()+"");
-        viewHolder.phonenumber.setText(context.getText(R.string.app_meals_phoneicon)+" "+student.getPhonenumber()+"");
-        try{
-            Bitmap image = BitmapFactory.decodeByteArray(student.getImage(),0,student.getImage().length);
-            if(image!=null){
-                viewHolder.image.setImageBitmap(image);
-            }
+        if(!student.getPhonenumber().equals("null") && student.getPhonenumber()!=null){
+            viewHolder.phonenumber.setText(context.getText(R.string.app_meals_phoneicon)+" "+student.getPhonenumber()+"");
+        } else {
+            viewHolder.phonenumber.setText(context.getText(R.string.app_meals_phoneicon)+" ");
         }
-        catch(NullPointerException e){
-            e.printStackTrace();
+        File filesDir = context.getFilesDir();
+        File f = new File(filesDir, "studentPictures_"+student.getstudentNumber());
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(f);
+            Bitmap bitmap = BitmapFactory.decodeStream(fis);
+            viewHolder.image.setImageBitmap(bitmap);
+        }
+        catch (FileNotFoundException e){
         }
         return convertView;
     }

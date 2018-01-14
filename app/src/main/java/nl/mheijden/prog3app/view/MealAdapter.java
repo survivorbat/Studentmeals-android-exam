@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -44,6 +43,7 @@ public class MealAdapter extends ArrayAdapter<Meal> {
             viewHolder.dish = convertView.findViewById(R.id.meal_titel);
             viewHolder.date = convertView.findViewById(R.id.meal_datumtijd);
             viewHolder.chefID = convertView.findViewById(R.id.meal_kok);
+            viewHolder.image = convertView.findViewById(R.id.meal_image);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -67,7 +67,6 @@ public class MealAdapter extends ArrayAdapter<Meal> {
         } else {
             viewHolder.chefID.setText(context.getText(R.string.app_meals_cheficon)+meal.getChefID().getFirstname() + " " + meal.getChefID().getLastname());
         }
-
         return convertView;
     }
 
@@ -79,6 +78,6 @@ public class MealAdapter extends ArrayAdapter<Meal> {
         TextView dish;
         TextView date;
         TextView chefID;
-        ImageView imageUrl;
+        ImageView image;
     }
 }

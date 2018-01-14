@@ -3,14 +3,12 @@ package nl.mheijden.prog3app.controller.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import java.text.DecimalFormat;
 
 import nl.mheijden.prog3app.R;
 import nl.mheijden.prog3app.model.domain.FellowEater;

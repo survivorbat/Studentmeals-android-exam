@@ -67,7 +67,7 @@
                 android:layout_weight="1"
                 android:text="@string/app_placeholder"
                 android:textColor="@color/colorSemiWhite"
-                android:textSize="18sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/meal_eaters"

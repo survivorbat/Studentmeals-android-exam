@@ -3,6 +3,7 @@ package nl.mheijden.prog3app.model.services;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -15,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 
@@ -22,12 +24,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import nl.mheijden.prog3app.model.Callbacks.APICallbacks;
-import nl.mheijden.prog3app.model.data.DAOFactory;
 import nl.mheijden.prog3app.model.domain.FellowEater;
 import nl.mheijden.prog3app.model.domain.Meal;
 import nl.mheijden.prog3app.model.domain.Student;
@@ -40,6 +44,8 @@ public class APIServices {
     private RequestQueue mRequestQueue;
     private APICallbacks APICallbacks;
     private Context context;
+
+    private final String BASEURL = "http://prog4node.herokuapp.com";
 
     public APIServices(Context context, APICallbacks APICallbacks){
         Cache cache = new DiskBasedCache(context.getCacheDir(), 1024 * 1024); // 1MB cap
@@ -66,7 +72,7 @@ public class APIServices {
             APICallbacks.loginCallback("error");
         }
         final JSONObject finalPost = post;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, "https://prog4node.herokuapp.com/api/student", post, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, BASEURL+"/api/student", post, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 APICallbacks.addedStudent(true);
@@ -93,7 +99,7 @@ public class APIServices {
             e.printStackTrace();
             APICallbacks.loginCallback("error");
         }
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, "https://prog4node.herokuapp.com/api/login", post, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, BASEURL+"/api/login", post, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -123,19 +129,19 @@ public class APIServices {
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("APITOKEN",null);
         final ArrayList<Student> rs = new ArrayList<>();
-        JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, "https://prog4node.herokuapp.com/api/student", null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, BASEURL+"/api/student", null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 try {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject student = response.getJSONObject(i);
-                        Student user = new Student(student.getString("StudentNumber"), student.getString("Firstname"), student.getString("Insertion"), student.getString("Lastname"), student.getString("Email"), student.getString("PhoneNumber"), student.getString("Image").getBytes("utf-8"));
+                        Student user = new Student(student.getString("StudentNumber"), student.getString("Firstname"), student.getString("Insertion"), student.getString("Lastname"), student.getString("Email"), student.getString("PhoneNumber"));
                         rs.add(user);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                APICallbacks.loadStudents(rs);
+                getStudentImages(rs);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -187,5 +193,51 @@ public class APIServices {
         rs.add(new FellowEater(2, new Student("12"), 1, new Meal(3)));
         rs.add(new FellowEater(3, new Student("77"), 0, new Meal(3)));
         APICallbacks.loadFellowEaters(rs);
+    }
+
+    public void getStudentImages(final ArrayList<Student> students){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
+        final String token = sharedPreferences.getString("APITOKEN",null);
+        final int[] counter = {0};
+        for(final Student s : students){
+            ImageRequest jsObjRequest = new ImageRequest(BASEURL+"/api/student/"+s.getstudentNumber()+"/picture", new Response.Listener<Bitmap>() {
+                @Override
+                public void onResponse(Bitmap response) {
+                    File fileDir = context.getFilesDir();
+                    File f = new File(fileDir, "studentPictures_"+s.getstudentNumber());
+                    try {
+                        FileOutputStream out = new FileOutputStream(f);
+                        response.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        out.flush();
+                        out.close();
+                    }
+                    catch (IOException e){
+                        e.printStackTrace();
+                    }
+                    if(++counter[0] ==students.size()){
+                        APICallbacks.loadStudents(students);
+                    }
+                }
+            },0,0,null, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    File fileDir = context.getFilesDir();
+                    File f = new File(fileDir, "studentPictures_"+s.getstudentNumber());
+                    f.delete();
+                    if(++counter[0] ==students.size()){
+                        APICallbacks.loadStudents(students);
+                    }
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    String auth = "Bearer " + token;
+                    headers.put("Authorization", auth);
+                    return headers;
+                }
+            };
+            mRequestQueue.add(jsObjRequest);
+        }
     }
 }

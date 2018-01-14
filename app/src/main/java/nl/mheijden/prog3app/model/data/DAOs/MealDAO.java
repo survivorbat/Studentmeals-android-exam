@@ -27,7 +27,7 @@ public class MealDAO implements DAO<Meal> {
     public ArrayList<Meal> getAll(){
         ArrayList<Meal> rs = new ArrayList<>();
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
-        Cursor i = db.rawQuery("SELECT ID, Dish, DateTime, Info, ChefID, FirstName, Insertion, LastName, Email,PhoneNumber, Picture, Price, MaxFellowEaters, DoesCookEat, Image FROM Meals LEFT OUTER JOIN Students ON Meals.ChefID = Students.StudentNumber ORDER BY DateTime", null);
+        Cursor i = db.rawQuery("SELECT ID, Dish, DateTime, Info, ChefID, FirstName, Insertion, LastName, Email,PhoneNumber, Picture, Price, MaxFellowEaters, DoesCookEat FROM Meals LEFT OUTER JOIN Students ON Meals.ChefID = Students.StudentNumber ORDER BY DateTime", null);
         if(i.moveToFirst()){
             while(!i.isAfterLast()){
                 Meal s = new Meal();
@@ -35,19 +35,18 @@ public class MealDAO implements DAO<Meal> {
                 s.setDish(i.getString(1));
                 s.setDate(i.getString(2));
                 s.setInfo(i.getString(3));
-                s.setChefID(new Student(i.getString(4),i.getString(5),i.getString(6),i.getString(7),i.getString(8),i.getString(9),i.getBlob(14)));
-                s.setImageUrl(i.getBlob(10));
+                s.setChefID(new Student(i.getString(4),i.getString(5),i.getString(6),i.getString(7),i.getString(8),i.getString(9)));
                 s.setPrice(i.getDouble(11));
                 s.setMax(i.getInt(12));
                 s.setDoesCookEat(Boolean.parseBoolean(i.getInt(13) + ""));
-                Cursor e = db.rawQuery("SELECT FellowEaters.ID, AmountOfGuests, Students.StudentNumber,FirstName, LastName, Insertion, Email, PhoneNumber, Image FROM FellowEaters INNER JOIN Students ON Students.StudentNumber = FellowEaters.StudentNumber WHERE FellowEaters.MealID ="+s.getId(), null);
+                Cursor e = db.rawQuery("SELECT FellowEaters.ID, AmountOfGuests, Students.StudentNumber,FirstName, LastName, Insertion, Email, PhoneNumber FROM FellowEaters INNER JOIN Students ON Students.StudentNumber = FellowEaters.StudentNumber WHERE FellowEaters.MealID ="+s.getId(), null);
                 if(e.moveToFirst()){
                     while(!e.isAfterLast()){
                         FellowEater f = new FellowEater();
                         f.setMeal(s);
                         f.setId(e.getInt(0));
                         f.setGuests(e.getInt(1));
-                        f.setStudent(new Student(e.getString(2),e.getString(3),e.getString(4),e.getString(5),e.getString(6),e.getString(7),e.getBlob(8)));
+                        f.setStudent(new Student(e.getString(2),e.getString(3),e.getString(4),e.getString(5),e.getString(6),e.getString(7)));
                         s.addFellowEater(f);
                         e.moveToNext();
                     }
@@ -72,7 +71,6 @@ public class MealDAO implements DAO<Meal> {
                 s.setDate(i.getString(2));
                 s.setInfo(i.getString(3));
                 s.setChefID(studentDAO.getOne(i.getInt(4)));
-                s.setImageUrl(i.getBlob(5));
                 s.setPrice(i.getDouble(6));
                 s.setMax(i.getInt(7));
                 if(i.getInt(8)==1){
@@ -80,6 +78,8 @@ public class MealDAO implements DAO<Meal> {
                 } else {
                     s.setDoesCookEat(false);
                 }
+                i.close();
+                db.close();
                 return s;
             }
         }
@@ -107,9 +107,11 @@ public class MealDAO implements DAO<Meal> {
             System.out.println("Something went wrong importing "+object.getDish());
         };
         t.close();
+        db.close();
     }
     public void clear(){
         android.database.sqlite.SQLiteDatabase db = this.db.getWritableDatabase();
         db.execSQL("DELETE FROM Meals");
+        db.close();
     }
 }

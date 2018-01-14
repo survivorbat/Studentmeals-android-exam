@@ -4,6 +4,7 @@
     android:id="@+id/student_linearlayout"
     android:layout_width="match_parent"
     android:layout_height="40pt"
+    android:layout_marginVertical="8dp"
     android:background="@color/colorDarkBlueTransparent"
     android:orientation="horizontal"
     android:weightSum="8">

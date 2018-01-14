@@ -1,7 +1,6 @@
 package nl.mheijden.prog3app.model.domain;
 
 import java.io.Serializable;
-import java.sql.Blob;
 
 /**
  * Gemaakt door Maarten van der Heijden on 9-1-2018.
@@ -9,9 +8,8 @@ import java.sql.Blob;
 
 public class Student implements Serializable {
     private String studentNumber,firstname,insertion,lastname,email,phonenumber,password="";
-    private byte[] image;
 
-    public Student(String studentNumber, String firstname, String insertion, String lastname, String email, String phonenumber, byte[] image) {
+    public Student(String studentNumber, String firstname, String insertion, String lastname, String email, String phonenumber) {
         this.studentNumber = studentNumber;
         this.firstname = firstname;
         if(insertion!=null){
@@ -22,7 +20,6 @@ public class Student implements Serializable {
         this.lastname = lastname;
         this.email = email;
         this.phonenumber = phonenumber;
-        this.image=image;
     }
     public Student(){
     }
@@ -96,14 +93,6 @@ public class Student implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
     }
 
     @Override

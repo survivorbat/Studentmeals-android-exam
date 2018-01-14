@@ -1,19 +1,12 @@
 package nl.mheijden.prog3app.controller.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
-
-import java.util.ArrayList;
 
 import nl.mheijden.prog3app.R;
-import nl.mheijden.prog3app.model.domain.FellowEater;
-import nl.mheijden.prog3app.model.domain.MaaltijdenApp;
-import nl.mheijden.prog3app.model.domain.Meal;
-import nl.mheijden.prog3app.view.MealAdapter;
 
 public class DashboardActivity extends AppCompatActivity {
     @Override

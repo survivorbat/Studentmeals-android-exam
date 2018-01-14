@@ -22,7 +22,7 @@ public class StudentDAO implements DAO<Student> {
     public ArrayList<Student> getAll(){
         ArrayList<Student> rs = new ArrayList<>();
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
-        Cursor i = db.rawQuery("SELECT StudentNumber, FirstName, Insertion, LastName, Email, Image, PhoneNumber FROM Students ORDER BY LastName", null);
+        Cursor i = db.rawQuery("SELECT StudentNumber, FirstName, Insertion, LastName, Email, PhoneNumber FROM Students ORDER BY StudentNumber", null);
         if(i.moveToFirst()){
             while(!i.isAfterLast()){
                 Student s = new Student();
@@ -31,14 +31,14 @@ public class StudentDAO implements DAO<Student> {
                 s.setInsertion(i.getString(2));
                 s.setLastname(i.getString(3));
                 s.setEmail(i.getString(4));
-                s.setImage(i.getBlob(5));
-                s.setPhonenumber(i.getString(6));
+                s.setPhonenumber(i.getString(5));
                 rs.add(s);
                 i.moveToNext();
             }
         }
         Log.i("SQLiteLocalDatabase","Found "+rs.size()+" students");
         i.close();
+        db.close();
         return rs;
     }
     public Student getOne(int id){
@@ -52,8 +52,9 @@ public class StudentDAO implements DAO<Student> {
                 s.setInsertion(i.getString(2));
                 s.setLastname(i.getString(3));
                 s.setEmail(i.getString(4));
-                s.setImage(i.getBlob(5));
-                s.setPhonenumber(i.getString(6));
+                s.setPhonenumber(i.getString(5));
+                i.close();
+                db.close();
                 return s;
             }
         }
@@ -75,14 +76,15 @@ public class StudentDAO implements DAO<Student> {
         i.put("LastName", object.getLastname());
         i.put("Email", object.getEmail());
         i.put("PhoneNumber", object.getPhonenumber());
-        i.put("Image",object.getImage());
-        if (t.insert("Students", "StudentNumber, Firstname, Insertion, Lastname, Email, PhoneNumber, Image", i) != -1) {
+        if (t.insert("Students", "StudentNumber, Firstname, Insertion, Lastname, Email, PhoneNumber", i) != -1) {
             t.close();
         }
         t.close();
+        db.close();
     }
     public void clear(){
         android.database.sqlite.SQLiteDatabase db = this.db.getWritableDatabase();
         db.execSQL("DELETE FROM Students");
+        db.close();
     }
 }

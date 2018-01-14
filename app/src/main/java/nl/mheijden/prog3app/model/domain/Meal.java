@@ -1,10 +1,7 @@
 package nl.mheijden.prog3app.model.domain;
 
 import java.io.Serializable;
-import java.sql.Blob;
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Gemaakt door Maarten van der Heijden on 9-1-2018.
@@ -97,14 +94,6 @@ public class Meal implements Serializable {
         this.max = max;
     }
 
-    public byte[] getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(byte[] imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public boolean isDoesCookEat() {
         return doesCookEat;
     }
@@ -115,10 +104,6 @@ public class Meal implements Serializable {
 
     public ArrayList<FellowEater> getFelloweaters() {
         return felloweaters;
-    }
-
-    public void setFelloweaters(ArrayList<FellowEater> felloweaters) {
-        this.felloweaters = felloweaters;
     }
 
     public void addFellowEater(FellowEater fellowEater){

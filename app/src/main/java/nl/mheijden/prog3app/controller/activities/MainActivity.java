@@ -1,24 +1,18 @@
 package nl.mheijden.prog3app.controller.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import nl.mheijden.prog3app.R;
 import nl.mheijden.prog3app.controller.callbacks.LoginControllerCallback;
 import nl.mheijden.prog3app.model.domain.MaaltijdenApp;
-import nl.mheijden.prog3app.model.domain.Student;
-import nl.mheijden.prog3app.view.MealAdapter;
 
 public class MainActivity extends AppCompatActivity implements LoginControllerCallback {
     private MaaltijdenApp app;

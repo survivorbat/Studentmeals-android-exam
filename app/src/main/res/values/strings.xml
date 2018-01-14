@@ -51,4 +51,15 @@
     <string name="app_reload_success">Succesvol herladen!</string>
     <string name="app_reload_failure">Er ging iets mis bij het herladen</string>
     <string name="app_joinscreen_chooseamount">Aantal gasten</string>
+    <string name="app_newmeal_title">Nieuwe maaltijd</string>
+    <string name="app_newmeal_dish">Gerecht</string>
+    <string name="app_newmeal_info">Extra informatie (allergieën, ingrediënten etc.)</string>
+    <string name="app_newmeal_datetime">Datum en tijd</string>
+    <string name="app_newmeal_date">Datum</string>
+    <string name="app_newmeal_time">Tijd</string>
+    <string name="app_newmeal_price">Prijs per persoon</string>
+    <string name="app_newmeal_max">Maximaal aantal mee-eters</string>
+    <string name="app_newmeal_doescookeet">Eet jij als chef mee?</string>
+    <string name="app_newmeal_selectpicture">Selecteer foto</string>
+    <string name="app_newmeal_addmeal">Toevoegen</string>
 </resources>

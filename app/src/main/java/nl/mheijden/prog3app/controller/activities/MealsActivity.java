@@ -10,8 +10,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import nl.mheijden.prog3app.R;
 import nl.mheijden.prog3app.controller.callbacks.ReloadCallback;
 import nl.mheijden.prog3app.model.domain.MaaltijdenApp;
