@@ -72,13 +72,17 @@ public class MainActivity extends AppCompatActivity implements LoginControllerCa
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void login(String response) {
-        if(response.equals("error")){
+        if(response.equals("errorwrong")){
             errorfield.setText(R.string.app_input_error_wrong);
-            errorfield.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        } else if (response.equals("errorobj")){
+            errorfield.setText(R.string.app_error_obj);
+        } else if(response.equals("errorconn")){
+            errorfield.setText(R.string.app_error_conn);
         } else if(response.equals("success")) {
             errorfield.setText("");
             Intent i = new Intent(this,DashboardActivity.class);
             startActivity(i);
         }
+        errorfield.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
     }
 }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import nl.mheijden.prog3app.R;
 import nl.mheijden.prog3app.controller.callbacks.JoinControllerCallback;
@@ -30,12 +31,14 @@ public class MealsActivity_Join extends AppCompatActivity implements JoinControl
         title.setText(meal.getDish()+"");
 
         amountOfPeople = findViewById(R.id.amountOfPeople);
+        TextView amountOfPeopleTitle = findViewById(R.id.joinscreen_amounttitle);
 
         TextView info = findViewById(R.id.joinscreen_mealinfo);
         info.setText(meal.getDate()+"\n"+meal.getAmountOfEaters()+"/"+meal.getMax()+" "+getText(R.string.app_dashboard_button_students)+"\n\n"+meal.getInfo()+"");
         if(meal.getMax()-meal.getAmountOfEaters()-1<=0){
             amountOfPeople.setEnabled(false);
-            amountOfPeople.setText(0);
+            amountOfPeople.setVisibility(View.GONE);
+            amountOfPeopleTitle.setVisibility(View.GONE);
         } else {
             amountOfPeople.setHint(getText(R.string.app_joinscreen_chooseamount)+" (max. "+(meal.getMax()-meal.getAmountOfEaters()-1)+")");
         }
@@ -49,14 +52,19 @@ public class MealsActivity_Join extends AppCompatActivity implements JoinControl
     }
 
     private void confirmJoin(){
-        if(Integer.parseInt(amountOfPeople.getText().toString())>(meal.getMax()-meal.getAmountOfEaters()-1)){
+        if(!amountOfPeople.getText().toString().equals("") && Integer.parseInt(amountOfPeople.getText().toString())>(meal.getMax()-meal.getAmountOfEaters()-1)){
             amountOfPeople.setError(getText(R.string.app_input_error_tooManyPeople)+"(max."+(meal.getMax()-meal.getAmountOfEaters()-1)+")");
-        } if(Integer.parseInt(amountOfPeople.getText().toString())<0){
+        } else if(!amountOfPeople.getText().toString().equals("") && Integer.parseInt(amountOfPeople.getText().toString())<0){
             amountOfPeople.setError(getText(R.string.app_input_error_notnegative));
         } else {
+            Toast.makeText(this, getText(R.string.app_loading), Toast.LENGTH_SHORT).show();
             app = new MaaltijdenApp(this);
             FellowEater fellowEater = new FellowEater();
-            fellowEater.setGuests(Integer.parseInt(amountOfPeople.getText().toString()));
+            if(amountOfPeople.getText().toString().equals("")){
+                fellowEater.setGuests(0);
+            } else {
+                fellowEater.setGuests(Integer.parseInt(amountOfPeople.getText().toString()));
+            }
             fellowEater.setMeal(meal);
             fellowEater.setStudent(app.getUser());
             app.addFellowEater(fellowEater,this);
@@ -65,6 +73,11 @@ public class MealsActivity_Join extends AppCompatActivity implements JoinControl
 
     @Override
     public void onJoinComplete(boolean result) {
-
+        if(result){
+            Intent i = new Intent(this, MealsActivity.class);
+            startActivity(i);
+        } else {
+            Toast.makeText(this,getText(R.string.app_error_conn), Toast.LENGTH_SHORT).show();
+        }
     }
 }

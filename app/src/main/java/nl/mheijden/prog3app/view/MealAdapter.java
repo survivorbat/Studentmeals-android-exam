@@ -2,6 +2,8 @@ package nl.mheijden.prog3app.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import nl.mheijden.prog3app.R;
@@ -48,24 +53,33 @@ public class MealAdapter extends ArrayAdapter<Meal> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        if(meal.getChefID().equals(user)){
-            viewHolder.dish.setText(meal.getDish()+" "+context.getText(R.string.app_meals_cheficon));
-            viewHolder.dish.setTextColor(context.getResources().getColor(R.color.colorDarkRed));
-            viewHolder.chefID.setTextColor(context.getResources().getColor(R.color.colorAccent));
-        } else {
-            viewHolder.dish.setText(meal.getDish() + " ");
-        }
-        if(meal.getStudents().contains(user)){
-            viewHolder.date.setText(context.getText(R.string.app_meals_timeicon)+" "+meal.getDate() + " "+context.getText(R.string.app_meals_checkicon));
-            viewHolder.date.setTextColor(context.getResources().getColor(R.color.colorGreen));
-            viewHolder.dish.setTextColor(context.getResources().getColor(R.color.colorGreen));
-        } else {
-            viewHolder.date.setText(context.getText(R.string.app_meals_timeicon) +" "+ meal.getDate() + " ");
-        }
-        if(!meal.getChefID().getInsertion().equals("null")){
-            viewHolder.chefID.setText(context.getText(R.string.app_meals_cheficon)+meal.getChefID().getFirstname() + " "+meal.getChefID().getInsertion()+ " " + meal.getChefID().getLastname());
-        } else {
-            viewHolder.chefID.setText(context.getText(R.string.app_meals_cheficon)+meal.getChefID().getFirstname() + " " + meal.getChefID().getLastname());
+        if (meal != null) {
+            if (meal.getChefID().equals(user)) {
+                viewHolder.dish.setText(meal.getDish() + " " + context.getText(R.string.app_meals_cheficon));
+                viewHolder.dish.setTextColor(context.getResources().getColor(R.color.colorDarkRed));
+            } else if (meal.getStudents().contains(user)) {
+                viewHolder.dish.setText(meal.getDish() + " " + context.getText(R.string.app_meals_checkicon));
+                viewHolder.dish.setTextColor(context.getResources().getColor(R.color.colorGreen));
+            } else {
+                viewHolder.dish.setText(meal.getDish() + " ");
+                viewHolder.dish.setTextColor(context.getResources().getColor(R.color.colorSemiWhite));
+            }
+            viewHolder.date.setText(context.getText(R.string.app_meals_timeicon) + " " + meal.getDate() + " ");
+            if (!meal.getChefID().getInsertion().equals("null")) {
+                viewHolder.chefID.setText(context.getText(R.string.app_meals_cheficon) + meal.getChefID().getFirstname() + " " + meal.getChefID().getInsertion() + " " + meal.getChefID().getLastname());
+            } else {
+                viewHolder.chefID.setText(context.getText(R.string.app_meals_cheficon) + meal.getChefID().getFirstname() + " " + meal.getChefID().getLastname());
+            }
+            File filesDir = context.getFilesDir();
+            File f = new File(filesDir, "mealPictures_" + meal.getId());
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(f);
+                Bitmap bitmap = BitmapFactory.decodeStream(fis);
+                viewHolder.image.setImageBitmap(bitmap);
+            } catch (FileNotFoundException e) {
+                viewHolder.image.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.logo));
+            }
         }
         return convertView;
     }

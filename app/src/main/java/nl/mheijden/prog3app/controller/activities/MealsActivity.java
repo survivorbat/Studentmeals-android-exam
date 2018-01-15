@@ -48,6 +48,10 @@ public class MealsActivity extends AppCompatActivity implements ReloadCallback {
             }
         });
     }
+    public void onResume() {
+        super.onResume();
+        onReloadInitiated();
+    }
 
     private void handleViewClick(Meal m){
         Intent intent = new Intent(this, MealsActivity_Detail.class);
@@ -55,14 +59,17 @@ public class MealsActivity extends AppCompatActivity implements ReloadCallback {
         startActivity(intent);
     }
     private void onReloadInitiated(){
+        Toast.makeText(this, getText(R.string.app_loading), Toast.LENGTH_SHORT).show();
         layout.setRefreshing(true);
         app.reloadMeals(this);
     }
     @Override
     public void reloaded(boolean result) {
-        layout.setRefreshing(false);
         if(result){
-            Toast.makeText(this,R.string.app_reload_success, Toast.LENGTH_SHORT).show();
+            if(layout.isRefreshing()){
+                layout.setRefreshing(false);
+                Toast.makeText(this,R.string.app_reload_success, Toast.LENGTH_SHORT).show();
+            }
             adapter = new MealAdapter(this, R.layout.listview_meal, app.getMeals(), app.getUser());
             list.setAdapter(adapter);
         } else {

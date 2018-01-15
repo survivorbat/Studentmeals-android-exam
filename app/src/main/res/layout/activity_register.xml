@@ -142,6 +142,15 @@
         android:inputType="textPassword"
         android:layout_weight="1"/>
 
+    <EditText
+        android:id="@+id/register_passconfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="@string/app_register_confirm"
+        android:inputType="textPassword" />
+
     <Button
         android:id="@+id/register_confirmbutton"
         android:layout_width="match_parent"

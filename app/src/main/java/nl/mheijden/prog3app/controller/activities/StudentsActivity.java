@@ -43,9 +43,11 @@ public class StudentsActivity extends AppCompatActivity implements ReloadCallbac
 
     @Override
     public void reloaded(boolean result) {
-        layout.setRefreshing(false);
         if(result){
-            Toast.makeText(this,R.string.app_reload_success, Toast.LENGTH_SHORT).show();
+            if(layout.isRefreshing()){
+                layout.setRefreshing(false);
+                Toast.makeText(this,R.string.app_reload_success, Toast.LENGTH_SHORT).show();
+            }
             adapter = new StudentAdapter(this, R.layout.listview_student, app.getStudents(),app.getUser());
             list.setAdapter(adapter);
         } else {

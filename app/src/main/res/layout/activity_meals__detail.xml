@@ -15,107 +15,124 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:adjustViewBounds="false"
         android:background="@color/colorDarkBlueTransparent"
         android:contentDescription="@string/app_meal_image"
+        android:maxHeight="@android:dimen/app_icon_size"
         app:srcCompat="@drawable/logo" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:background="@color/colorDarkBlueTransparent"
-        android:orientation="vertical"
-        android:paddingHorizontal="8dp"
-        android:weightSum="6">
+        android:layout_weight="3">
 
-        <TextView
-            android:id="@+id/meal_title"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorTransparent"
-            android:text="@string/app_placeholder"
-            android:textColor="@color/colorAccent"
-            android:textSize="40sp" />
+            android:layout_weight="3"
+            android:background="@color/colorDarkBlueTransparent"
+            android:orientation="vertical"
+            android:paddingHorizontal="8dp"
+            android:weightSum="6">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="3">
+            <TextView
+                android:id="@+id/meal_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:text="@string/app_placeholder"
+                android:textColor="@color/colorAccent"
+                android:textSize="40sp" />
 
             <TextView
                 android:id="@+id/meal_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="@string/app_placeholder"
                 android:textColor="@color/colorSemiWhite"
                 android:textSize="14sp" />
 
-        </ScrollView>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/meal_chef"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/app_placeholder"
+                    android:textColor="@color/colorSemiWhite"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/meal_eaters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/app_placeholder"
+                    android:textColor="@color/colorSemiWhite"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/meal_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorSemiWhite"
+                    android:textSize="18sp"
+                    tools:text="@string/app_placeholder" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
 
             <TextView
-                android:id="@+id/meal_chef"
-                android:layout_width="wrap_content"
+                android:id="@+id/meal_felloweaterlist"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/app_placeholder"
                 android:textColor="@color/colorSemiWhite"
                 android:textSize="12sp" />
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
+
             <TextView
-                android:id="@+id/meal_eaters"
-                android:layout_width="wrap_content"
+                android:id="@+id/meal_date"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/app_placeholder"
                 android:textColor="@color/colorSemiWhite"
-                android:textSize="18sp" />
+                android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/meal_price"
-                android:layout_width="wrap_content"
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
+
+            <Button
+                android:id="@+id/meal_eatwithbutton"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/colorSemiWhite"
-                android:textSize="18sp"
-                tools:text="@string/app_placeholder" />
+                android:background="@color/colorTransparent"
+                android:text="@string/app_meals_addbutton"
+                android:textColor="@color/colorGreen"
+                android:textSize="24sp" />
 
         </LinearLayout>
+    </ScrollView>
 
-        <TextView
-            android:id="@+id/meal_felloweaterlist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/app_placeholder"
-            android:textColor="@color/colorSemiWhite"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/meal_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/app_placeholder"
-            android:textColor="@color/colorSemiWhite"
-            android:textSize="24sp" />
-
-        <Button
-            android:id="@+id/meal_eatwithbutton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/colorTransparent"
-            android:text="@string/app_meals_addbutton"
-            android:textColor="@color/colorGreen"
-            android:textSize="24sp" />
-
-    </LinearLayout>
 </LinearLayout>

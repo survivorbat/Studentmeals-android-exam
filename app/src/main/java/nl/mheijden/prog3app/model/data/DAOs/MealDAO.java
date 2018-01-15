@@ -27,13 +27,19 @@ public class MealDAO implements DAO<Meal> {
     public ArrayList<Meal> getAll(){
         ArrayList<Meal> rs = new ArrayList<>();
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
-        Cursor i = db.rawQuery("SELECT ID, Dish, DateTime, Info, ChefID, FirstName, Insertion, LastName, Email,PhoneNumber, Picture, Price, MaxFellowEaters, DoesCookEat FROM Meals LEFT OUTER JOIN Students ON Meals.ChefID = Students.StudentNumber ORDER BY DateTime", null);
+        Cursor i = db.rawQuery("SELECT ID, Dish, DateTime, Info, ChefID, FirstName, Insertion, LastName, Email,PhoneNumber, Picture, Price, MaxFellowEaters, DoesCookEat FROM Meals LEFT OUTER JOIN Students ON Meals.ChefID = Students.StudentNumber WHERE DateTime >= Date('now') ORDER BY DateTime", null);
         if(i.moveToFirst()){
             while(!i.isAfterLast()){
                 Meal s = new Meal();
                 s.setId(i.getInt(0));
                 s.setDish(i.getString(1));
-                s.setDate(i.getString(2));
+                try {
+                    String[] date = i.getString(2).split("T");
+                    s.setDate(date[0] + " " + date[1].substring(0, 8));
+                }
+                catch (ArrayIndexOutOfBoundsException e){
+                    s.setDate(i.getString(2));
+                }
                 s.setInfo(i.getString(3));
                 s.setChefID(new Student(i.getString(4),i.getString(5),i.getString(6),i.getString(7),i.getString(8),i.getString(9)));
                 s.setPrice(i.getDouble(11));
@@ -68,7 +74,8 @@ public class MealDAO implements DAO<Meal> {
                 Meal s = new Meal();
                 s.setId(i.getInt(0));
                 s.setDish(i.getString(1));
-                s.setDate(i.getString(2));
+                String[] date = i.getString(2).split("T");
+                s.setDate(date[0]+" "+date[1].substring(0,8));
                 s.setInfo(i.getString(3));
                 s.setChefID(studentDAO.getOne(i.getInt(4)));
                 s.setPrice(i.getDouble(6));

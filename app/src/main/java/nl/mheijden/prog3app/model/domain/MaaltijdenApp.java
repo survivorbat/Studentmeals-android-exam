@@ -1,13 +1,19 @@
 package nl.mheijden.prog3app.model.domain;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import nl.mheijden.prog3app.R;
+import nl.mheijden.prog3app.controller.activities.MealsActivity;
 import nl.mheijden.prog3app.controller.callbacks.JoinControllerCallback;
+import nl.mheijden.prog3app.controller.callbacks.LeaveControllerCallback;
 import nl.mheijden.prog3app.controller.callbacks.LoginControllerCallback;
+import nl.mheijden.prog3app.controller.callbacks.NewMealControllerCallback;
 import nl.mheijden.prog3app.controller.callbacks.RegisterControllerCallback;
 import nl.mheijden.prog3app.controller.callbacks.ReloadCallback;
 import nl.mheijden.prog3app.model.Callbacks.APICallbacks;
@@ -28,6 +34,8 @@ public class MaaltijdenApp implements APICallbacks {
     private ReloadCallback reloadCallback;
     private RegisterControllerCallback registerCallback;
     private JoinControllerCallback joinControllerCallback;
+    private LeaveControllerCallback leaveControllerCallback;
+    private NewMealControllerCallback newMealControllerCallback;
     private String userID;
 
     public MaaltijdenApp(Context context) {
@@ -58,7 +66,7 @@ public class MaaltijdenApp implements APICallbacks {
 
     public void loginCallback(String response){
         Log.i("API",response);
-        if(response.equals("error")){
+        if(response.equals("errorconn") || response.equals("errorwrong") || response.equals("errorobj")){
             loginCallback.login(response);
         } else {
             SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
@@ -85,11 +93,27 @@ public class MaaltijdenApp implements APICallbacks {
         registerCallback.newStudentAdded(result);
     }
 
+    @Override
+    public void removedFellowEater(boolean result) {
+        leaveControllerCallback.onLeaveComplete(result);
+    }
+
+    public void addMeal(Meal meal, NewMealControllerCallback newMealControllerCallback){
+        this.newMealControllerCallback=newMealControllerCallback;
+        api.addMaaltijd(meal);
+    }
+
+    @Override
+    public void addedFellowEater(boolean result) {
+        joinControllerCallback.onJoinComplete(result);
+    }
+
     public void deleteMeal(Meal meal){
         api.deleteMeal(meal);
     }
 
-    public void deleteFellowEater(FellowEater fellowEater){
+    public void deleteFellowEater(FellowEater fellowEater, LeaveControllerCallback leaveControllerCallback){
+        this.leaveControllerCallback = leaveControllerCallback;
         api.deleteFellowEater(fellowEater);
     }
 
@@ -125,6 +149,16 @@ public class MaaltijdenApp implements APICallbacks {
         mealDAO.insertData(meals);
         Log.i("API>SQLITE","Importing "+meals.size()+" meals");
         reloadCallback.reloaded(true);
+    }
+
+    @Override
+    public void addedMeal(boolean result) {
+        newMealControllerCallback.addedMeal(result);
+    }
+
+    @Override
+    public void removedMeal(boolean result) {
+
     }
 
     @Override

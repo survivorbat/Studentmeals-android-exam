@@ -19,7 +19,7 @@ public class Meal implements Serializable {
     private boolean doesCookEat;
     private ArrayList<FellowEater> felloweaters;
 
-    public Meal(int id, String dish, String info, String date, Student chefID, double price, int max, byte[] imageUrl, boolean doesCookEat) {
+    public Meal(int id, String dish, String info, String date, Student chefID, double price, int max,  boolean doesCookEat) {
         this.id = id;
         this.dish = dish;
         this.info = info;
@@ -27,7 +27,6 @@ public class Meal implements Serializable {
         this.chefID = chefID;
         this.price = price;
         this.max = max;
-        this.imageUrl = imageUrl;
         this.doesCookEat = doesCookEat;
         this.felloweaters = new ArrayList<>();
     }

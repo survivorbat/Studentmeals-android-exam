@@ -11,10 +11,18 @@ import nl.mheijden.prog3app.model.domain.Student;
  */
 
 public interface APICallbacks {
-    void loadStudents(ArrayList<Student> students);
+
     void loadMeals(ArrayList<Meal> meals);
-    void loadFellowEaters(ArrayList<FellowEater> fellowEaters);
+    void addedMeal(boolean result);
+    void removedMeal(boolean result);
+
     void loginCallback(String response);
     void invalidToken();
+
+    void loadStudents(ArrayList<Student> students);
     void addedStudent(boolean result);
+
+    void loadFellowEaters(ArrayList<FellowEater> fellowEaters);
+    void removedFellowEater(boolean result);
+    void addedFellowEater(boolean result);
 }

@@ -16,6 +16,7 @@
     <string name="app_input_error_loading">Aan het verifiëren…</string>
     <string name="app_input_error_tooManyPeople">Te veel gasten voor deze maaltijd</string>
     <string name="app_input_error_notnegative">Dit mag niet lager dan 0 zijn</string>
+    <string name="app_input_error_notsamepassword">Deze wachtwoorden zijn niet hetzelfde</string>
     <string name="app_dashboard_title">Dashboard</string>
     <string name="app_dashboard_desc">Welkom terug bij de MaaltijdApp. Hier kun je jezelf inschrijven voor maaltijden, zelf een maaltijd plannen en de lijst van studenten inzien.</string>
     <string name="app_dashboard_button_meals">🍝</string>
@@ -62,4 +63,16 @@
     <string name="app_newmeal_doescookeet">Eet jij als chef mee?</string>
     <string name="app_newmeal_selectpicture">Selecteer foto</string>
     <string name="app_newmeal_addmeal">Toevoegen</string>
+    <string name="app_accounts_title">Mijn account</string>
+    <string name="app_register_confirm">Wachtwoord bevestigen</string>
+    <string name="app_error_obj">Er is een fout opgetreden, probeer het nog een keer</string>
+    <string name="app_error_conn">Kon geen verbinding maken of er was een fout, probeer het opnieuw</string>
+    <string name="newmeal_takendate">Op deze datum staat al een maaltijd gepland</string>
+    <string name="app_input_error_dish">Vul hier een maaltijd in</string>
+    <string name="app_error_noinfo">Vul wat informatie in over de maaltijd</string>
+    <string name="app_error_noprice">Vul hier de prijs van de maaltijd in</string>
+    <string name="app_input_error_maxpeople">Vul hier de maximale hoeveelheid mensen in</string>
+    <string name="app_input_dateformat">0000–00–00</string>
+    <string name="newmeal_error_dateformat">Formateer de datum als volgt: jjjj-mm-dd</string>
+    <string name="app_loading">Refreshen…</string>
 </resources>

@@ -62,6 +62,8 @@ public class StudentAdapter extends ArrayAdapter<Student> {
         }
         if(student.equals(user)){
             viewHolder.name.setTextColor(context.getResources().getColor(R.color.colorGreen));
+        } else {
+            viewHolder.name.setTextColor(context.getResources().getColor(R.color.colorSemiWhite));
         }
         viewHolder.email.setText(context.getText(R.string.app_meals_mailicon)+" "+student.getEmail()+"");
         if(!student.getPhonenumber().equals("null") && student.getPhonenumber()!=null){
@@ -78,6 +80,7 @@ public class StudentAdapter extends ArrayAdapter<Student> {
             viewHolder.image.setImageBitmap(bitmap);
         }
         catch (FileNotFoundException e){
+            viewHolder.image.setImageBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.logo));
         }
         return convertView;
     }

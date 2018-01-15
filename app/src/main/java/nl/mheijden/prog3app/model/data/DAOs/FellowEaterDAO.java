@@ -31,7 +31,7 @@ public class FellowEaterDAO implements DAO<FellowEater> {
                 s.setId(i.getInt(0));
                 s.setGuests(i.getInt(1));
                 s.setStudent(new Student(i.getString(2),i.getString(3),i.getString(4),i.getString(5),i.getString(6),i.getString(7)));
-                s.setMeal(new Meal(i.getInt(8),i.getString(9),i.getString(10),i.getString(11),new Student(),i.getDouble(14),i.getInt(15),i.getBlob(13),Boolean.parseBoolean(i.getString(16))));
+                s.setMeal(new Meal(i.getInt(8),i.getString(9),i.getString(10),i.getString(11),new Student(),i.getDouble(14),i.getInt(15),Boolean.parseBoolean(i.getString(16))));
                 rs.add(s);
                 i.moveToNext();
             }
@@ -54,7 +54,7 @@ public class FellowEaterDAO implements DAO<FellowEater> {
         android.database.sqlite.SQLiteDatabase t = db.getWritableDatabase();
         ContentValues i = new ContentValues();
         i.put("ID", object.getId());
-        i.put("AmountOfGuests", object.getAmount());
+        i.put("AmountOfGuests", object.getGuests());
         i.put("StudentNumber", object.getStudent().getstudentNumber());
         i.put("MealID", object.getMeal().getId());
         if (t.insert("FellowEaters", "ID, AmountOfGuests, StudentNumber, MealID", i) != -1) {

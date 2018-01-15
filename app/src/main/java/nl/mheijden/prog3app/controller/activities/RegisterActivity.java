@@ -14,7 +14,7 @@ import nl.mheijden.prog3app.model.domain.MaaltijdenApp;
 import nl.mheijden.prog3app.model.domain.Student;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterControllerCallback {
-    private EditText id,firstname,lastname,insertion,telephonenumber,email,password;
+    private EditText id,firstname,lastname,insertion,telephonenumber,email,password, passwordconfirm;
     private Button confirmButton;
 
     @Override
@@ -28,6 +28,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         this.telephonenumber = findViewById(R.id.register_telephone);
         this.email = findViewById(R.id.register_email);
         this.password = findViewById(R.id.register_pass);
+        this.passwordconfirm = findViewById(R.id.register_passconfirm);
         confirmButton = findViewById(R.id.register_confirmbutton);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +64,12 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
             password.setError(getText(R.string.app_input_error_nopass));
             errorFree=false;
         }
+        if(!passwordconfirm.getText().toString().equals(password.getText().toString())){
+            passwordconfirm.setError(getText(R.string.app_input_error_notsamepassword));
+            errorFree=false;
+        }
         if(errorFree){
+            Toast.makeText(this, getText(R.string.app_loading), Toast.LENGTH_SHORT).show();
             Student newStudent = new Student();
             newStudent.setFirstname(firstname.getText().toString());
             newStudent.setInsertion(insertion.getText().toString());
@@ -85,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         } else {
-            Toast.makeText(this,"Er ging iets mis bij het toevoegen, probeer het nog een keer", Toast.LENGTH_LONG);
+            Toast.makeText(this,"Er ging iets mis bij het toevoegen, probeer het nog een keer", Toast.LENGTH_LONG).show();
         }
     }
 }
