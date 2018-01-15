@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="TextView"
+        android:text="@string/app_placeholder"
         android:textColor="@color/colorSemiWhite"
         android:textSize="20sp" />
 
@@ -159,6 +159,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@color/colorTransparent"
-        android:text="@string/app_register_confirmbutton"
+        android:text="@string/app_accounts_commit"
         android:textSize="24sp" />
 </LinearLayout>

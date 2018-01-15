@@ -2,7 +2,6 @@ package nl.mheijden.prog3app.model.data.DAOs;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -62,7 +61,6 @@ public class MealDAO implements DAO<Meal> {
                 i.moveToNext();
             }
         }
-        Log.i("SQLiteLocalDatabase","Found "+rs.size()+" meals");
         i.close();
         return rs;
     }
@@ -93,7 +91,6 @@ public class MealDAO implements DAO<Meal> {
         return null;
     }
     public void insertData(ArrayList<Meal> data){
-        Log.i("SQLiteLocalDatabase","Adding "+data.size()+" meals");
         for(Meal meal : data){
             insertOne(meal);
         }

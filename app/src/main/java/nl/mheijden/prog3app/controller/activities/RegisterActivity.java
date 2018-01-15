@@ -69,7 +69,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
             errorFree=false;
         }
         if(errorFree){
-            Toast.makeText(this, getText(R.string.app_loading), Toast.LENGTH_SHORT).show();
             Student newStudent = new Student();
             newStudent.setFirstname(firstname.getText().toString());
             newStudent.setInsertion(insertion.getText().toString());

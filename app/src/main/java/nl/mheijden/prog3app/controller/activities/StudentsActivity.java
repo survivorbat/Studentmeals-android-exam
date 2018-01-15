@@ -3,6 +3,7 @@ package nl.mheijden.prog3app.controller.activities;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -13,16 +14,15 @@ import nl.mheijden.prog3app.model.domain.MaaltijdenApp;
 import nl.mheijden.prog3app.view.StudentAdapter;
 
 public class StudentsActivity extends AppCompatActivity implements ReloadCallback {
-    private ListView list;
     private MaaltijdenApp app;
     private SwipeRefreshLayout layout;
-    private ListAdapter adapter;
+    private ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_students);
-        this.list = findViewById(R.id.studentslist);
+        ListView list = findViewById(R.id.studentslist);
         app=new MaaltijdenApp(this);
 
         layout = findViewById(R.id.students_refreshlayout);
@@ -48,8 +48,9 @@ public class StudentsActivity extends AppCompatActivity implements ReloadCallbac
                 layout.setRefreshing(false);
                 Toast.makeText(this,R.string.app_reload_success, Toast.LENGTH_SHORT).show();
             }
-            adapter = new StudentAdapter(this, R.layout.listview_student, app.getStudents(),app.getUser());
-            list.setAdapter(adapter);
+            adapter.clear();
+            adapter.addAll(app.getStudents());
+            adapter.notifyDataSetChanged();
         } else {
             Toast.makeText(this,R.string.app_reload_failure, Toast.LENGTH_SHORT).show();
         }

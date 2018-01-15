@@ -6,35 +6,32 @@
     android:background="@drawable/restaurant_background"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
-    android:weightSum="13"
+    android:weightSum="14"
     tools:context="nl.mheijden.prog3app.controller.activities.MealsActivity">
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="6"
+        android:layout_height="wrap_content"
         android:text="@string/app_meals_title"
         android:textColor="@color/colorSemiWhite"
         android:textSize="30sp" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="6"
+        android:layout_height="wrap_content"
         android:text="@string/app_meals_desc"
         android:textSize="14sp" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/meals_swiperefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
         <ListView
             android:id="@+id/mealslist"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             tools:layout_editor_absoluteX="16dp" />
 

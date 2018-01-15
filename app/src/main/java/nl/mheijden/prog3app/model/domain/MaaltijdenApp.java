@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import nl.mheijden.prog3app.R;
 import nl.mheijden.prog3app.controller.activities.MealsActivity;
+import nl.mheijden.prog3app.controller.callbacks.DeleteMealControllerCallback;
 import nl.mheijden.prog3app.controller.callbacks.JoinControllerCallback;
 import nl.mheijden.prog3app.controller.callbacks.LeaveControllerCallback;
 import nl.mheijden.prog3app.controller.callbacks.LoginControllerCallback;
@@ -36,6 +37,7 @@ public class MaaltijdenApp implements APICallbacks {
     private JoinControllerCallback joinControllerCallback;
     private LeaveControllerCallback leaveControllerCallback;
     private NewMealControllerCallback newMealControllerCallback;
+    private DeleteMealControllerCallback deleteMealControllerCallback;
     private String userID;
 
     public MaaltijdenApp(Context context) {
@@ -108,7 +110,8 @@ public class MaaltijdenApp implements APICallbacks {
         joinControllerCallback.onJoinComplete(result);
     }
 
-    public void deleteMeal(Meal meal){
+    public void deleteMeal(Meal meal, DeleteMealControllerCallback deleteMealControllerCallback){
+        this.deleteMealControllerCallback=deleteMealControllerCallback;
         api.deleteMeal(meal);
     }
 
@@ -138,7 +141,6 @@ public class MaaltijdenApp implements APICallbacks {
         DAO<Student> studentDAO = daoFactory.getStudentDAO();
         studentDAO.clear();
         studentDAO.insertData(students);
-        Log.i("API>SQLITE","Importing "+students.size()+" students");
         reloadCallback.reloaded(true);
     }
 
@@ -147,7 +149,6 @@ public class MaaltijdenApp implements APICallbacks {
         DAO<Meal> mealDAO = daoFactory.getMealDAO();
         mealDAO.clear();
         mealDAO.insertData(meals);
-        Log.i("API>SQLITE","Importing "+meals.size()+" meals");
         reloadCallback.reloaded(true);
     }
 
@@ -158,7 +159,7 @@ public class MaaltijdenApp implements APICallbacks {
 
     @Override
     public void removedMeal(boolean result) {
-
+        deleteMealControllerCallback.onDeleteMealComplete(result);
     }
 
     @Override
@@ -166,7 +167,6 @@ public class MaaltijdenApp implements APICallbacks {
         DAO<FellowEater> fellowEaterDAO = daoFactory.getFellowEaterDAO();
         fellowEaterDAO.clear();
         fellowEaterDAO.insertData(fellowEaters);
-        Log.i("API>SQLITE","Importing "+fellowEaters.size()+" felloweaters");
         reloadCallback.reloaded(true);
     }
 }

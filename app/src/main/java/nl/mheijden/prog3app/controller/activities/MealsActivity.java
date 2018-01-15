@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -20,7 +21,7 @@ public class MealsActivity extends AppCompatActivity implements ReloadCallback {
     private MaaltijdenApp app;
     private ListView list;
     private SwipeRefreshLayout layout;
-    private ListAdapter adapter;
+    private ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +49,10 @@ public class MealsActivity extends AppCompatActivity implements ReloadCallback {
             }
         });
     }
-    public void onResume() {
+
+    protected void onResume() {
         super.onResume();
+        Toast.makeText(this, getText(R.string.app_reloading),Toast.LENGTH_SHORT).show();
         onReloadInitiated();
     }
 
@@ -59,10 +62,9 @@ public class MealsActivity extends AppCompatActivity implements ReloadCallback {
         startActivity(intent);
     }
     private void onReloadInitiated(){
-        Toast.makeText(this, getText(R.string.app_loading), Toast.LENGTH_SHORT).show();
-        layout.setRefreshing(true);
         app.reloadMeals(this);
     }
+
     @Override
     public void reloaded(boolean result) {
         if(result){
@@ -70,8 +72,9 @@ public class MealsActivity extends AppCompatActivity implements ReloadCallback {
                 layout.setRefreshing(false);
                 Toast.makeText(this,R.string.app_reload_success, Toast.LENGTH_SHORT).show();
             }
-            adapter = new MealAdapter(this, R.layout.listview_meal, app.getMeals(), app.getUser());
-            list.setAdapter(adapter);
+            adapter.clear();
+            adapter.addAll(app.getMeals());
+            adapter.notifyDataSetChanged();
         } else {
             Toast.makeText(this,R.string.app_reload_failure, Toast.LENGTH_SHORT).show();
         }

@@ -57,7 +57,6 @@ public class MealsActivity_Join extends AppCompatActivity implements JoinControl
         } else if(!amountOfPeople.getText().toString().equals("") && Integer.parseInt(amountOfPeople.getText().toString())<0){
             amountOfPeople.setError(getText(R.string.app_input_error_notnegative));
         } else {
-            Toast.makeText(this, getText(R.string.app_loading), Toast.LENGTH_SHORT).show();
             app = new MaaltijdenApp(this);
             FellowEater fellowEater = new FellowEater();
             if(amountOfPeople.getText().toString().equals("")){

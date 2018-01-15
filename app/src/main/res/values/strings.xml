@@ -30,7 +30,7 @@
     <string name="app_meals_phoneicon">☎</string>
     <string name="app_meals_checkicon">✔</string>
     <string name="app_meals_title">Maaltijden</string>
-    <string name="app_meals_desc">Dit is een overzicht aan maaltijden die gepland staan, klik op een maaltijd om de details te zien.</string>
+    <string name="app_meals_desc">Dit is een overzicht aan maaltijden die gepland staan, klik op een maaltijd om de details te zien. Sleep naar beneden om te herladen.</string>
     <string name="app_meal_removebutton">Uitschrijven</string>
     <string name="app_meal_removemeal">Maaltijd verwijderen</string>
     <string name="app_students_title">Studenten</string>
@@ -74,5 +74,6 @@
     <string name="app_input_error_maxpeople">Vul hier de maximale hoeveelheid mensen in</string>
     <string name="app_input_dateformat">0000–00–00</string>
     <string name="newmeal_error_dateformat">Formateer de datum als volgt: jjjj-mm-dd</string>
-    <string name="app_loading">Refreshen…</string>
+    <string name="app_accounts_commit">Wijzigingen aanbrengen</string>
+    <string name="app_reloading">Refreshing…</string>
 </resources>

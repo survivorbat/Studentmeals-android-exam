@@ -2,8 +2,6 @@ package nl.mheijden.prog3app.model.data.DAOs;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.util.Log;
-
 import java.util.ArrayList;
 
 import nl.mheijden.prog3app.model.data.SQLiteLocalDatabase;
@@ -36,7 +34,6 @@ public class FellowEaterDAO implements DAO<FellowEater> {
                 i.moveToNext();
             }
         }
-        Log.i("SQLiteLocalDatabase","Found "+rs.size()+" fellowEaters");
         i.close();
         db.close();
         return rs;
@@ -45,7 +42,6 @@ public class FellowEaterDAO implements DAO<FellowEater> {
         return new FellowEater();
     }
     public void insertData(ArrayList<FellowEater> data){
-        Log.i("SQLiteLocalDatabase","Adding "+data.size()+" felloweaters");
         for(FellowEater fellowEater : data){
             insertOne(fellowEater);
         }

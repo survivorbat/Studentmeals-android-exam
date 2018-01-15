@@ -112,7 +112,6 @@ public class NewMealActivity extends AppCompatActivity implements NewMealControl
             errorFree=false;
         }
         if(errorFree){
-            Toast.makeText(this, getText(R.string.app_loading), Toast.LENGTH_SHORT).show();
             Meal meal = new Meal();
             meal.setMax(Integer.parseInt(max.getText().toString()));
             meal.setPrice(Double.parseDouble(price.getText().toString()));

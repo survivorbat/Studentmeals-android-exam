@@ -122,7 +122,6 @@ public class MealsActivity_Detail extends AppCompatActivity implements LeaveCont
         startActivity(i);
     }
     private void removeEatWith(){
-        Toast.makeText(this, getText(R.string.app_loading), Toast.LENGTH_SHORT).show();
         for(FellowEater fellowEater : meal.getFelloweaters()){
             if(fellowEater.getStudent().equals(app.getUser())){
                 app.deleteFellowEater(fellowEater, this);
@@ -131,8 +130,7 @@ public class MealsActivity_Detail extends AppCompatActivity implements LeaveCont
     }
 
     private void deleteMeal(){
-        Toast.makeText(this, getText(R.string.app_loading), Toast.LENGTH_SHORT).show();
-        app.deleteMeal(meal);
+        app.deleteMeal(meal, this);
     }
 
     public void onDeleteMealComplete(boolean result){

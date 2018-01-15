@@ -36,7 +36,6 @@ public class StudentDAO implements DAO<Student> {
                 i.moveToNext();
             }
         }
-        Log.i("SQLiteLocalDatabase","Found "+rs.size()+" students");
         i.close();
         db.close();
         return rs;
@@ -61,7 +60,6 @@ public class StudentDAO implements DAO<Student> {
         return null;
     }
     public void insertData(ArrayList<Student> data){
-        Log.i("SQLiteLocalDatabase","Adding "+data.size()+" students");
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
         for(Student student : data){
             insertOne(student);
