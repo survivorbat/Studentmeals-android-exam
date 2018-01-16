@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="00:00"
-                android:inputType="time" />
+                android:inputType="text|time" />
 
             <TextView
                 android:id="@+id/textView13"
