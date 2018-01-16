@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -15,7 +14,7 @@ import nl.mheijden.prog3app.R;
 import nl.mheijden.prog3app.controller.callbacks.ReloadCallback;
 import nl.mheijden.prog3app.model.domain.MaaltijdenApp;
 import nl.mheijden.prog3app.model.domain.Meal;
-import nl.mheijden.prog3app.view.MealAdapter;
+import nl.mheijden.prog3app.presentation.MealAdapter;
 
 public class MealsActivity extends AppCompatActivity implements ReloadCallback {
     private MaaltijdenApp app;

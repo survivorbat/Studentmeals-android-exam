@@ -1,4 +1,4 @@
-package nl.mheijden.prog3app.view;
+package nl.mheijden.prog3app.presentation;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
