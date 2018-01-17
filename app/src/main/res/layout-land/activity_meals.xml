@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
     android:weightSum="16"
-    tools:context="nl.mheijden.prog3app.controller.activities.MealsActivity">
+    tools:context="nl.mheijden.prog3app.controllers.activities.MealsActivity">
 
     <TextView
         android:id="@+id/textView3"

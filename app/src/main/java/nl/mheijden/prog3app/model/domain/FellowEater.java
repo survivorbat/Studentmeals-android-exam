@@ -23,7 +23,7 @@ public class FellowEater implements Serializable {
 
     }
 
-    public int getAmount() {
+    int getAmount() {
         return guests+1;
     }
 
@@ -59,13 +59,4 @@ public class FellowEater implements Serializable {
         this.meal = meal;
     }
 
-    @Override
-    public String toString() {
-        return "FellowEater{" +
-                "id=" + id +
-                ", student=" + student +
-                ", guests=" + guests +
-                ", meal=" + meal +
-                '}';
-    }
 }

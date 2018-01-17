@@ -6,7 +6,7 @@
     android:background="@drawable/restaurant_background"
     android:orientation="vertical"
     android:paddingHorizontal="8sp"
-    tools:context="nl.mheijden.prog3app.controller.activities.RegisterActivity"
+    tools:context="nl.mheijden.prog3app.controllers.activities.RegisterActivity"
     android:weightSum="12">
 
     <ScrollView

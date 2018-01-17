@@ -11,21 +11,21 @@
         android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".controller.activities.MainActivity">
+        <activity android:name=".controllers.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controller.activities.DashboardActivity" />
-        <activity android:name=".controller.activities.MealsActivity" />
-        <activity android:name=".controller.activities.NewMealActivity" />
-        <activity android:name=".controller.activities.StudentsActivity" />
-        <activity android:name=".controller.activities.AccountsActivity" />
-        <activity android:name=".controller.activities.MealsActivity_Detail" />
-        <activity android:name=".controller.activities.RegisterActivity" />
-        <activity android:name=".controller.activities.MealsActivity_Join"></activity>
+        <activity android:name=".controllers.activities.DashboardActivity" />
+        <activity android:name=".controllers.activities.MealsActivity" />
+        <activity android:name=".controllers.activities.NewMealActivity" />
+        <activity android:name=".controllers.activities.StudentsActivity" />
+        <activity android:name=".controllers.activities.AccountsActivity" />
+        <activity android:name=".controllers.activities.MealsActivity_Detail" />
+        <activity android:name=".controllers.activities.RegisterActivity" />
+        <activity android:name=".controllers.activities.MealsActivity_Join"></activity>
     </application>
 
 </manifest>

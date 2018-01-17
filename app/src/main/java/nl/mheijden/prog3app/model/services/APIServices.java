@@ -24,16 +24,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,15 +38,32 @@ import nl.mheijden.prog3app.model.domain.Student;
 
 /**
  * Gemaakt door Maarten van der Heijden on 9-1-2018.
+ * Class for all volley network requests
  */
 
 public class APIServices {
+    /**
+     * RequestQueue
+     */
     private RequestQueue mRequestQueue;
+    /**
+     * All the callbacks for the domain
+     */
     private APICallbacks APICallbacks;
+    /**
+     * Context in order to get sharedpreferences
+     */
     private Context context;
 
+    /**
+     * Baseurl of the API for debugging
+     */
     private final String BASEURL = "http://prog4node.herokuapp.com";
 
+    /**
+     * @param context of the activity for sharedpreferences
+     * @param APICallbacks in order to send back data to the domain
+     */
     public APIServices(Context context, APICallbacks APICallbacks){
         Cache cache = new DiskBasedCache(context.getCacheDir(), 1024 * 1024); // 1MB cap
         Network network = new BasicNetwork(new HurlStack());
@@ -63,6 +73,9 @@ public class APIServices {
         this.context=context;
     }
 
+    /**
+     * @param meal that needs to be added
+     */
     public void addMaaltijd(Meal meal){
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("APITOKEN",null);
@@ -101,6 +114,9 @@ public class APIServices {
         mRequestQueue.add(request);
     }
 
+    /**
+     * @param student that needs to be added
+     */
     public void addStudent(Student student){
         JSONObject post = new JSONObject();
         try {
@@ -124,6 +140,10 @@ public class APIServices {
         });
         mRequestQueue.add(request);
     }
+
+    /**
+     * @param fellowEater that needs to be added
+     */
     public void addFellowEater(FellowEater fellowEater){
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("APITOKEN",null);
@@ -157,7 +177,12 @@ public class APIServices {
         };
         mRequestQueue.add(request);
     }
-    public void login(final Context context, String studentNumber, String password){
+
+    /**
+     * @param studentNumber for identification
+     * @param password for verification
+     */
+    public void login(String studentNumber, String password){
         Log.i("API","Login attempt for student number "+studentNumber);
         JSONObject post = new JSONObject();
         try {
@@ -197,6 +222,10 @@ public class APIServices {
         });
         mRequestQueue.add(request);
     }
+
+    /**
+     * Get ALL students and then get images afterwards
+     */
     public void getStudents(){
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("APITOKEN",null);
@@ -231,6 +260,10 @@ public class APIServices {
         };
         mRequestQueue.add(jsObjRequest);
     }
+
+    /**
+     * Get ALL meals and get images afterwards
+     */
     public void getMeals(){
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("APITOKEN",null);
@@ -267,52 +300,62 @@ public class APIServices {
         mRequestQueue.add(jsObjRequest);
     }
 
+    /**
+     * @param meals to add images to for each array item
+     */
     private void getMealImages(final ArrayList<Meal> meals){
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("APITOKEN",null);
         final int[] counter = {0};
+        File fileDir = context.getFilesDir();
         for(final Meal s : meals){
-            ImageRequest jsObjRequest = new ImageRequest(BASEURL+"/api/meal/"+s.getId()+"/picture", new Response.Listener<Bitmap>() {
-                @Override
-                public void onResponse(Bitmap response) {
-                    File fileDir = context.getFilesDir();
-                    File f = new File(fileDir, "mealPictures_"+s.getId());
-                    try {
-                        FileOutputStream out = new FileOutputStream(f);
-                        response.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                        out.flush();
-                        out.close();
+            final File f = new File(fileDir, "mealPictures_"+s.getId());
+            if(!f.exists() && !f.isDirectory()) {
+                ImageRequest jsObjRequest = new ImageRequest(BASEURL + "/api/meal/" + s.getId() + "/picture", new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap response) {
+                        File fileDir = context.getFilesDir();
+                        File f = new File(fileDir, "mealPictures_" + s.getId());
+                        try {
+                            FileOutputStream out = new FileOutputStream(f);
+                            response.compress(Bitmap.CompressFormat.JPEG, 10, out);
+                            out.flush();
+                            out.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        if (++counter[0] == meals.size()) {
+                            APICallbacks.loadMeals(meals);
+                        }
                     }
-                    catch (IOException e){
-                        e.printStackTrace();
+                }, 0, 0, null, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        f.delete();
+                        if (++counter[0] == meals.size()) {
+                            APICallbacks.loadMeals(meals);
+                        }
                     }
-                    if(++counter[0] ==meals.size()){
-                        APICallbacks.loadMeals(meals);
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String, String> headers = new HashMap<>();
+                        String auth = "Bearer " + token;
+                        headers.put("Authorization", auth);
+                        return headers;
                     }
-                }
-            },0,0,null, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    File fileDir = context.getFilesDir();
-                    File f = new File(fileDir, "mealPictures_"+s.getId());
-                    f.delete();
-                    if(++counter[0] ==meals.size()){
-                        APICallbacks.loadMeals(meals);
-                    }
-                }
-            }) {
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> headers = new HashMap<>();
-                    String auth = "Bearer " + token;
-                    headers.put("Authorization", auth);
-                    return headers;
-                }
-            };
-            mRequestQueue.add(jsObjRequest);
+                };
+                mRequestQueue.add(jsObjRequest);
+            }
+        }
+        if(counter[0] != meals.size()){
+            APICallbacks.loadMeals(meals);
         }
     }
 
+    /**
+     * @param meal to delete
+     */
     public void deleteMeal(Meal meal){
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("APITOKEN",null);
@@ -342,6 +385,10 @@ public class APIServices {
         };
         mRequestQueue.add(request);
     }
+
+    /**
+     * @param fellowEater to be deleted
+     */
     public void deleteFellowEater(FellowEater fellowEater){
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("APITOKEN",null);
@@ -372,6 +419,9 @@ public class APIServices {
         mRequestQueue.add(request);
     }
 
+    /**
+     * get ALL felloweaters
+     */
     public void getFellowEaters(){
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("APITOKEN",null);
@@ -407,6 +457,9 @@ public class APIServices {
         mRequestQueue.add(jsObjRequest);
     }
 
+    /**
+     * @param students that images are needed of for each item in the array
+     */
     private void getStudentImages(final ArrayList<Student> students){
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata",Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("APITOKEN",null);
@@ -419,7 +472,7 @@ public class APIServices {
                     File f = new File(fileDir, "studentPictures_"+s.getstudentNumber());
                     try {
                         FileOutputStream out = new FileOutputStream(f);
-                        response.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        response.compress(Bitmap.CompressFormat.JPEG, 25, out);
                         out.flush();
                         out.close();
                     }

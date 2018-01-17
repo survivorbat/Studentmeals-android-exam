@@ -1,0 +1,8 @@
+nl.mheijden.prog3app.controllers.activities
+nl.mheijden.prog3app.controllers.callbacks
+nl.mheijden.prog3app.model.callbacks
+nl.mheijden.prog3app.model.data
+nl.mheijden.prog3app.model.data.DAOs
+nl.mheijden.prog3app.model.domain
+nl.mheijden.prog3app.model.services
+nl.mheijden.prog3app.presentation

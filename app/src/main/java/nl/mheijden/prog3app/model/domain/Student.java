@@ -7,7 +7,13 @@ import java.io.Serializable;
  */
 
 public class Student implements Serializable {
-    private String studentNumber,firstname,insertion,lastname,email,phonenumber,password="";
+    private String studentNumber;
+    private String firstname;
+    private String insertion;
+    private String lastname;
+    private String email;
+    private String phonenumber;
+    private String password="";
 
     public Student(String studentNumber, String firstname, String insertion, String lastname, String email, String phonenumber) {
         this.studentNumber = studentNumber;
@@ -25,18 +31,6 @@ public class Student implements Serializable {
     }
     public Student(String studentNumber){
         this.studentNumber=studentNumber;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "studentNumber='" + studentNumber + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", insertion='" + insertion + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                ", phonenumber='" + phonenumber + '\'' +
-                '}';
     }
 
     public String getstudentNumber() {

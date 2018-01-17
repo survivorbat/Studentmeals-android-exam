@@ -6,7 +6,7 @@
     android:background="@drawable/restaurant_background"
     android:orientation="vertical"
     android:paddingHorizontal="8dp"
-    tools:context="nl.mheijden.prog3app.controller.activities.NewMealActivity">
+    tools:context="nl.mheijden.prog3app.controllers.activities.NewMealActivity">
 
     <TextView
         android:id="@+id/textView5"

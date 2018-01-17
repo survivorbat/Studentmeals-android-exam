@@ -7,7 +7,7 @@
     android:background="@drawable/restaurant_background"
     android:orientation="vertical"
     android:weightSum="4"
-    tools:context="nl.mheijden.prog3app.controller.activities.MealsActivity_Detail"
+    tools:context="nl.mheijden.prog3app.controllers.activities.MealsActivity_Detail"
     tools:targetApi="o">
 
     <ImageView

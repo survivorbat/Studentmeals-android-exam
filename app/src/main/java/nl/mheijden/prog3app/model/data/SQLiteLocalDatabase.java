@@ -8,13 +8,22 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class SQLiteLocalDatabase extends SQLiteOpenHelper {
+    /**
+     * Name of the database and the current version
+     */
     private static String DATABASE_NAME = "StudentMaaltijden";
     private static int DATABASE_VERSION = 4;
 
+    /**
+     * @param context of the application
+     */
     public SQLiteLocalDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     * @param sqLiteDatabase from the SQLiteOpenHelper class
+     */
     @Override
     public void onCreate(android.database.sqlite.SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS`FellowEaters` (\n" +
@@ -44,6 +53,11 @@ public class SQLiteLocalDatabase extends SQLiteOpenHelper {
                 ")");
     }
 
+    /**
+     * @param sqLiteDatabase from the SQLiteOpenHelper class
+     * @param i old version
+     * @param i1 new version
+     */
     @Override
     public void onUpgrade(android.database.sqlite.SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Students; DROP TABLE IF EXISTS Meals; DROP TABLE IF EXISTS FellowEaters");

@@ -6,7 +6,7 @@
     android:layout_weight="3"
     android:background="@drawable/restaurant_background"
     android:orientation="vertical"
-    tools:context="nl.mheijden.prog3app.controller.activities.MealsActivity_Join">
+    tools:context="nl.mheijden.prog3app.controllers.activities.MealsActivity_Join">
 
     <LinearLayout
         android:layout_width="match_parent"

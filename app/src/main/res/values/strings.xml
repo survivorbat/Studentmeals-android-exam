@@ -20,7 +20,6 @@
     <string name="app_dashboard_title">Dashboard</string>
     <string name="app_dashboard_desc">Welkom terug bij de MaaltijdApp. Hier kun je jezelf inschrijven voor maaltijden, zelf een maaltijd plannen en de lijst van studenten inzien.</string>
     <string name="app_dashboard_button_meals">🍝</string>
-    <string name="app_dashboard_button_students">👨</string>
     <string name="app_dashboard_button_newmeal">➕</string>
     <string name="app_dashboard_button_account">⚙</string>
     <string name="app_meals_cheficon">🍳</string>
@@ -76,4 +75,6 @@
     <string name="newmeal_error_dateformat">Formateer de datum als volgt: jjjj-mm-dd</string>
     <string name="app_accounts_commit">Wijzigingen aanbrengen</string>
     <string name="app_reloading">Refreshing…</string>
+    <string name="app_dashboard_button_students">👨</string>
+    <string name="app_joinmeal_success">Succesvol toegevoegd!</string>
 </resources>

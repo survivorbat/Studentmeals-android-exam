@@ -125,19 +125,4 @@ public class Meal implements Serializable {
         }
         return rs;
     }
-
-    @Override
-    public String toString() {
-        return "Meal{" +
-                "id=" + id +
-                ", dish='" + dish + '\'' +
-                ", info='" + info + '\'' +
-                ", date=" + date +
-                ", chefID=" + chefID +
-                ", price=" + price +
-                ", max=" + max +
-                ", doesCookEat=" + doesCookEat +
-                ", felloweaters=" + felloweaters +
-                '}';
-    }
 }

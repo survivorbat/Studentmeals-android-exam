@@ -28,12 +28,17 @@ public class MealAdapter extends ArrayAdapter<Meal> {
     private ArrayList<Meal> data;
     private Context context;
     private Student user;
+    private File filesDir;
+
+    private static Bitmap defaultImage;
 
     public MealAdapter(Context context, int resource, ArrayList<Meal> data, Student user) {
         super(context, resource, data);
         this.data = data;
         this.context = context;
         this.user = user;
+        MealAdapter.defaultImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo);
+        this.filesDir = context.getFilesDir();
     }
 
     @SuppressLint("SetTextI18n")
@@ -70,7 +75,7 @@ public class MealAdapter extends ArrayAdapter<Meal> {
             } else {
                 viewHolder.chefID.setText(context.getText(R.string.app_meals_cheficon) + meal.getChefID().getFirstname() + " " + meal.getChefID().getLastname());
             }
-            File filesDir = context.getFilesDir();
+
             File f = new File(filesDir, "mealPictures_" + meal.getId());
             FileInputStream fis = null;
             try {
@@ -78,7 +83,7 @@ public class MealAdapter extends ArrayAdapter<Meal> {
                 Bitmap bitmap = BitmapFactory.decodeStream(fis);
                 viewHolder.image.setImageBitmap(bitmap);
             } catch (FileNotFoundException e) {
-                viewHolder.image.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.logo));
+                viewHolder.image.setImageBitmap(MealAdapter.defaultImage);
             }
         }
         return convertView;
