@@ -25,13 +25,34 @@ import nl.mheijden.prog3app.model.domain.Student;
  */
 
 public class MealAdapter extends ArrayAdapter<Meal> {
+    /**
+     * All the meals that
+     */
     private ArrayList<Meal> data;
+    /**
+     * Context from the activity
+     */
     private Context context;
+    /**
+     * Current user, for comparison reasons
+     */
     private Student user;
+    /**
+     * directory to get the images from
+     */
     private File filesDir;
 
+    /**
+     * The default image with the logo of the application
+     */
     private static Bitmap defaultImage;
 
+    /**
+     * @param context of the activity
+     * @param resource the listview view
+     * @param data list of meals
+     * @param user current user
+     */
     public MealAdapter(Context context, int resource, ArrayList<Meal> data, Student user) {
         super(context, resource, data);
         this.data = data;
@@ -59,7 +80,7 @@ public class MealAdapter extends ArrayAdapter<Meal> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         if (meal != null) {
-            if (meal.getChefID().equals(user)) {
+            if (meal.getChef().equals(user)) {
                 viewHolder.dish.setText(meal.getDish() + " " + context.getText(R.string.app_meals_cheficon));
                 viewHolder.dish.setTextColor(context.getResources().getColor(R.color.colorDarkRed));
             } else if (meal.getStudents().contains(user)) {
@@ -70,10 +91,10 @@ public class MealAdapter extends ArrayAdapter<Meal> {
                 viewHolder.dish.setTextColor(context.getResources().getColor(R.color.colorSemiWhite));
             }
             viewHolder.date.setText(context.getText(R.string.app_meals_timeicon) + " " + meal.getDate() + " ");
-            if (!meal.getChefID().getInsertion().equals("null")) {
-                viewHolder.chefID.setText(context.getText(R.string.app_meals_cheficon) + meal.getChefID().getFirstname() + " " + meal.getChefID().getInsertion() + " " + meal.getChefID().getLastname());
+            if (!meal.getChef().getInsertion().equals("null")) {
+                viewHolder.chefID.setText(context.getText(R.string.app_meals_cheficon) + meal.getChef().getFirstname() + " " + meal.getChef().getInsertion() + " " + meal.getChef().getLastname());
             } else {
-                viewHolder.chefID.setText(context.getText(R.string.app_meals_cheficon) + meal.getChefID().getFirstname() + " " + meal.getChefID().getLastname());
+                viewHolder.chefID.setText(context.getText(R.string.app_meals_cheficon) + meal.getChef().getFirstname() + " " + meal.getChef().getLastname());
             }
 
             File f = new File(filesDir, "mealPictures_" + meal.getId());
@@ -89,14 +110,33 @@ public class MealAdapter extends ArrayAdapter<Meal> {
         return convertView;
     }
 
+    /**
+     * @param position of the meal
+     * @return Meal that is associated with that position
+     */
     public Meal getItem(int position) {
         return data.get(position);
     }
 
+    /**
+     * ViewHolder to save the elements of the listview
+     */
     private static class ViewHolder {
+        /**
+         * Name of the dish
+         */
         TextView dish;
+        /**
+         * Date that this meal takes place
+         */
         TextView date;
+        /**
+         * Name of the chef
+         */
         TextView chefID;
+        /**
+         * Image of the meal
+         */
         ImageView image;
     }
 }

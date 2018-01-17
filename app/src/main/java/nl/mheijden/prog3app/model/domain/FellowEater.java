@@ -4,14 +4,34 @@ import java.io.Serializable;
 
 /**
  * Gemaakt door Maarten van der Heijden on 9-1-2018.
+ * FellowEater domain class
  */
 
 public class FellowEater implements Serializable {
+    /**
+     * Identification number
+     */
     private int id;
+    /**
+     * Student that this FellowEater belongs to
+     */
     private Student student;
+    /**
+     * Amount of guests student takes with
+     */
     private int guests;
+    /**
+     * The meal that the felloweater attentds
+     */
     private Meal meal;
 
+    /**
+     * Constructor for quickly creating an object
+     * @param id of the felloweater, imported from the mysql database
+     * @param student that this felloweater belongs to
+     * @param guests that come with the student
+     * @param meal that this felloweater is about
+     */
     public FellowEater(int id, Student student, int guests, Meal meal) {
         this.id = id;
         this.student = student;
@@ -19,10 +39,16 @@ public class FellowEater implements Serializable {
         this.meal = meal;
     }
 
+    /**
+     * Empty constructor since the DAO's use setters
+     */
     public FellowEater(){
 
     }
 
+    /**
+     * @return number of guest + the student
+     */
     int getAmount() {
         return guests+1;
     }

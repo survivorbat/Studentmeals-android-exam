@@ -112,13 +112,13 @@ public class NewMealActivity extends AppCompatActivity implements NewMealControl
         }
         if(errorFree){
             Meal meal = new Meal();
-            meal.setMax(Integer.parseInt(max.getText().toString()));
+            meal.setMaxFellowEaters(Integer.parseInt(max.getText().toString()));
             meal.setPrice(Double.parseDouble(price.getText().toString()));
             meal.setDish(dish.getText().toString());
             meal.setInfo(info.getText().toString());
             meal.setDoesCookEat(doesCookEat.isChecked());
             meal.setDate(date.getText().toString()+" "+time.getText().toString());
-            meal.setChefID(app.getUser());
+            meal.setChef(app.getUser());
             app.addMeal(meal, this);
             System.out.println("sending meal");
         }

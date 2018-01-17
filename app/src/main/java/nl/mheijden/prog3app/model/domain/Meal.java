@@ -1,5 +1,7 @@
 package nl.mheijden.prog3app.model.domain;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -8,31 +10,68 @@ import java.util.ArrayList;
  */
 
 public class Meal implements Serializable {
+    /**
+     * Identification number of the meal, imported from the database
+     */
     private int id;
+    /**
+     * Name of the dish
+     */
     private String dish;
+    /**
+     * Description
+     */
     private String info;
+    /**
+     * Date, it's just a string since we only need to display it somewhere
+     */
     private String date;
-    private Student chefID;
+    /**
+     * The person that cooks the meal
+     */
+    private Student chef;
+    /**
+     * The sacrifice that needs to be made in order to get food
+     */
     private double price;
-    private int max;
-    private byte[] imageUrl;
+    /**
+     * Maximum amount of people
+     */
+    private int maxFellowEaters;
+    /**
+     * Picture of the meal that is only used for uploading
+     */
+    private Bitmap picture;
+    /**
+     * If the cook eats
+     */
     private boolean doesCookEat;
+    /**
+     * List of felloweaters that join this meal
+     */
     private ArrayList<FellowEater> felloweaters;
 
-    public Meal(int id, String dish, String info, String date, Student chefID, double price, int max,  boolean doesCookEat) {
+    public Meal(int id, String dish, String info, String date, Student chef, double price, int maxFellowEaters, boolean doesCookEat) {
         this.id = id;
         this.dish = dish;
         this.info = info;
         this.date = date;
-        this.chefID = chefID;
+        this.chef = chef;
         this.price = price;
-        this.max = max;
+        this.maxFellowEaters = maxFellowEaters;
         this.doesCookEat = doesCookEat;
         this.felloweaters = new ArrayList<>();
     }
 
-    public Meal(int id){this.id=id;}
+    /**
+     * Small constructor when used to only transfer the ID to the database
+     * @param id of the meal
+     */
+    public Meal(int id){this.id=id;this.felloweaters = new ArrayList<>();}
 
+    /**
+     * Empty constructor for when setters are used
+     */
     public Meal(){
         this.felloweaters = new ArrayList<>();
     }
@@ -69,12 +108,12 @@ public class Meal implements Serializable {
         this.date = date;
     }
 
-    public Student getChefID() {
-        return chefID;
+    public Student getChef() {
+        return chef;
     }
 
-    public void setChefID(Student chefID) {
-        this.chefID = chefID;
+    public void setChef(Student chef) {
+        this.chef = chef;
     }
 
     public double getPrice() {
@@ -85,12 +124,12 @@ public class Meal implements Serializable {
         this.price = price;
     }
 
-    public int getMax() {
-        return max;
+    public int getMaxFellowEaters() {
+        return maxFellowEaters;
     }
 
-    public void setMax(int max) {
-        this.max = max;
+    public void setMaxFellowEaters(int maxFellowEaters) {
+        this.maxFellowEaters = maxFellowEaters;
     }
 
     public boolean isDoesCookEat() {
@@ -109,6 +148,9 @@ public class Meal implements Serializable {
         this.felloweaters.add(fellowEater);
     }
 
+    /**
+     * @return amount of people that eat, also check if the chef eats as well
+     */
     public int getAmountOfEaters(){
         int rs=0;
         if(doesCookEat) rs++;
@@ -118,11 +160,23 @@ public class Meal implements Serializable {
         return rs;
     }
 
+    /**
+     * The students that belong to the felloweaters
+     * @return an arraylist of students that join the meal
+     */
     public ArrayList<Student> getStudents(){
         ArrayList<Student> rs = new ArrayList<>();
         for(FellowEater e : felloweaters){
             rs.add(e.getStudent());
         }
         return rs;
+    }
+
+    public Bitmap getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Bitmap picture) {
+        this.picture = picture;
     }
 }

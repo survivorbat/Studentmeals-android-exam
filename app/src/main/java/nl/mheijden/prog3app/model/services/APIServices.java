@@ -38,12 +38,12 @@ import nl.mheijden.prog3app.model.domain.Student;
 
 /**
  * Gemaakt door Maarten van der Heijden on 9-1-2018.
- * Class for all volley network requests
+ * Class for all volley network requests to the Node server
  */
 
 public class APIServices {
     /**
-     * RequestQueue
+     * RequestQueue for the volley requests
      */
     private RequestQueue mRequestQueue;
     /**
@@ -85,7 +85,7 @@ public class APIServices {
             if(meal.isDoesCookEat()){
                 doesCookeat=1;
             }
-            post = new JSONObject("{\"Dish\": \""+meal.getDish()+"\",\"Info\":\""+meal.getInfo()+"\",\"DateTime\":\""+meal.getDate()+"\",\"ChefID\":" + meal.getChefID().getstudentNumber() + ",\"Price\":" + meal.getPrice() + ",\"MaxFellowEaters\":" + meal.getMax() + ",\"DoesCookEat\":\"" + doesCookeat + "\"}");
+            post = new JSONObject("{\"Dish\": \""+meal.getDish()+"\",\"Info\":\""+meal.getInfo()+"\",\"DateTime\":\""+meal.getDate()+"\",\"ChefID\":" + meal.getChef().getstudentNumber() + ",\"Price\":" + meal.getPrice() + ",\"MaxFellowEaters\":" + meal.getMaxFellowEaters() + ",\"DoesCookEat\":\"" + doesCookeat + "\"}");
         }
         catch (JSONException e){
             e.printStackTrace();

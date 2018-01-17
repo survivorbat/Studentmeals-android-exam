@@ -29,7 +29,7 @@ public class DAOFactory {
      * @return a new MealDAO
      */
     public MealDAO getMealDAO(){
-        return new MealDAO(SQLiteLocalDatabase, getStudentDAO());
+        return new MealDAO(SQLiteLocalDatabase);
     }
 
     /**

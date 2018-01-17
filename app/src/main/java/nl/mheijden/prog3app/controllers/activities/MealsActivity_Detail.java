@@ -53,16 +53,16 @@ public class MealsActivity_Detail extends AppCompatActivity implements LeaveCont
 
             meal_title.setText(meal.getDish() + "");
             meal_desc.setText(meal.getInfo() + "");
-            if (!meal.getChefID().getInsertion().equals("null") && meal.getChefID().getInsertion()!=null) {
-                meal_chef.setText(getText(R.string.app_meals_cheficon)+" "+meal.getChefID().getFirstname() + " " + meal.getChefID().getInsertion() + "" + meal.getChefID().getLastname());
+            if (!meal.getChef().getInsertion().equals("null") && meal.getChef().getInsertion()!=null) {
+                meal_chef.setText(getText(R.string.app_meals_cheficon)+" "+meal.getChef().getFirstname() + " " + meal.getChef().getInsertion() + "" + meal.getChef().getLastname());
             } else {
-                meal_chef.setText(getText(R.string.app_meals_cheficon)+" "+meal.getChefID().getFirstname() + " " + meal.getChefID().getLastname());
+                meal_chef.setText(getText(R.string.app_meals_cheficon)+" "+meal.getChef().getFirstname() + " " + meal.getChef().getLastname());
             }
             meal_price.setText(getText(R.string.app_meals_moneyicon)+" €"+ meal.getPrice());
             meal_date.setText(getText(R.string.app_meals_timeicon)+" "+meal.getDate() + "");
-            meal_amount.setText(getText(R.string.app_dashboard_button_students)+" "+meal.getAmountOfEaters()+"/"+meal.getMax());
+            meal_amount.setText(getText(R.string.app_dashboard_button_students)+" "+meal.getAmountOfEaters()+"/"+meal.getMaxFellowEaters());
 
-            if(meal.getChefID().equals(app.getUser())){
+            if(meal.getChef().equals(app.getUser())){
                 meal_addbutton.setText(getText(R.string.app_meal_removemeal));
                 meal_addbutton.setTextColor(getColor(R.color.colorDarkRed));
                 meal_addbutton.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +80,7 @@ public class MealsActivity_Detail extends AppCompatActivity implements LeaveCont
                         removeEatWith();
                     }
                 });
-            } else if(meal.getAmountOfEaters() < meal.getMax()){
+            } else if(meal.getAmountOfEaters() < meal.getMaxFellowEaters()){
                 meal_addbutton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

@@ -40,12 +40,33 @@ public class MaaltijdenApp implements APICallbacks {
      * Logincallback that sends ot the activity wether the login was successfully or not
      */
     private LoginControllerCallback loginCallback;
+    /**
+     * Reloadcallback that is called when a reload is complete
+     */
     private ReloadCallback reloadCallback;
+    /**
+     * Notify the register activity
+     */
     private RegisterControllerCallback registerCallback;
+    /**
+     * Callback to tell the activity user joined
+     */
     private JoinControllerCallback joinControllerCallback;
+    /**
+     * Callback to tell the activity user left the meal
+     */
     private LeaveControllerCallback leaveControllerCallback;
+    /**
+     * Callback to tell the activity a new meal is created
+     */
     private NewMealControllerCallback newMealControllerCallback;
+    /**
+     * Callback to tell the activity a meal has been deleted
+     */
     private DeleteMealControllerCallback deleteMealControllerCallback;
+    /**
+     * The studentnumber of the user that is currently in the activity
+     */
     private String userID;
 
     /**

@@ -36,13 +36,13 @@ public class MealsActivity_Join extends AppCompatActivity implements JoinControl
         TextView amountOfPeopleTitle = findViewById(R.id.joinscreen_amounttitle);
 
         TextView info = findViewById(R.id.joinscreen_mealinfo);
-        info.setText(meal.getDate()+"\n"+meal.getAmountOfEaters()+"/"+meal.getMax()+" "+getText(R.string.app_dashboard_button_students)+"\n\n"+meal.getInfo()+"");
-        if(meal.getMax()-meal.getAmountOfEaters()-1<=0){
+        info.setText(meal.getDate()+"\n"+meal.getAmountOfEaters()+"/"+meal.getMaxFellowEaters()+" "+getText(R.string.app_dashboard_button_students)+"\n\n"+meal.getInfo()+"");
+        if(meal.getMaxFellowEaters()-meal.getAmountOfEaters()-1<=0){
             amountOfPeople.setEnabled(false);
             amountOfPeople.setVisibility(View.GONE);
             amountOfPeopleTitle.setVisibility(View.GONE);
         } else {
-            amountOfPeople.setHint(getText(R.string.app_joinscreen_chooseamount)+" (max. "+(meal.getMax()-meal.getAmountOfEaters()-1)+")");
+            amountOfPeople.setHint(getText(R.string.app_joinscreen_chooseamount)+" (max. "+(meal.getMaxFellowEaters()-meal.getAmountOfEaters()-1)+")");
         }
         final Button confirmButton = findViewById(R.id.joinscreen_confirmbutton);
         confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -54,8 +54,8 @@ public class MealsActivity_Join extends AppCompatActivity implements JoinControl
     }
 
     private void confirmJoin(){
-        if(!amountOfPeople.getText().toString().equals("") && Integer.parseInt(amountOfPeople.getText().toString())>(meal.getMax()-meal.getAmountOfEaters()-1)){
-            amountOfPeople.setError(getText(R.string.app_input_error_tooManyPeople)+"(max."+(meal.getMax()-meal.getAmountOfEaters()-1)+")");
+        if(!amountOfPeople.getText().toString().equals("") && Integer.parseInt(amountOfPeople.getText().toString())>(meal.getMaxFellowEaters()-meal.getAmountOfEaters()-1)){
+            amountOfPeople.setError(getText(R.string.app_input_error_tooManyPeople)+"(max."+(meal.getMaxFellowEaters()-meal.getAmountOfEaters()-1)+")");
         } else if(!amountOfPeople.getText().toString().equals("") && Integer.parseInt(amountOfPeople.getText().toString())<0){
             amountOfPeople.setError(getText(R.string.app_input_error_notnegative));
         } else {

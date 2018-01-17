@@ -14,11 +14,21 @@ import nl.mheijden.prog3app.model.domain.Student;
  */
 
 public class FellowEaterDAO implements DAO<FellowEater> {
+    /**
+     * Database object to send queries to
+     */
     private SQLiteLocalDatabase db;
 
+    /**
+     * @param db object
+     */
     public FellowEaterDAO(SQLiteLocalDatabase db) {
         this.db=db;
     }
+
+    /**
+     * @return list of felloweaters
+     */
     public ArrayList<FellowEater> getAll(){
         ArrayList<FellowEater> rs = new ArrayList<>();
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
@@ -38,14 +48,27 @@ public class FellowEaterDAO implements DAO<FellowEater> {
         db.close();
         return rs;
     }
+
+    /**
+     * Empty method that is never used for this DAO in this application
+     */
     public FellowEater getOne(int id){
         return new FellowEater();
     }
+
+
+    /**
+     * @param data is a list of objects to call insertOne for
+     */
     public void insertData(ArrayList<FellowEater> data){
         for(FellowEater fellowEater : data){
             insertOne(fellowEater);
         }
     }
+
+    /**
+     * @param object you want to insert into the database
+     */
     public void insertOne(FellowEater object){
         android.database.sqlite.SQLiteDatabase t = db.getWritableDatabase();
         ContentValues i = new ContentValues();
@@ -59,6 +82,10 @@ public class FellowEaterDAO implements DAO<FellowEater> {
         t.close();
         db.close();
     }
+
+    /**
+     * Delete all felloweaters
+     */
     public void clear(){
         android.database.sqlite.SQLiteDatabase db = this.db.getWritableDatabase();
         db.execSQL("DELETE FROM FellowEaters");

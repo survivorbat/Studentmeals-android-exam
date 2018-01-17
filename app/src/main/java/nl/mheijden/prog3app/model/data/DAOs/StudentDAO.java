@@ -14,11 +14,21 @@ import nl.mheijden.prog3app.model.domain.Student;
  */
 
 public class StudentDAO implements DAO<Student> {
+    /**
+     * SQLiteHelper object to send queries to
+     */
     private SQLiteLocalDatabase db;
+
+    /**
+     * @param db object
+     */
     public StudentDAO(SQLiteLocalDatabase db){
         this.db=db;
     }
 
+    /**
+     * @return a list of students
+     */
     public ArrayList<Student> getAll(){
         ArrayList<Student> rs = new ArrayList<>();
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
@@ -40,6 +50,11 @@ public class StudentDAO implements DAO<Student> {
         db.close();
         return rs;
     }
+
+    /**
+     * @param id of the object that has to be returned
+     * @return a student
+     */
     public Student getOne(int id){
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
         Cursor i = db.rawQuery("SELECT * FROM Students WHERE StudentNumber ="+id, null);
@@ -59,12 +74,20 @@ public class StudentDAO implements DAO<Student> {
         }
         return null;
     }
+
+    /**
+     * @param data is a list of objects to call insertOne for
+     */
     public void insertData(ArrayList<Student> data){
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
         for(Student student : data){
             insertOne(student);
         }
     }
+
+    /**
+     * @param object you want to insert into the database
+     */
     public void insertOne(Student object){
         android.database.sqlite.SQLiteDatabase t = db.getWritableDatabase();
         ContentValues i = new ContentValues();
@@ -80,6 +103,10 @@ public class StudentDAO implements DAO<Student> {
         t.close();
         db.close();
     }
+
+    /**
+     * Delete all the rows of the database
+     */
     public void clear(){
         android.database.sqlite.SQLiteDatabase db = this.db.getWritableDatabase();
         db.execSQL("DELETE FROM Students");

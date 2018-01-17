@@ -14,7 +14,7 @@ public interface DAO<T> {
 
     /**
      * @param id of the object that has to be returned
-     * @return
+     * @return the object with the ID or null if that object doesnt exist
      */
     T getOne(int id);
 

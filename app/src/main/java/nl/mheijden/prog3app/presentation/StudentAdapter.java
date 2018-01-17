@@ -24,10 +24,25 @@ import nl.mheijden.prog3app.model.domain.Student;
  */
 
 public class StudentAdapter extends ArrayAdapter<Student> {
+    /**
+     * ArrayList with all the Students
+     */
     private ArrayList<Student> data;
+    /**
+     * Context of the activity
+     */
     private Context context;
+    /**
+     * Current user of the activity
+     */
     private Student user;
 
+    /**
+     * @param context of the activity
+     * @param resource that the listview uses for a element
+     * @param data list of students
+     * @param user current user
+     */
     public StudentAdapter(Context context, int resource, ArrayList<Student> data, Student user) {
         super(context, resource, data);
         this.data = data;
@@ -85,15 +100,37 @@ public class StudentAdapter extends ArrayAdapter<Student> {
         return convertView;
     }
 
+    /**
+     * @param position of the element
+     * @return The student that is associated with the position
+     */
     public Student getItem(int position) {
         return data.get(position);
     }
 
+    /**
+     * ViewHolder to save the view elements
+     */
     private static class ViewHolder {
+        /**
+         * Name of the student
+         */
         TextView name;
+        /**
+         * Email of the student
+         */
         TextView email;
+        /**
+         * Phonenumber of the student
+         */
         TextView phonenumber;
+        /**
+         * Studentnumber
+         */
         TextView number;
+        /**
+         * Student image
+         */
         ImageView image;
     }
 }
