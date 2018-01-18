@@ -11,10 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -28,6 +31,7 @@ public class AccountsActivity extends AppCompatActivity implements ChangeStudent
     private EditText firstname, lastname, insertion, phonenumber, email, password, passwordconfirm;
     private Bitmap newImage;
     private Button imageAdd;
+    private ImageView previewImage;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -53,6 +57,7 @@ public class AccountsActivity extends AppCompatActivity implements ChangeStudent
         email = findViewById(R.id.accounts_email);
         password = findViewById(R.id.accounts_password);
         passwordconfirm = findViewById(R.id.accounts_passwordconfirm);
+        previewImage = findViewById(R.id.accounts_previewimage);
 
         studentnummer.setText(student.getstudentNumber() + "");
         firstname.setText(student.getFirstname() + "");
@@ -71,6 +76,17 @@ public class AccountsActivity extends AppCompatActivity implements ChangeStudent
                 applyChanges();
             }
         });
+
+        File filesDir = getFilesDir();
+        File f = new File(filesDir, "studentPictures_" + student.getstudentNumber());
+        FileInputStream fis;
+        try {
+            fis = new FileInputStream(f);
+            Bitmap bitmap = BitmapFactory.decodeStream(fis);
+            previewImage.setImageBitmap(bitmap);
+        } catch (FileNotFoundException e) {
+            previewImage.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.logo));
+        }
     }
 
     private void applyChanges() {
@@ -168,6 +184,7 @@ public class AccountsActivity extends AppCompatActivity implements ChangeStudent
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = scale;
             newImage = BitmapFactory.decodeFileDescriptor(imageSource, null, o2);
+            previewImage.setImageBitmap(newImage);
 
         } catch (FileNotFoundException e) {
             // handle errors

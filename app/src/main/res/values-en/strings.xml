@@ -67,4 +67,5 @@
     <string name="app_joinmeal_success">Successfully added!</string>
     <string name="app_changedstudent_success">Successfully changed</string>
     <string name="app_input_imagechosen">Image chosen</string>
+    <string name="app_previewimage">Preview image</string>
 </resources>

@@ -79,6 +79,9 @@ public class APIServices {
      * @param meal that needs to be added
      */
     public void addMaaltijd(Meal meal) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        meal.getPicture().compress(Bitmap.CompressFormat.JPEG, 20, baos); //bm is the bitmap object
+        byte[] b = baos.toByteArray();
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata", Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("APITOKEN", null);
         JSONObject post = new JSONObject();
@@ -87,7 +90,7 @@ public class APIServices {
             if (meal.isDoesCookEat()) {
                 doesCookeat = 1;
             }
-            post = new JSONObject("{\"Dish\": \"" + meal.getDish() + "\",\"Info\":\"" + meal.getInfo() + "\",\"DateTime\":\"" + meal.getDate() + "\",\"ChefID\":" + meal.getChef().getstudentNumber() + ",\"Price\":" + meal.getPrice() + ",\"MaxFellowEaters\":" + meal.getMaxFellowEaters() + ",\"DoesCookEat\":\"" + doesCookeat + "\"}");
+            post = new JSONObject("{\"Dish\": \"" + meal.getDish() + "\",\"Info\":\"" + meal.getInfo() + "\",\"DateTime\":\"" + meal.getDate() + "\",\"ChefID\":" + meal.getChef().getstudentNumber() + ",\"Price\":" + meal.getPrice() + ",\"MaxFellowEaters\":" + meal.getMaxFellowEaters() + ",\"DoesCookEat\":\"" + doesCookeat + "\",\"Picture\":\"" + Base64.encodeToString(b, Base64.DEFAULT) + "\"}");
         } catch (JSONException e) {
             e.printStackTrace();
             APICallbacks.loginCallback("error");
@@ -588,47 +591,6 @@ public class APIServices {
             @Override
             public void onErrorResponse(VolleyError error) {
                 APICallbacks.changedStudent(false);
-                error.printStackTrace();
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                String auth = "Bearer " + token;
-                headers.put("Authorization", auth);
-                return headers;
-            }
-        };
-        mRequestQueue.add(request);
-    }
-
-    /**
-     * @param meal object with a new image
-     */
-    public void changeMealImage(Meal meal) {
-        Log.i("API", "changeMealImage " + meal.getId());
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        meal.getPicture().compress(Bitmap.CompressFormat.JPEG, 20, baos); //bm is the bitmap object
-        byte[] b = baos.toByteArray();
-
-        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata", Context.MODE_PRIVATE);
-        final String token = sharedPreferences.getString("APITOKEN", null);
-        JSONObject put = new JSONObject();
-        try {
-            put = new JSONObject("{\"Picture\": \"" + Base64.encodeToString(b, Base64.DEFAULT) + "\"}");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            APICallbacks.changedStudent(false);
-        }
-        System.out.println(put.toString());
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, BASEURL + "/api/meal/" + meal.getId() + "/picture", put, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.i("API", "changeMealImage successful");
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
         }) {

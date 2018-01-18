@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ public class NewMealActivity extends AppCompatActivity implements NewMealControl
     private Switch doesCookEat;
     private Button imageAdd;
     private Bitmap newImage;
+    private ImageView previewImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class NewMealActivity extends AppCompatActivity implements NewMealControl
         time = findViewById(R.id.newmeal_time);
         max = findViewById(R.id.newmeal_max);
         doesCookEat = findViewById(R.id.newmeal_doescookeat);
+        previewImage = findViewById(R.id.newmeal_imagepreview);
         Button addButton = findViewById(R.id.addmeal_button);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +117,7 @@ public class NewMealActivity extends AppCompatActivity implements NewMealControl
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = scale;
             newImage = BitmapFactory.decodeFileDescriptor(imageSource, null, o2);
+            previewImage.setImageBitmap(newImage);
 
         } catch (FileNotFoundException e) {
             // handle errors

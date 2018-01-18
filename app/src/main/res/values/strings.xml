@@ -75,4 +75,5 @@
     <string name="app_joinmeal_success">Succesvol toegevoegd!</string>
     <string name="app_changedstudent_success">Succesvol aangepast</string>
     <string name="app_input_imagechosen">Afbeelding gekozen</string>
+    <string name="app_previewimage">Voorbeeld foto</string>
 </resources>

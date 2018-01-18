@@ -180,9 +180,6 @@ public class MaaltijdenApp implements APICallbacks {
     public void addMeal(Meal meal, NewMealControllerCallback newMealControllerCallback) {
         this.newMealControllerCallback = newMealControllerCallback;
         api.addMaaltijd(meal);
-        if (meal.getPicture() != null) {
-            api.changeMealImage(meal);
-        }
     }
 
     /**
