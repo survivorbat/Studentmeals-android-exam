@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/restaurant_background"
     tools:context="nl.mheijden.prog3app.controllers.activities.DashboardActivity">
 
     <TextView
@@ -23,7 +22,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="RtlCompat" />
 
     <EditText
         android:id="@+id/login_number"
@@ -104,7 +104,7 @@
         android:layout_marginTop="7dp"
         android:background="@color/colorTransparent"
         android:text="@string/app_login_registerbutton"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

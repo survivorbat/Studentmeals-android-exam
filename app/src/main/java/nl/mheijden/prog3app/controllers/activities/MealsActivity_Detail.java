@@ -53,16 +53,16 @@ public class MealsActivity_Detail extends AppCompatActivity implements LeaveCont
 
             meal_title.setText(meal.getDish() + "");
             meal_desc.setText(meal.getInfo() + "");
-            if (!meal.getChef().getInsertion().equals("null") && meal.getChef().getInsertion()!=null) {
-                meal_chef.setText(getText(R.string.app_meals_cheficon)+" "+meal.getChef().getFirstname() + " " + meal.getChef().getInsertion() + "" + meal.getChef().getLastname());
+            if (!meal.getChef().getInsertion().equals("null") && meal.getChef().getInsertion() != null) {
+                meal_chef.setText(getText(R.string.app_meals_cheficon) + " " + meal.getChef().getFirstname() + " " + meal.getChef().getInsertion() + "" + meal.getChef().getLastname());
             } else {
-                meal_chef.setText(getText(R.string.app_meals_cheficon)+" "+meal.getChef().getFirstname() + " " + meal.getChef().getLastname());
+                meal_chef.setText(getText(R.string.app_meals_cheficon) + " " + meal.getChef().getFirstname() + " " + meal.getChef().getLastname());
             }
-            meal_price.setText(getText(R.string.app_meals_moneyicon)+" €"+ meal.getPrice());
-            meal_date.setText(getText(R.string.app_meals_timeicon)+" "+meal.getDate() + "");
-            meal_amount.setText(getText(R.string.app_dashboard_button_students)+" "+meal.getAmountOfEaters()+"/"+meal.getMaxFellowEaters());
+            meal_price.setText(getText(R.string.app_meals_moneyicon) + " €" + meal.getPrice());
+            meal_date.setText(getText(R.string.app_meals_timeicon) + " " + meal.getDate() + "");
+            meal_amount.setText(getText(R.string.app_dashboard_button_students) + " " + meal.getAmountOfEaters() + "/" + meal.getMaxFellowEaters());
 
-            if(meal.getChef().equals(app.getUser())){
+            if (meal.getChef().equals(app.getUser())) {
                 meal_addbutton.setText(getText(R.string.app_meal_removemeal));
                 meal_addbutton.setTextColor(getColor(R.color.colorDarkRed));
                 meal_addbutton.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +71,7 @@ public class MealsActivity_Detail extends AppCompatActivity implements LeaveCont
                         deleteMeal();
                     }
                 });
-            } else if(meal.getStudents().contains(app.getUser())){
+            } else if (meal.getStudents().contains(app.getUser())) {
                 meal_addbutton.setText(getText(R.string.app_meal_removebutton));
                 meal_addbutton.setTextColor(getColor(R.color.colorDarkRed));
                 meal_addbutton.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +80,7 @@ public class MealsActivity_Detail extends AppCompatActivity implements LeaveCont
                         removeEatWith();
                     }
                 });
-            } else if(meal.getAmountOfEaters() < meal.getMaxFellowEaters()){
+            } else if (meal.getAmountOfEaters() < meal.getMaxFellowEaters()) {
                 meal_addbutton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -91,55 +91,55 @@ public class MealsActivity_Detail extends AppCompatActivity implements LeaveCont
                 meal_addbutton.setTextColor(getColor(R.color.colorDarkRed));
                 meal_addbutton.setText(getText(R.string.app_joinmeal_fullalready));
             }
-            StringBuilder eaters= new StringBuilder(getText(R.string.app_meals_eaters).toString()+" ");
-            boolean first=true;
-            for(FellowEater e : meal.getFelloweaters()){
-                if(!first){
+            StringBuilder eaters = new StringBuilder(getText(R.string.app_meals_eaters).toString() + " ");
+            boolean first = true;
+            for (FellowEater e : meal.getFelloweaters()) {
+                if (!first) {
                     eaters.append(", ");
                 }
                 eaters.append(e.getStudent().getFirstname());
-                if(e.getGuests()>0){
+                if (e.getGuests() > 0) {
                     eaters.append(" (+").append(e.getGuests()).append(")");
                 }
-                first=false;
+                first = false;
             }
-            meal_eaters.setText(eaters+"");
+            meal_eaters.setText(eaters + "");
             File filesDir = this.getFilesDir();
-            File f = new File(filesDir, "mealPictures_"+meal.getId());
-            FileInputStream fis = null;
+            File f = new File(filesDir, "mealPictures_" + meal.getId());
+            FileInputStream fis;
             try {
                 fis = new FileInputStream(f);
                 Bitmap bitmap = BitmapFactory.decodeStream(fis);
                 meal_image.setImageBitmap(bitmap);
-            }
-            catch (FileNotFoundException e){
-                meal_image.setImageBitmap(BitmapFactory.decodeResource(this.getResources(),R.drawable.logo));
+            } catch (FileNotFoundException e) {
+                meal_image.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.logo));
             }
         }
     }
 
-    private void eatWith(){
+    private void eatWith() {
         Intent i = new Intent(this, MealsActivity_Join.class);
-        i.putExtra("Meal",meal);
+        i.putExtra("Meal", meal);
         startActivity(i);
     }
-    private void removeEatWith(){
-        for(FellowEater fellowEater : meal.getFelloweaters()){
-            if(fellowEater.getStudent().equals(app.getUser())){
+
+    private void removeEatWith() {
+        for (FellowEater fellowEater : meal.getFelloweaters()) {
+            if (fellowEater.getStudent().equals(app.getUser())) {
                 app.deleteFellowEater(fellowEater, this);
             }
         }
     }
 
-    private void deleteMeal(){
+    private void deleteMeal() {
         app.deleteMeal(meal, this);
     }
 
-    public void onDeleteMealComplete(boolean result){
-        if(result){
+    public void onDeleteMealComplete(boolean result) {
+        if (result) {
             SharedPreferences sharedPreferences = getSharedPreferences("userdata", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("SHOULDRELOAD",true);
+            editor.putBoolean("SHOULDRELOAD", true);
             editor.apply();
             this.finish();
         } else {
@@ -149,10 +149,10 @@ public class MealsActivity_Detail extends AppCompatActivity implements LeaveCont
 
     @Override
     public void onLeaveComplete(boolean result) {
-        if(result){
+        if (result) {
             SharedPreferences sharedPreferences = getSharedPreferences("userdata", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("SHOULDRELOAD",true);
+            editor.putBoolean("SHOULDRELOAD", true);
             editor.apply();
             this.finish();
         } else {
@@ -160,10 +160,10 @@ public class MealsActivity_Detail extends AppCompatActivity implements LeaveCont
         }
     }
 
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         SharedPreferences sharedPreferences = getSharedPreferences("userdata", Context.MODE_PRIVATE);
-        if(sharedPreferences.getBoolean("SHOULDRELOAD",false)){
+        if (sharedPreferences.getBoolean("SHOULDRELOAD", false)) {
             this.finish();
         }
     }

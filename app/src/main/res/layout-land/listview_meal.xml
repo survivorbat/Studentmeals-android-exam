@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/meal_horizontallayout"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="40pt"
     android:layout_marginVertical="8dp"
@@ -9,63 +9,65 @@
     android:focusable="false"
     android:focusableInTouchMode="false"
     android:orientation="horizontal"
-    android:weightSum="8">
+    android:weightSum="8"
+    tools:targetApi="o"
+    tools:ignore="Overdraw">
 
     <ImageView
         android:id="@+id/meal_image"
         android:layout_width="93dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:clickable="false"
         android:contentDescription="@string/app_meal_image"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        app:srcCompat="@drawable/logo"
-        android:clickable="false"
-        />
+        app:srcCompat="@drawable/logo" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="3"
+        android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:orientation="vertical"
         android:paddingHorizontal="8dp"
-        android:clickable="false">
+        tools:targetApi="o">
 
         <TextView
             android:id="@+id/meal_titel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:text="@string/app_placeholder"
             android:textColor="@color/colorAccent"
             android:textIsSelectable="true"
-            android:textSize="24sp"
-            android:clickable="false"/>
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/meal_datumtijd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:text=""
             android:textColor="@color/colorSemiWhite"
-            android:textSize="12sp"
-            android:clickable="false"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/meal_kok"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:text=""
             android:textColor="@color/colorSemiWhite"
-            android:textSize="12sp"
-            android:clickable="false"/>
+            android:textSize="12sp" />
 
     </LinearLayout>
 

@@ -42,19 +42,23 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
     }
-    private void openMeals(){
+
+    private void openMeals() {
         Intent i = new Intent(this, MealsActivity.class);
         startActivity(i);
     }
-    private void openNewMeal(){
+
+    private void openNewMeal() {
         Intent i = new Intent(this, NewMealActivity.class);
         startActivity(i);
     }
-    private void openStudents(){
+
+    private void openStudents() {
         Intent i = new Intent(this, StudentsActivity.class);
         startActivity(i);
     }
-    private void openAccount(){
+
+    private void openAccount() {
         Intent i = new Intent(this, AccountsActivity.class);
         startActivity(i);
     }

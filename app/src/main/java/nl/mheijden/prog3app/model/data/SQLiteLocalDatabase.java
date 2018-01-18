@@ -11,8 +11,8 @@ public class SQLiteLocalDatabase extends SQLiteOpenHelper {
     /**
      * Name of the database and the current version
      */
-    private static String DATABASE_NAME = "StudentMaaltijden";
-    private static int DATABASE_VERSION = 4;
+    private static final String DATABASE_NAME = "StudentMaaltijden";
+    private static final int DATABASE_VERSION = 9;
 
     /**
      * @param context of the application
@@ -26,14 +26,15 @@ public class SQLiteLocalDatabase extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(android.database.sqlite.SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS`FellowEaters` (\n" +
-                "  `ID` int(11) NOT NULL,\n" +
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Students; DROP TABLE IF EXISTS Meals; DROP TABLE IF EXISTS FellowEaters");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS `FellowEaters` (\n" +
+                "  `ID` int(11) PRIMARY KEY UNIQUE NOT NULL,\n" +
                 "  `AmountOfGuests` int(11) NOT NULL DEFAULT '0',\n" +
                 "  `StudentNumber` int(11) NOT NULL,\n" +
                 "  `MealID` int(11) NOT NULL\n" +
                 ")");
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS `Meals` (\n" +
-                "  `ID` int(11) NOT NULL,\n" +
+                "  `ID` int(11) PRIMARY KEY UNIQUE NOT NULL,\n" +
                 "  `Dish` varchar(100) NOT NULL,\n" +
                 "  `DateTime` datetime NOT NULL,\n" +
                 "  `Info` text NOT NULL,\n" +
@@ -44,7 +45,7 @@ public class SQLiteLocalDatabase extends SQLiteOpenHelper {
                 "  `DoesCookEat` tinyint(1) NOT NULL DEFAULT '1'\n" +
                 ")");
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS `Students` (\n" +
-                "  `StudentNumber` int(11) NOT NULL,\n" +
+                "  `StudentNumber` int(11) PRIMARY KEY UNIQUE NOT NULL,\n" +
                 "  `FirstName` varchar(50) NOT NULL,\n" +
                 "  `Insertion` varchar(50) DEFAULT NULL,\n" +
                 "  `LastName` varchar(50) NOT NULL,\n" +
@@ -55,8 +56,8 @@ public class SQLiteLocalDatabase extends SQLiteOpenHelper {
 
     /**
      * @param sqLiteDatabase from the SQLiteOpenHelper class
-     * @param i old version
-     * @param i1 new version
+     * @param i              old version
+     * @param i1             new version
      */
     @Override
     public void onUpgrade(android.database.sqlite.SQLiteDatabase sqLiteDatabase, int i, int i1) {

@@ -9,7 +9,6 @@
     <string name="app_input_error_nopass">Geen wachtwoord ingevuld</string>
     <string name="app_input_error_nofirstname">Geen voornaam ingevuld</string>
     <string name="app_input_error_nolastname">Geen achternaam ingevuld</string>
-    <string name="app_input_error_noinsertion">Geen tussenvoegsel ingevuld</string>
     <string name="app_input_error_noemail">Geen email ingevuld</string>
     <string name="app_input_error_notelephonenumber">Geen telefoonnummer ingevuld</string>
     <string name="app_input_error_wrong">Gebruikersnaam en wachtwoord worden niet herkend</string>
@@ -19,15 +18,15 @@
     <string name="app_input_error_notsamepassword">Deze wachtwoorden zijn niet hetzelfde</string>
     <string name="app_dashboard_title">Dashboard</string>
     <string name="app_dashboard_desc">Welkom terug bij de MaaltijdApp. Hier kun je jezelf inschrijven voor maaltijden, zelf een maaltijd plannen en de lijst van studenten inzien.</string>
-    <string name="app_dashboard_button_meals">🍝</string>
-    <string name="app_dashboard_button_newmeal">➕</string>
-    <string name="app_dashboard_button_account">⚙</string>
-    <string name="app_meals_cheficon">🍳</string>
-    <string name="app_meals_moneyicon">💰</string>
-    <string name="app_meals_timeicon">⏰ </string>
-    <string name="app_meals_mailicon">📧</string>
-    <string name="app_meals_phoneicon">☎</string>
-    <string name="app_meals_checkicon">✔</string>
+    <string name="app_dashboard_button_meals" tools:ignore="MissingTranslation">🍝</string>
+    <string name="app_dashboard_button_newmeal" tools:ignore="MissingTranslation">➕</string>
+    <string name="app_dashboard_button_account" tools:ignore="MissingTranslation">⚙</string>
+    <string name="app_meals_cheficon" tools:ignore="MissingTranslation">🍳</string>
+    <string name="app_meals_moneyicon" tools:ignore="MissingTranslation">💰</string>
+    <string name="app_meals_timeicon" tools:ignore="MissingTranslation">⏰ </string>
+    <string name="app_meals_mailicon" tools:ignore="MissingTranslation">📧</string>
+    <string name="app_meals_phoneicon" tools:ignore="MissingTranslation">☎</string>
+    <string name="app_meals_checkicon" tools:ignore="MissingTranslation">✔</string>
     <string name="app_meals_title">Maaltijden</string>
     <string name="app_meals_desc">Dit is een overzicht aan maaltijden die gepland staan, klik op een maaltijd om de details te zien. Sleep naar beneden om te herladen.</string>
     <string name="app_meal_removebutton">Uitschrijven</string>
@@ -54,9 +53,7 @@
     <string name="app_newmeal_title">Nieuwe maaltijd</string>
     <string name="app_newmeal_dish">Gerecht</string>
     <string name="app_newmeal_info">Extra informatie (allergieën, ingrediënten etc.)</string>
-    <string name="app_newmeal_datetime">Datum en tijd</string>
     <string name="app_newmeal_date">Datum</string>
-    <string name="app_newmeal_time">Tijd</string>
     <string name="app_newmeal_price">Prijs per persoon</string>
     <string name="app_newmeal_max">Maximaal aantal mee-eters</string>
     <string name="app_newmeal_doescookeet">Eet jij als chef mee?</string>
@@ -71,10 +68,11 @@
     <string name="app_error_noinfo">Vul wat informatie in over de maaltijd</string>
     <string name="app_error_noprice">Vul hier de prijs van de maaltijd in</string>
     <string name="app_input_error_maxpeople">Vul hier de maximale hoeveelheid mensen in</string>
-    <string name="app_input_dateformat">0000–00–00</string>
-    <string name="newmeal_error_dateformat">Formateer de datum als volgt: jjjj-mm-dd</string>
+    <string name="app_input_dateformat">00–00–0000</string>
+    <string name="newmeal_error_dateformat">Formateer de datum als volgt: dd-mm-jjjj</string>
     <string name="app_accounts_commit">Wijzigingen aanbrengen</string>
-    <string name="app_reloading">Refreshing…</string>
     <string name="app_dashboard_button_students">👨</string>
     <string name="app_joinmeal_success">Succesvol toegevoegd!</string>
+    <string name="app_changedstudent_success">Succesvol aangepast</string>
+    <string name="app_input_imagechosen">Afbeelding gekozen</string>
 </resources>

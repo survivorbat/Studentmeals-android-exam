@@ -2,7 +2,7 @@ package nl.mheijden.prog3app.model.data.DAOs;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.util.Log;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
@@ -17,24 +17,24 @@ public class StudentDAO implements DAO<Student> {
     /**
      * SQLiteHelper object to send queries to
      */
-    private SQLiteLocalDatabase db;
+    private final SQLiteLocalDatabase db;
 
     /**
      * @param db object
      */
-    public StudentDAO(SQLiteLocalDatabase db){
-        this.db=db;
+    public StudentDAO(SQLiteLocalDatabase db) {
+        this.db = db;
     }
 
     /**
      * @return a list of students
      */
-    public ArrayList<Student> getAll(){
+    public ArrayList<Student> getAll() {
         ArrayList<Student> rs = new ArrayList<>();
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
         Cursor i = db.rawQuery("SELECT StudentNumber, FirstName, Insertion, LastName, Email, PhoneNumber FROM Students ORDER BY StudentNumber", null);
-        if(i.moveToFirst()){
-            while(!i.isAfterLast()){
+        if (i.moveToFirst()) {
+            while (!i.isAfterLast()) {
                 Student s = new Student();
                 s.setStudentNumber(i.getString(0));
                 s.setFirstname(i.getString(1));
@@ -55,11 +55,12 @@ public class StudentDAO implements DAO<Student> {
      * @param id of the object that has to be returned
      * @return a student
      */
-    public Student getOne(int id){
+    public Student getOne(int id) {
         android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
-        Cursor i = db.rawQuery("SELECT * FROM Students WHERE StudentNumber ="+id, null);
-        if(i.moveToFirst()){
-            while(!i.isAfterLast()){
+        Cursor i = db.rawQuery("SELECT * FROM Students WHERE StudentNumber =" + id, null);
+        if (i.moveToFirst()) {
+            //noinspection LoopStatementThatDoesntLoop
+            while (!i.isAfterLast()) {
                 Student s = new Student();
                 s.setStudentNumber(i.getString(0));
                 s.setFirstname(i.getString(1));
@@ -78,9 +79,9 @@ public class StudentDAO implements DAO<Student> {
     /**
      * @param data is a list of objects to call insertOne for
      */
-    public void insertData(ArrayList<Student> data){
-        android.database.sqlite.SQLiteDatabase db = this.db.getReadableDatabase();
-        for(Student student : data){
+    public void insertData(ArrayList<Student> data) {
+        clear();
+        for (Student student : data) {
             insertOne(student);
         }
     }
@@ -88,7 +89,7 @@ public class StudentDAO implements DAO<Student> {
     /**
      * @param object you want to insert into the database
      */
-    public void insertOne(Student object){
+    public void insertOne(Student object) {
         android.database.sqlite.SQLiteDatabase t = db.getWritableDatabase();
         ContentValues i = new ContentValues();
         i.put("StudentNumber", object.getstudentNumber());
@@ -97,19 +98,18 @@ public class StudentDAO implements DAO<Student> {
         i.put("LastName", object.getLastname());
         i.put("Email", object.getEmail());
         i.put("PhoneNumber", object.getPhonenumber());
-        if (t.insert("Students", "StudentNumber, Firstname, Insertion, Lastname, Email, PhoneNumber", i) != -1) {
-            t.close();
-        }
+        t.replace("Students", "StudentNumber, Firstname, Insertion, Lastname, Email, PhoneNumber", i);
         t.close();
         db.close();
     }
 
     /**
-     * Delete all the rows of the database
+     * Clear table
      */
-    public void clear(){
-        android.database.sqlite.SQLiteDatabase db = this.db.getWritableDatabase();
-        db.execSQL("DELETE FROM Students");
+    @Override
+    public void clear() {
+        SQLiteDatabase db = this.db.getWritableDatabase();
+        db.execSQL("DELETE FROM Students;");
         db.close();
     }
 }

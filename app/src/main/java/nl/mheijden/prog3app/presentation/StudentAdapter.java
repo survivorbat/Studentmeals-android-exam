@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,32 +28,32 @@ public class StudentAdapter extends ArrayAdapter<Student> {
     /**
      * ArrayList with all the Students
      */
-    private ArrayList<Student> data;
+    private final ArrayList<Student> data;
     /**
      * Context of the activity
      */
-    private Context context;
+    private final Context context;
     /**
      * Current user of the activity
      */
-    private Student user;
+    private final Student user;
 
     /**
      * @param context of the activity
-     * @param resource that the listview uses for a element
-     * @param data list of students
-     * @param user current user
+     * @param data    list of students
+     * @param user    current user
      */
-    public StudentAdapter(Context context, int resource, ArrayList<Student> data, Student user) {
-        super(context, resource, data);
+    public StudentAdapter(Context context, ArrayList<Student> data, Student user) {
+        super(context, R.layout.listview_student, data);
         this.data = data;
         this.context = context;
         this.user = user;
     }
 
+    @NonNull
     @SuppressLint("SetTextI18n")
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @SuppressWarnings("NullableProblems") ViewGroup parent) {
         Student student = getItem(position);
         ViewHolder viewHolder;
 
@@ -69,33 +70,33 @@ public class StudentAdapter extends ArrayAdapter<Student> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.number.setText(context.getResources().getString(R.string.app_dashboard_button_students)+" "+student.getstudentNumber()+"");
-        if(student.getInsertion()==null || student.getInsertion().equals("null") || student.getInsertion().equals("")){
+        assert student != null;
+        viewHolder.number.setText(context.getResources().getString(R.string.app_dashboard_button_students) + " " + student.getstudentNumber() + "");
+        if (student.getInsertion() == null || student.getInsertion().equals("null") || student.getInsertion().equals("")) {
             viewHolder.name.setText(student.getFirstname() + " " + student.getLastname() + "");
         } else {
             viewHolder.name.setText(student.getFirstname() + " " + student.getInsertion() + " " + student.getLastname() + "");
         }
-        if(student.equals(user)){
+        if (student.equals(user)) {
             viewHolder.name.setTextColor(context.getResources().getColor(R.color.colorGreen));
         } else {
             viewHolder.name.setTextColor(context.getResources().getColor(R.color.colorSemiWhite));
         }
-        viewHolder.email.setText(context.getText(R.string.app_meals_mailicon)+" "+student.getEmail()+"");
-        if(!student.getPhonenumber().equals("null") && student.getPhonenumber()!=null){
-            viewHolder.phonenumber.setText(context.getText(R.string.app_meals_phoneicon)+" "+student.getPhonenumber()+"");
+        viewHolder.email.setText(context.getText(R.string.app_meals_mailicon) + " " + student.getEmail() + "");
+        if (!student.getPhonenumber().equals("null") && student.getPhonenumber() != null) {
+            viewHolder.phonenumber.setText(context.getText(R.string.app_meals_phoneicon) + " " + student.getPhonenumber() + "");
         } else {
-            viewHolder.phonenumber.setText(context.getText(R.string.app_meals_phoneicon)+" ");
+            viewHolder.phonenumber.setText(context.getText(R.string.app_meals_phoneicon) + " ");
         }
         File filesDir = context.getFilesDir();
-        File f = new File(filesDir, "studentPictures_"+student.getstudentNumber());
-        FileInputStream fis = null;
+        File f = new File(filesDir, "studentPictures_" + student.getstudentNumber());
+        FileInputStream fis;
         try {
             fis = new FileInputStream(f);
             Bitmap bitmap = BitmapFactory.decodeStream(fis);
             viewHolder.image.setImageBitmap(bitmap);
-        }
-        catch (FileNotFoundException e){
-            viewHolder.image.setImageBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.logo));
+        } catch (FileNotFoundException e) {
+            viewHolder.image.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.logo));
         }
         return convertView;
     }

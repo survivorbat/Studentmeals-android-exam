@@ -11,6 +11,10 @@ import java.util.ArrayList;
 
 public class Meal implements Serializable {
     /**
+     * List of felloweaters that join this meal
+     */
+    private final ArrayList<FellowEater> felloweaters;
+    /**
      * Identification number of the meal, imported from the database
      */
     private int id;
@@ -46,10 +50,6 @@ public class Meal implements Serializable {
      * If the cook eats
      */
     private boolean doesCookEat;
-    /**
-     * List of felloweaters that join this meal
-     */
-    private ArrayList<FellowEater> felloweaters;
 
     public Meal(int id, String dish, String info, String date, Student chef, double price, int maxFellowEaters, boolean doesCookEat) {
         this.id = id;
@@ -65,14 +65,18 @@ public class Meal implements Serializable {
 
     /**
      * Small constructor when used to only transfer the ID to the database
+     *
      * @param id of the meal
      */
-    public Meal(int id){this.id=id;this.felloweaters = new ArrayList<>();}
+    public Meal(int id) {
+        this.id = id;
+        this.felloweaters = new ArrayList<>();
+    }
 
     /**
      * Empty constructor for when setters are used
      */
-    public Meal(){
+    public Meal() {
         this.felloweaters = new ArrayList<>();
     }
 
@@ -144,29 +148,30 @@ public class Meal implements Serializable {
         return felloweaters;
     }
 
-    public void addFellowEater(FellowEater fellowEater){
+    public void addFellowEater(FellowEater fellowEater) {
         this.felloweaters.add(fellowEater);
     }
 
     /**
      * @return amount of people that eat, also check if the chef eats as well
      */
-    public int getAmountOfEaters(){
-        int rs=0;
-        if(doesCookEat) rs++;
-        for(FellowEater e : felloweaters){
-            rs+=e.getAmount();
+    public int getAmountOfEaters() {
+        int rs = 0;
+        if (doesCookEat) rs++;
+        for (FellowEater e : felloweaters) {
+            rs += e.getAmount();
         }
         return rs;
     }
 
     /**
      * The students that belong to the felloweaters
+     *
      * @return an arraylist of students that join the meal
      */
-    public ArrayList<Student> getStudents(){
+    public ArrayList<Student> getStudents() {
         ArrayList<Student> rs = new ArrayList<>();
-        for(FellowEater e : felloweaters){
+        for (FellowEater e : felloweaters) {
             rs.add(e.getStudent());
         }
         return rs;

@@ -35,6 +35,7 @@ public interface APICallbacks {
     /**
      * If given token was invaalid this will be called
      */
+    @SuppressWarnings({"EmptyMethod", "unused"})
     void invalidToken();
 
     /**
@@ -46,6 +47,11 @@ public interface APICallbacks {
      * @param result dictates whether the student was added or not
      */
     void addedStudent(boolean result);
+
+    /**
+     * @param result dictates wether the student was changed or not
+     */
+    void changedStudent(boolean result);
 
     /**
      * @param fellowEaters that need  to be added to the application

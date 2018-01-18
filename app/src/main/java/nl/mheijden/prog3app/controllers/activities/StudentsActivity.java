@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -15,14 +16,14 @@ import nl.mheijden.prog3app.presentation.StudentAdapter;
 public class StudentsActivity extends AppCompatActivity implements ReloadCallback {
     private MaaltijdenApp app;
     private SwipeRefreshLayout layout;
-    private ArrayAdapter adapter;
+    private ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_students);
-        ListView list = findViewById(R.id.studentslist);
-        app=new MaaltijdenApp(this);
+        list = findViewById(R.id.studentslist);
+        app = new MaaltijdenApp(this);
 
         layout = findViewById(R.id.students_refreshlayout);
         layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -31,27 +32,26 @@ public class StudentsActivity extends AppCompatActivity implements ReloadCallbac
                 refreshInitiated();
             }
         });
-        adapter = new StudentAdapter(this, R.layout.listview_student, app.getStudents(),app.getUser());
+        ArrayAdapter adapter = new StudentAdapter(this, app.getStudents(), app.getUser());
         list.setAdapter(adapter);
     }
 
-    private void refreshInitiated(){
+    private void refreshInitiated() {
         app.reloadStudents(this);
         layout.setRefreshing(true);
     }
 
-    @Override
     public void reloaded(boolean result) {
-        if(result){
-            if(layout.isRefreshing()){
+        if (result) {
+            if (layout.isRefreshing()) {
                 layout.setRefreshing(false);
-                Toast.makeText(this,R.string.app_reload_success, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.app_reload_success, Toast.LENGTH_SHORT).show();
             }
-            adapter.clear();
-            adapter.addAll(app.getStudents());
-            adapter.notifyDataSetChanged();
+            ListAdapter adapter = new StudentAdapter(this, app.getStudents(), app.getUser());
+            list.setAdapter(adapter);
+
         } else {
-            Toast.makeText(this,R.string.app_reload_failure, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.app_reload_failure, Toast.LENGTH_SHORT).show();
         }
     }
 }

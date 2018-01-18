@@ -3,11 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/restaurant_background"
     android:orientation="vertical"
     android:paddingHorizontal="8sp"
+    android:weightSum="12"
     tools:context="nl.mheijden.prog3app.controllers.activities.RegisterActivity"
-    android:weightSum="12">
+    tools:targetApi="o">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/app_register_title"
+        android:textColor="@color/colorSemiWhite"
+        android:textSize="36sp"
+        android:textStyle="bold" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,17 +26,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/app_register_title"
-                android:textColor="@color/colorSemiWhite"
-                android:textSize="36sp"
-                android:textStyle="bold" />
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
@@ -81,7 +80,6 @@
                 android:inputType="textPersonName" />
 
             <TextView
-                android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -99,7 +97,6 @@
                 android:inputType="textPersonName" />
 
             <TextView
-                android:id="@+id/textView7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -117,7 +114,6 @@
                 android:inputType="textEmailAddress" />
 
             <TextView
-                android:id="@+id/textView8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -135,7 +131,6 @@
                 android:inputType="phone" />
 
             <TextView
-                android:id="@+id/textView9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

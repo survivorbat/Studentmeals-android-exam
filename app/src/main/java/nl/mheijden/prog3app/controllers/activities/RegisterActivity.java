@@ -1,6 +1,5 @@
 package nl.mheijden.prog3app.controllers.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,7 +13,7 @@ import nl.mheijden.prog3app.model.domain.MaaltijdenApp;
 import nl.mheijden.prog3app.model.domain.Student;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterControllerCallback {
-    private EditText id,firstname,lastname,insertion,telephonenumber,email,password, passwordconfirm;
+    private EditText id, firstname, lastname, insertion, telephonenumber, email, password, passwordconfirm;
     private Button confirmButton;
 
     @Override
@@ -38,37 +37,37 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         });
     }
 
-    private void confirmButton(){
-        boolean errorFree=true;
-        if(id.getText().toString().equals("")){
+    private void confirmButton() {
+        boolean errorFree = true;
+        if (id.getText().toString().equals("")) {
             id.setError(getText(R.string.app_input_error_nousername));
-            errorFree=false;
+            errorFree = false;
         }
-        if(firstname.getText().toString().equals("")){
+        if (firstname.getText().toString().equals("")) {
             firstname.setError(getText(R.string.app_input_error_nofirstname));
-            errorFree=false;
+            errorFree = false;
         }
-        if(lastname.getText().toString().equals("")){
+        if (lastname.getText().toString().equals("")) {
             lastname.setError(getText(R.string.app_input_error_nolastname));
-            errorFree=false;
+            errorFree = false;
         }
-        if(email.getText().toString().equals("")){
+        if (email.getText().toString().equals("")) {
             email.setError(getText(R.string.app_input_error_noemail));
-            errorFree=false;
+            errorFree = false;
         }
-        if(telephonenumber.getText().toString().equals("")){
+        if (telephonenumber.getText().toString().equals("")) {
             telephonenumber.setError(getText(R.string.app_input_error_notelephonenumber));
-            errorFree=false;
+            errorFree = false;
         }
-        if(password.getText().toString().equals("")){
+        if (password.getText().toString().equals("")) {
             password.setError(getText(R.string.app_input_error_nopass));
-            errorFree=false;
+            errorFree = false;
         }
-        if(!passwordconfirm.getText().toString().equals(password.getText().toString())){
+        if (!passwordconfirm.getText().toString().equals(password.getText().toString())) {
             passwordconfirm.setError(getText(R.string.app_input_error_notsamepassword));
-            errorFree=false;
+            errorFree = false;
         }
-        if(errorFree){
+        if (errorFree) {
             Student newStudent = new Student();
             newStudent.setFirstname(firstname.getText().toString());
             newStudent.setInsertion(insertion.getText().toString());
@@ -89,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         if (result) {
             this.finish();
         } else {
-            Toast.makeText(this,"Er ging iets mis bij het toevoegen, probeer het nog een keer", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Er ging iets mis bij het toevoegen, probeer het nog een keer", Toast.LENGTH_LONG).show();
         }
     }
 }

@@ -12,30 +12,30 @@ public class DAOFactory {
     /**
      * SQLitehelper object to pass on to the DAOs
      */
-    private SQLiteLocalDatabase SQLiteLocalDatabase;
+    private final SQLiteLocalDatabase SQLiteLocalDatabase;
 
-    public DAOFactory(SQLiteLocalDatabase SQLiteLocalDatabase){
+    public DAOFactory(SQLiteLocalDatabase SQLiteLocalDatabase) {
         this.SQLiteLocalDatabase = SQLiteLocalDatabase;
     }
 
     /**
      * @return a new StudentDAO
      */
-    public StudentDAO getStudentDAO(){
+    public StudentDAO getStudentDAO() {
         return new StudentDAO(SQLiteLocalDatabase);
     }
 
     /**
      * @return a new MealDAO
      */
-    public MealDAO getMealDAO(){
+    public MealDAO getMealDAO() {
         return new MealDAO(SQLiteLocalDatabase);
     }
 
     /**
      * @return a new FellowEater DAO
      */
-    public FellowEaterDAO getFellowEaterDAO(){
+    public FellowEaterDAO getFellowEaterDAO() {
         return new FellowEaterDAO(SQLiteLocalDatabase);
     }
 }

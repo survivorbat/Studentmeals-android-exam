@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/restaurant_background"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
     android:weightSum="6"
-    tools:context="nl.mheijden.prog3app.controllers.activities.MainActivity">
+    tools:context="nl.mheijden.prog3app.controllers.activities.MainActivity"
+    tools:targetApi="o">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/app_dashboard_title"
@@ -47,7 +46,9 @@
             android:layout_weight="1"
             android:background="@color/colorTransparent"
             android:text="@string/app_dashboard_button_meals"
-            android:textSize="60sp" />
+            android:textSize="60sp"
+            tools:ignore="NestedWeights"
+            style="?android:attr/buttonBarButtonStyle"/>
 
         <Button
             android:id="@+id/studentsButton"
@@ -56,7 +57,8 @@
             android:layout_weight="1"
             android:background="@color/colorTransparent"
             android:text="@string/app_dashboard_button_students"
-            android:textSize="60sp" />
+            android:textSize="60sp"
+            style="?android:attr/buttonBarButtonStyle"/>
     </LinearLayout>
 
     <LinearLayout
@@ -72,7 +74,9 @@
             android:layout_weight="1"
             android:background="@color/colorTransparent"
             android:text="@string/app_dashboard_button_newmeal"
-            android:textSize="60sp" />
+            android:textSize="60sp"
+            tools:ignore="NestedWeights"
+            style="?android:attr/buttonBarButtonStyle"/>
 
         <Button
             android:id="@+id/accountButton"
@@ -81,6 +85,7 @@
             android:layout_weight="1"
             android:background="@color/colorTransparent"
             android:text="@string/app_dashboard_button_account"
-            android:textSize="60sp" />
+            android:textSize="60sp"
+            style="?android:attr/buttonBarButtonStyle"/>
     </LinearLayout>
 </LinearLayout>

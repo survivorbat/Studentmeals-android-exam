@@ -1,18 +1,24 @@
 package nl.mheijden.prog3app.controllers.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.os.ParcelFileDescriptor;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import nl.mheijden.prog3app.R;
@@ -21,12 +27,12 @@ import nl.mheijden.prog3app.model.domain.MaaltijdenApp;
 import nl.mheijden.prog3app.model.domain.Meal;
 
 public class NewMealActivity extends AppCompatActivity implements NewMealControllerCallback {
+    private final ArrayList<String> rs = new ArrayList<>();
     private MaaltijdenApp app;
     private EditText dish, info, price, date, time, max;
     private Switch doesCookEat;
-    private TextView filename;
-    private Button addButton;
-    private ArrayList<String> rs= new ArrayList<>();
+    private Button imageAdd;
+    private Bitmap newImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +40,14 @@ public class NewMealActivity extends AppCompatActivity implements NewMealControl
         setContentView(R.layout.activity_new_meal);
 
         app = new MaaltijdenApp(this);
-        for(Meal m : app.getMeals()){
+        for (Meal m : app.getMeals()) {
             rs.add(m.getDate());
         }
-        Button imageAdd = findViewById(R.id.newmeal_selectpic);
+        imageAdd = findViewById(R.id.newmeal_selectpic);
         imageAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openGallery(1);
+                openGallery();
             }
         });
         dish = findViewById(R.id.newmeal_dish);
@@ -51,8 +57,7 @@ public class NewMealActivity extends AppCompatActivity implements NewMealControl
         time = findViewById(R.id.newmeal_time);
         max = findViewById(R.id.newmeal_max);
         doesCookEat = findViewById(R.id.newmeal_doescookeat);
-        filename = findViewById(R.id.newmeal_filename);
-        addButton = findViewById(R.id.addmeal_button);
+        Button addButton = findViewById(R.id.addmeal_button);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,76 +65,127 @@ public class NewMealActivity extends AppCompatActivity implements NewMealControl
             }
         });
     }
-    public void openGallery(int req_code) {
+
+    private void openGallery() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent,
-                getText(R.string.app_newmeal_selectpicture)), req_code);
+                getText(R.string.app_newmeal_selectpicture)), 1);
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (resultCode == RESULT_OK) {
-            Uri selectedImageUri = data.getData();
-            filename.setText(selectedImageUri+"");
+        if (resultCode == RESULT_OK && requestCode == 1 && null != data) {
+            decodeUri(data.getData());
+            imageAdd.setText(getText(R.string.app_input_imagechosen));
+            imageAdd.setTextColor(getResources().getColor(R.color.colorGreen));
         }
     }
 
-    public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
+    private void decodeUri(Uri uri) {
+        ParcelFileDescriptor parcelFD = null;
+        try {
+            parcelFD = getContentResolver().openFileDescriptor(uri, "r");
+            assert parcelFD != null;
+            FileDescriptor imageSource = parcelFD.getFileDescriptor();
 
-        return cursor.getString(column_index);
+            // Decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeFileDescriptor(imageSource, null, o);
+
+            // the new size we want to scale to
+            final int REQUIRED_SIZE = 1024;
+
+            // Find the correct scale value. It should be the power of 2.
+            int width_tmp = o.outWidth, height_tmp = o.outHeight;
+            int scale = 1;
+            while (true) {
+                if (width_tmp < REQUIRED_SIZE && height_tmp < REQUIRED_SIZE) {
+                    break;
+                }
+                width_tmp /= 2;
+                height_tmp /= 2;
+                scale *= 2;
+            }
+
+            // decode with inSampleSize
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+            newImage = BitmapFactory.decodeFileDescriptor(imageSource, null, o2);
+
+        } catch (FileNotFoundException e) {
+            // handle errors
+        } finally {
+            if (parcelFD != null)
+                try {
+                    parcelFD.close();
+                } catch (IOException e) {
+                    // ignored
+                }
+        }
     }
 
-    private void confirmMeal(){
-        boolean errorFree=true;
-        if(date.getText().toString().trim().isEmpty() || time.toString().trim().isEmpty() || !date.getText().toString().matches("^([0-9]{4}[-/]?((0[13-9]|1[012])[-/]?(0[1-9]|[12][0-9]|30)|(0[13578]|1[02])[-/]?31|02[-/]?(0[1-9]|1[0-9]|2[0-8]))|([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00)[-/]?02[-/]?29)$")){
-            errorFree=false;
+    private void confirmMeal() {
+        boolean errorFree = true;
+        if (date.getText().toString().trim().isEmpty() || time.toString().trim().isEmpty() || !isValidDate(date.getText().toString())) {
+            errorFree = false;
             date.setError(getText(R.string.newmeal_error_dateformat));
-            if(rs.contains(date.getText().toString()+" "+time.getText().toString())){
+            if (rs.contains(date.getText().toString() + " " + time.getText().toString())) {
                 date.setError(getText(R.string.newmeal_takendate));
             }
         }
-        if(dish.getText().toString().trim().isEmpty()){
+        if (dish.getText().toString().trim().isEmpty()) {
             dish.setError(getText(R.string.app_input_error_dish));
-            errorFree=false;
+            errorFree = false;
         }
-        if(info.getText().toString().trim().isEmpty()){
+        if (info.getText().toString().trim().isEmpty()) {
             info.setError(getText(R.string.app_error_noinfo));
-            errorFree=false;
+            errorFree = false;
         }
-        if(price.toString().trim().isEmpty()){
+        if (price.toString().trim().isEmpty()) {
             info.setError(getText(R.string.app_error_noprice));
-            errorFree=false;
+            errorFree = false;
         }
-        if(max.getText().toString().equals("")){
+        if (max.getText().toString().equals("")) {
             max.setError(getText(R.string.app_input_error_maxpeople));
-            errorFree=false;
+            errorFree = false;
         }
-        if(errorFree){
+        if (errorFree) {
             Meal meal = new Meal();
             meal.setMaxFellowEaters(Integer.parseInt(max.getText().toString()));
             meal.setPrice(Double.parseDouble(price.getText().toString()));
             meal.setDish(dish.getText().toString());
             meal.setInfo(info.getText().toString());
             meal.setDoesCookEat(doesCookEat.isChecked());
-            meal.setDate(date.getText().toString()+" "+time.getText().toString());
+            String[] dateForm = date.getText().toString().split("-");
+            meal.setDate(dateForm[2]+"-"+dateForm[1]+"-"+dateForm[0] + " " + time.getText().toString());
             meal.setChef(app.getUser());
+            meal.setPicture(newImage);
             app.addMeal(meal, this);
-            System.out.println("sending meal");
         }
     }
 
     @Override
     public void addedMeal(boolean result) {
-        if(result){
+        if (result) {
             this.finish();
         } else {
-            Toast.makeText(this,getText(R.string.app_error_conn), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getText(R.string.app_error_conn), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private static boolean isValidDate(String text) {
+        if (text == null || !text.matches("[0-3]\\d-[01]\\d-\\d{4}")) return false;
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        df.setLenient(false);
+        try {
+            df.parse(text);
+            return true;
+        } catch (ParseException ex) {
+            return false;
         }
     }
 }

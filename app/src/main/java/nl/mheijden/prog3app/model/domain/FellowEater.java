@@ -27,10 +27,11 @@ public class FellowEater implements Serializable {
 
     /**
      * Constructor for quickly creating an object
-     * @param id of the felloweater, imported from the mysql database
+     *
+     * @param id      of the felloweater, imported from the mysql database
      * @param student that this felloweater belongs to
-     * @param guests that come with the student
-     * @param meal that this felloweater is about
+     * @param guests  that come with the student
+     * @param meal    that this felloweater is about
      */
     public FellowEater(int id, Student student, int guests, Meal meal) {
         this.id = id;
@@ -42,7 +43,7 @@ public class FellowEater implements Serializable {
     /**
      * Empty constructor since the DAO's use setters
      */
-    public FellowEater(){
+    public FellowEater() {
 
     }
 
@@ -50,7 +51,7 @@ public class FellowEater implements Serializable {
      * @return number of guest + the student
      */
     int getAmount() {
-        return guests+1;
+        return guests + 1;
     }
 
     public int getId() {

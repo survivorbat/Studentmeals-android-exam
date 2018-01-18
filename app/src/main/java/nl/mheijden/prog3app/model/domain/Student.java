@@ -1,5 +1,7 @@
 package nl.mheijden.prog3app.model.domain;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 /**
@@ -34,15 +36,16 @@ public class Student implements Serializable {
     /**
      * Password that is only used when attempting to log into the system, empty string by default
      */
-    private String password="";
+    private String password = "";
+    private Bitmap image;
 
     public Student(String studentNumber, String firstname, String insertion, String lastname, String email, String phonenumber) {
         this.studentNumber = studentNumber;
         this.firstname = firstname;
-        if(insertion!=null){
+        if (insertion != null) {
             this.insertion = insertion;
         } else {
-            this.insertion="";
+            this.insertion = "";
         }
         this.lastname = lastname;
         this.email = email;
@@ -52,14 +55,14 @@ public class Student implements Serializable {
     /**
      * Constructor when just using setters
      */
-    public Student(){
+    public Student() {
     }
 
     /**
      * @param studentNumber of the student, this constructor is only used when importing from a service
      */
-    public Student(String studentNumber){
-        this.studentNumber=studentNumber;
+    public Student(String studentNumber) {
+        this.studentNumber = studentNumber;
     }
 
     public String getstudentNumber() {
@@ -134,5 +137,13 @@ public class Student implements Serializable {
     @Override
     public int hashCode() {
         return studentNumber.hashCode();
+    }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
 }

@@ -10,7 +10,6 @@
     <string name="app_input_error_nopass">Missing password</string>
     <string name="app_input_error_nofirstname">Missing firstname</string>
     <string name="app_input_error_nolastname">Missing lastname</string>
-    <string name="app_input_error_noinsertion">Missing insertion</string>
     <string name="app_input_error_noemail">Missing email</string>
     <string name="app_input_error_notelephonenumber">Missing telehphone number</string>
     <string name="app_input_error_wrong">These credentials are incorrect</string>
@@ -46,9 +45,7 @@
     <string name="app_newmeal_title">New meal</string>
     <string name="app_newmeal_dish">Dish</string>
     <string name="app_newmeal_info">Extra information (allergies, ingredients)</string>
-    <string name="app_newmeal_datetime">Date and Time</string>
     <string name="app_newmeal_date">Date</string>
-    <string name="app_newmeal_time">Time</string>
     <string name="app_newmeal_price">Price</string>
     <string name="app_newmeal_max">Maximum amount of eaters</string>
     <string name="app_newmeal_doescookeet">Do you eat as well?</string>
@@ -63,10 +60,11 @@
     <string name="app_error_noinfo">Missing description</string>
     <string name="app_error_noprice">Missing price</string>
     <string name="app_input_error_maxpeople">Missing maximum amount of people</string>
-    <string name="app_input_dateformat">0000–00–00</string>
-    <string name="newmeal_error_dateformat">Format the date like this: jjjj-mm-dd</string>
+    <string name="app_input_dateformat">00–00–0000</string>
+    <string name="newmeal_error_dateformat">Format the date like this: dd-mm-jjjj</string>
     <string name="app_accounts_commit">Apply changes</string>
-    <string name="app_reloading">Refreshing…</string>
     <string name="app_dashboard_button_students">👨</string>
     <string name="app_joinmeal_success">Successfully added!</string>
+    <string name="app_changedstudent_success">Successfully changed</string>
+    <string name="app_input_imagechosen">Image chosen</string>
 </resources>

@@ -7,6 +7,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorHint">@color/colorSemiWhite</item>
+        <item name="android:windowBackground">@drawable/restaurant_background</item>
+        <item name="android:colorBackground">@color/colorDarkBlueTransparent</item>
     </style>
 
 </resources>

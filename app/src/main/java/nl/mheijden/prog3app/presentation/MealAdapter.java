@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,35 +27,33 @@ import nl.mheijden.prog3app.model.domain.Student;
 
 public class MealAdapter extends ArrayAdapter<Meal> {
     /**
-     * All the meals that
-     */
-    private ArrayList<Meal> data;
-    /**
-     * Context from the activity
-     */
-    private Context context;
-    /**
-     * Current user, for comparison reasons
-     */
-    private Student user;
-    /**
-     * directory to get the images from
-     */
-    private File filesDir;
-
-    /**
      * The default image with the logo of the application
      */
     private static Bitmap defaultImage;
+    /**
+     * All the meals that
+     */
+    private final ArrayList<Meal> data;
+    /**
+     * Context from the activity
+     */
+    private final Context context;
+    /**
+     * Current user, for comparison reasons
+     */
+    private final Student user;
+    /**
+     * directory to get the images from
+     */
+    private final File filesDir;
 
     /**
      * @param context of the activity
-     * @param resource the listview view
-     * @param data list of meals
-     * @param user current user
+     * @param data    list of meals
+     * @param user    current user
      */
-    public MealAdapter(Context context, int resource, ArrayList<Meal> data, Student user) {
-        super(context, resource, data);
+    public MealAdapter(Context context, ArrayList<Meal> data, Student user) {
+        super(context, R.layout.listview_meal, data);
         this.data = data;
         this.context = context;
         this.user = user;
@@ -62,9 +61,10 @@ public class MealAdapter extends ArrayAdapter<Meal> {
         this.filesDir = context.getFilesDir();
     }
 
+    @NonNull
     @SuppressLint("SetTextI18n")
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @SuppressWarnings("NullableProblems") ViewGroup parent) {
         Meal meal = getItem(position);
         ViewHolder viewHolder;
         if (convertView == null) {
@@ -98,7 +98,7 @@ public class MealAdapter extends ArrayAdapter<Meal> {
             }
 
             File f = new File(filesDir, "mealPictures_" + meal.getId());
-            FileInputStream fis = null;
+            FileInputStream fis;
             try {
                 fis = new FileInputStream(f);
                 Bitmap bitmap = BitmapFactory.decodeStream(fis);

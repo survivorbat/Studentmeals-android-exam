@@ -5,5 +5,5 @@ package nl.mheijden.prog3app.controllers.callbacks;
  */
 
 public interface JoinControllerCallback {
-    public void onJoinComplete(boolean result);
+    void onJoinComplete(boolean result);
 }

@@ -21,7 +21,7 @@ import nl.mheijden.prog3app.model.domain.Meal;
 public class MealsActivity_Join extends AppCompatActivity implements JoinControllerCallback {
     private Meal meal;
     private EditText amountOfPeople;
-    private MaaltijdenApp app;
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +30,19 @@ public class MealsActivity_Join extends AppCompatActivity implements JoinControl
         Intent i = getIntent();
         meal = (Meal) i.getSerializableExtra("Meal");
         TextView title = findViewById(R.id.joinscreen_title);
-        title.setText(meal.getDish()+"");
+        title.setText(meal.getDish() + "");
 
         amountOfPeople = findViewById(R.id.amountOfPeople);
         TextView amountOfPeopleTitle = findViewById(R.id.joinscreen_amounttitle);
 
         TextView info = findViewById(R.id.joinscreen_mealinfo);
-        info.setText(meal.getDate()+"\n"+meal.getAmountOfEaters()+"/"+meal.getMaxFellowEaters()+" "+getText(R.string.app_dashboard_button_students)+"\n\n"+meal.getInfo()+"");
-        if(meal.getMaxFellowEaters()-meal.getAmountOfEaters()-1<=0){
+        info.setText(meal.getDate() + "\n" + meal.getAmountOfEaters() + "/" + meal.getMaxFellowEaters() + " " + getText(R.string.app_dashboard_button_students) + "\n\n" + meal.getInfo() + "");
+        if (meal.getMaxFellowEaters() - meal.getAmountOfEaters() - 1 <= 0) {
             amountOfPeople.setEnabled(false);
             amountOfPeople.setVisibility(View.GONE);
             amountOfPeopleTitle.setVisibility(View.GONE);
         } else {
-            amountOfPeople.setHint(getText(R.string.app_joinscreen_chooseamount)+" (max. "+(meal.getMaxFellowEaters()-meal.getAmountOfEaters()-1)+")");
+            amountOfPeople.setHint(getText(R.string.app_joinscreen_chooseamount) + " (max. " + (meal.getMaxFellowEaters() - meal.getAmountOfEaters() - 1) + ")");
         }
         final Button confirmButton = findViewById(R.id.joinscreen_confirmbutton);
         confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -53,36 +53,36 @@ public class MealsActivity_Join extends AppCompatActivity implements JoinControl
         });
     }
 
-    private void confirmJoin(){
-        if(!amountOfPeople.getText().toString().equals("") && Integer.parseInt(amountOfPeople.getText().toString())>(meal.getMaxFellowEaters()-meal.getAmountOfEaters()-1)){
-            amountOfPeople.setError(getText(R.string.app_input_error_tooManyPeople)+"(max."+(meal.getMaxFellowEaters()-meal.getAmountOfEaters()-1)+")");
-        } else if(!amountOfPeople.getText().toString().equals("") && Integer.parseInt(amountOfPeople.getText().toString())<0){
+    private void confirmJoin() {
+        if (!amountOfPeople.getText().toString().equals("") && Integer.parseInt(amountOfPeople.getText().toString()) > (meal.getMaxFellowEaters() - meal.getAmountOfEaters() - 1)) {
+            amountOfPeople.setError(getText(R.string.app_input_error_tooManyPeople) + "(max." + (meal.getMaxFellowEaters() - meal.getAmountOfEaters() - 1) + ")");
+        } else if (!amountOfPeople.getText().toString().equals("") && Integer.parseInt(amountOfPeople.getText().toString()) < 0) {
             amountOfPeople.setError(getText(R.string.app_input_error_notnegative));
         } else {
-            app = new MaaltijdenApp(this);
+            MaaltijdenApp app = new MaaltijdenApp(this);
             FellowEater fellowEater = new FellowEater();
-            if(amountOfPeople.getText().toString().equals("")){
+            if (amountOfPeople.getText().toString().equals("")) {
                 fellowEater.setGuests(0);
             } else {
                 fellowEater.setGuests(Integer.parseInt(amountOfPeople.getText().toString()));
             }
             fellowEater.setMeal(meal);
             fellowEater.setStudent(app.getUser());
-            app.addFellowEater(fellowEater,this);
+            app.addFellowEater(fellowEater, this);
         }
     }
 
     @Override
     public void onJoinComplete(boolean result) {
-        if(result){
-            Toast.makeText(this,R.string.app_joinmeal_success,Toast.LENGTH_SHORT).show();
+        if (result) {
+            Toast.makeText(this, R.string.app_joinmeal_success, Toast.LENGTH_SHORT).show();
             SharedPreferences sharedPreferences = getSharedPreferences("userdata", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("SHOULDRELOAD",true);
+            editor.putBoolean("SHOULDRELOAD", true);
             editor.apply();
             this.finish();
         } else {
-            Toast.makeText(this,getText(R.string.app_error_conn), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getText(R.string.app_error_conn), Toast.LENGTH_SHORT).show();
         }
     }
 }

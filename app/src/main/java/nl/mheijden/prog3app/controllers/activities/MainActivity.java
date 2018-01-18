@@ -28,9 +28,9 @@ public class MainActivity extends AppCompatActivity implements LoginControllerCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         this.app = new MaaltijdenApp(this);
-        this.studentNumber=findViewById(R.id.login_number);
-        this.password=findViewById(R.id.login_pass);
-        this.errorfield=findViewById(R.id.login_errorfield);
+        this.studentNumber = findViewById(R.id.login_number);
+        this.password = findViewById(R.id.login_pass);
+        this.errorfield = findViewById(R.id.login_errorfield);
         Button loginButton = findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,22 +50,22 @@ public class MainActivity extends AppCompatActivity implements LoginControllerCa
     /**
      * Called when login button is pressed
      */
-    private void submitLogin(){
+    private void submitLogin() {
         errorfield.setText("");
         String user = studentNumber.getText().toString();
         String pass = password.getText().toString();
 
-        boolean errorFree=true;
-        if(user.equals("") || user.length()==0){
+        boolean errorFree = true;
+        if (user.equals("") || user.length() == 0) {
             studentNumber.setError(getText(R.string.app_input_error_nousername));
-            errorFree=false;
+            errorFree = false;
         }
-        if(pass.equals("") || password.length()==0){
+        if (pass.equals("") || password.length() == 0) {
             password.setError(getText(R.string.app_input_error_nopass));
-            errorFree=false;
+            errorFree = false;
         }
 
-        if(errorFree){
+        if (errorFree) {
             errorfield.setText(R.string.app_input_error_loading);
             app.login(user, pass, this);
         }
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements LoginControllerCa
     /**
      * Is called when the register button is pressed
      */
-    private void registerHandler(){
+    private void registerHandler() {
         Intent i = new Intent(this, RegisterActivity.class);
         startActivity(i);
     }
@@ -85,16 +85,21 @@ public class MainActivity extends AppCompatActivity implements LoginControllerCa
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void login(String response) {
-        if(response.equals("errorwrong")){
-            errorfield.setText(R.string.app_input_error_wrong);
-        } else if (response.equals("errorobj")){
-            errorfield.setText(R.string.app_error_obj);
-        } else if(response.equals("errorconn")){
-            errorfield.setText(R.string.app_error_conn);
-        } else if(response.equals("success")) {
-            errorfield.setText("");
-            Intent i = new Intent(this,DashboardActivity.class);
-            startActivity(i);
+        switch (response) {
+            case "errorwrong":
+                errorfield.setText(R.string.app_input_error_wrong);
+                break;
+            case "errorobj":
+                errorfield.setText(R.string.app_error_obj);
+                break;
+            case "errorconn":
+                errorfield.setText(R.string.app_error_conn);
+                break;
+            case "success":
+                errorfield.setText("");
+                Intent i = new Intent(this, DashboardActivity.class);
+                startActivity(i);
+                break;
         }
         errorfield.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
     }

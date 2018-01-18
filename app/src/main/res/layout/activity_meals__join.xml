@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="3"
-    android:background="@drawable/restaurant_background"
     android:orientation="vertical"
     tools:context="nl.mheijden.prog3app.controllers.activities.MealsActivity_Join">
 
@@ -14,7 +13,8 @@
         android:layout_weight="9"
         android:background="@color/colorDarkBlueTransparent"
         android:orientation="vertical"
-        android:paddingHorizontal="8dp">
+        android:paddingHorizontal="8dp"
+        tools:targetApi="o">
 
         <TextView
             android:id="@+id/joinscreen_title"
@@ -38,7 +38,7 @@
                     android:id="@+id/joinscreen_mealinfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text=""
                     android:textColor="@color/colorSemiWhite"
                     android:textSize="18sp"
                     tools:text="@string/app_placeholder" />
@@ -53,7 +53,8 @@
         android:layout_weight="1"
         android:background="@color/colorDarkBlueTransparent"
         android:orientation="vertical"
-        android:paddingHorizontal="8dp">
+        android:paddingHorizontal="8dp"
+        tools:targetApi="o">
 
         <TextView
             android:id="@+id/joinscreen_amounttitle"
@@ -74,7 +75,6 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/joinscreen_errorfield"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"
