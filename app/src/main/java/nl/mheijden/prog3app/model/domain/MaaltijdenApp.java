@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import nl.mheijden.prog3app.controllers.callbacks.ChangeStudentCallback;
 import nl.mheijden.prog3app.controllers.callbacks.DeleteMealControllerCallback;
+import nl.mheijden.prog3app.controllers.callbacks.InvalidTokenCallback;
 import nl.mheijden.prog3app.controllers.callbacks.JoinControllerCallback;
 import nl.mheijden.prog3app.controllers.callbacks.LeaveControllerCallback;
 import nl.mheijden.prog3app.controllers.callbacks.LoginControllerCallback;
@@ -70,6 +71,10 @@ public class MaaltijdenApp implements APICallbacks {
      */
     private ChangeStudentCallback changeStudentCallback;
     /**
+     * Callback for a 401 response
+     */
+    private InvalidTokenCallback invalidTokenCallback;
+    /**
      * The studentnumber of the user that is currently in the activity
      */
     private String userID;
@@ -81,6 +86,19 @@ public class MaaltijdenApp implements APICallbacks {
 
     /**
      * @param context of the current activity
+     * @param invalidTokenCallback that is used incase a 401 error comes up
+     */
+    public MaaltijdenApp(Context context, InvalidTokenCallback invalidTokenCallback) {
+        this.context = context;
+        this.daoFactory = new DAOFactory(new SQLiteLocalDatabase(context));
+        this.api = new APIServices(context, this);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata", Context.MODE_PRIVATE);
+        userID = sharedPreferences.getString("USERID", "");
+        this.invalidTokenCallback = invalidTokenCallback;
+    }
+
+    /**
+     * @param context of the current activity
      */
     public MaaltijdenApp(Context context) {
         this.context = context;
@@ -89,8 +107,6 @@ public class MaaltijdenApp implements APICallbacks {
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata", Context.MODE_PRIVATE);
         userID = sharedPreferences.getString("USERID", "");
     }
-
-
 
 
     /* Get current user */
@@ -269,6 +285,10 @@ public class MaaltijdenApp implements APICallbacks {
 
     /* Put methods */
 
+    /**
+     * @param student that needs to be changed
+     * @param changeStudentcallback to be called when student is changed or not
+     */
     public void changeStudent(Student student, ChangeStudentCallback changeStudentcallback) {
         this.changeStudentCallback = changeStudentcallback;
         api.changeStudent(student);
@@ -282,6 +302,9 @@ public class MaaltijdenApp implements APICallbacks {
 
     /* Put method callbacks*/
 
+    /**
+     * @param result dictates wether the student was changed or not
+     */
     @Override
     public void changedStudent(boolean result) {
         changeStudentCallback.onUserChanged(result);
@@ -363,6 +386,6 @@ public class MaaltijdenApp implements APICallbacks {
      */
     @Override
     public void invalidToken() {
-
+        invalidTokenCallback.invalidToken();
     }
 }

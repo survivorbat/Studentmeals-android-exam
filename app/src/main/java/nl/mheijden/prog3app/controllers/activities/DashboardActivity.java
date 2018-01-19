@@ -7,8 +7,9 @@ import android.view.View;
 import android.widget.Button;
 
 import nl.mheijden.prog3app.R;
+import nl.mheijden.prog3app.controllers.callbacks.InvalidTokenCallback;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements InvalidTokenCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,5 +62,9 @@ public class DashboardActivity extends AppCompatActivity {
     private void openAccount() {
         Intent i = new Intent(this, AccountsActivity.class);
         startActivity(i);
+    }
+    @Override
+    public void invalidToken() {
+        startActivity(new Intent(getApplicationContext(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 }

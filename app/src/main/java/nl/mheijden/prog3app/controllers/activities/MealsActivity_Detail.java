@@ -22,12 +22,13 @@ import java.io.FileNotFoundException;
 
 import nl.mheijden.prog3app.R;
 import nl.mheijden.prog3app.controllers.callbacks.DeleteMealControllerCallback;
+import nl.mheijden.prog3app.controllers.callbacks.InvalidTokenCallback;
 import nl.mheijden.prog3app.controllers.callbacks.LeaveControllerCallback;
 import nl.mheijden.prog3app.model.domain.FellowEater;
 import nl.mheijden.prog3app.model.domain.MaaltijdenApp;
 import nl.mheijden.prog3app.model.domain.Meal;
 
-public class MealsActivity_Detail extends AppCompatActivity implements LeaveControllerCallback, DeleteMealControllerCallback {
+public class MealsActivity_Detail extends AppCompatActivity implements LeaveControllerCallback, DeleteMealControllerCallback, InvalidTokenCallback {
     private Meal meal;
     private MaaltijdenApp app;
 
@@ -49,7 +50,7 @@ public class MealsActivity_Detail extends AppCompatActivity implements LeaveCont
             TextView meal_eaters = findViewById(R.id.meal_felloweaterlist);
             ImageView meal_image = findViewById(R.id.meal_image);
             Button meal_addbutton = findViewById(R.id.meal_eatwithbutton);
-            app = new MaaltijdenApp(this);
+            app = new MaaltijdenApp(this,this);
 
             meal_title.setText(meal.getDish() + "");
             meal_desc.setText(meal.getInfo() + "");
@@ -166,5 +167,9 @@ public class MealsActivity_Detail extends AppCompatActivity implements LeaveCont
         if (sharedPreferences.getBoolean("SHOULDRELOAD", false)) {
             this.finish();
         }
+    }
+    @Override
+    public void invalidToken() {
+        startActivity(new Intent(getApplicationContext(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 }

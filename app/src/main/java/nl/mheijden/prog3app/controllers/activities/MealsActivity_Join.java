@@ -13,12 +13,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import nl.mheijden.prog3app.R;
+import nl.mheijden.prog3app.controllers.callbacks.InvalidTokenCallback;
 import nl.mheijden.prog3app.controllers.callbacks.JoinControllerCallback;
 import nl.mheijden.prog3app.model.domain.FellowEater;
 import nl.mheijden.prog3app.model.domain.MaaltijdenApp;
 import nl.mheijden.prog3app.model.domain.Meal;
 
-public class MealsActivity_Join extends AppCompatActivity implements JoinControllerCallback {
+public class MealsActivity_Join extends AppCompatActivity implements JoinControllerCallback, InvalidTokenCallback {
     private Meal meal;
     private EditText amountOfPeople;
 
@@ -59,7 +60,7 @@ public class MealsActivity_Join extends AppCompatActivity implements JoinControl
         } else if (!amountOfPeople.getText().toString().equals("") && Integer.parseInt(amountOfPeople.getText().toString()) < 0) {
             amountOfPeople.setError(getText(R.string.app_input_error_notnegative));
         } else {
-            MaaltijdenApp app = new MaaltijdenApp(this);
+            MaaltijdenApp app = new MaaltijdenApp(this,this);
             FellowEater fellowEater = new FellowEater();
             if (amountOfPeople.getText().toString().equals("")) {
                 fellowEater.setGuests(0);
@@ -84,5 +85,9 @@ public class MealsActivity_Join extends AppCompatActivity implements JoinControl
         } else {
             Toast.makeText(this, getText(R.string.app_error_conn), Toast.LENGTH_SHORT).show();
         }
+    }
+    @Override
+    public void invalidToken() {
+        startActivity(new Intent(getApplicationContext(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 }

@@ -23,10 +23,11 @@ import java.io.IOException;
 
 import nl.mheijden.prog3app.R;
 import nl.mheijden.prog3app.controllers.callbacks.ChangeStudentCallback;
+import nl.mheijden.prog3app.controllers.callbacks.InvalidTokenCallback;
 import nl.mheijden.prog3app.model.domain.MaaltijdenApp;
 import nl.mheijden.prog3app.model.domain.Student;
 
-public class AccountsActivity extends AppCompatActivity implements ChangeStudentCallback {
+public class AccountsActivity extends AppCompatActivity implements ChangeStudentCallback, InvalidTokenCallback {
     private Student student;
     private EditText firstname, lastname, insertion, phonenumber, email, password, passwordconfirm;
     private Bitmap newImage;
@@ -196,5 +197,10 @@ public class AccountsActivity extends AppCompatActivity implements ChangeStudent
                     // ignored
                 }
         }
+    }
+
+    @Override
+    public void invalidToken() {
+        startActivity(new Intent(getApplicationContext(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 }

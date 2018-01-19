@@ -23,11 +23,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import nl.mheijden.prog3app.R;
+import nl.mheijden.prog3app.controllers.callbacks.InvalidTokenCallback;
 import nl.mheijden.prog3app.controllers.callbacks.NewMealControllerCallback;
 import nl.mheijden.prog3app.model.domain.MaaltijdenApp;
 import nl.mheijden.prog3app.model.domain.Meal;
 
-public class NewMealActivity extends AppCompatActivity implements NewMealControllerCallback {
+public class NewMealActivity extends AppCompatActivity implements NewMealControllerCallback, InvalidTokenCallback {
     private final ArrayList<String> rs = new ArrayList<>();
     private MaaltijdenApp app;
     private EditText dish, info, price, date, time, max;
@@ -41,7 +42,7 @@ public class NewMealActivity extends AppCompatActivity implements NewMealControl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_meal);
 
-        app = new MaaltijdenApp(this);
+        app = new MaaltijdenApp(this,this);
         for (Meal m : app.getMeals()) {
             rs.add(m.getDate());
         }
@@ -191,5 +192,9 @@ public class NewMealActivity extends AppCompatActivity implements NewMealControl
         } catch (ParseException ex) {
             return false;
         }
+    }
+    @Override
+    public void invalidToken() {
+        startActivity(new Intent(getApplicationContext(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 }

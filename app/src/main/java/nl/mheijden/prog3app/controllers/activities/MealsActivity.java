@@ -14,12 +14,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import nl.mheijden.prog3app.R;
+import nl.mheijden.prog3app.controllers.callbacks.InvalidTokenCallback;
 import nl.mheijden.prog3app.controllers.callbacks.ReloadCallback;
 import nl.mheijden.prog3app.model.domain.MaaltijdenApp;
 import nl.mheijden.prog3app.model.domain.Meal;
 import nl.mheijden.prog3app.presentation.MealAdapter;
 
-public class MealsActivity extends AppCompatActivity implements ReloadCallback {
+public class MealsActivity extends AppCompatActivity implements ReloadCallback, InvalidTokenCallback {
     private MaaltijdenApp app;
     private ListView list;
     private SwipeRefreshLayout layout;
@@ -30,7 +31,7 @@ public class MealsActivity extends AppCompatActivity implements ReloadCallback {
         setContentView(R.layout.activity_meals);
         this.list = findViewById(R.id.mealslist);
 
-        app = new MaaltijdenApp(this);
+        app = new MaaltijdenApp(this,this);
 
         ArrayAdapter adapter = new MealAdapter(this, app.getMeals(), app.getUser());
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -83,5 +84,9 @@ public class MealsActivity extends AppCompatActivity implements ReloadCallback {
         } else {
             Toast.makeText(this, R.string.app_reload_failure, Toast.LENGTH_SHORT).show();
         }
+    }
+    @Override
+    public void invalidToken() {
+        startActivity(new Intent(getApplicationContext(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 }

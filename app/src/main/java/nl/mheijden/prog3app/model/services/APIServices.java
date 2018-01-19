@@ -62,6 +62,11 @@ public class APIServices {
      */
     private final String BASEURL = "http://prog4node.herokuapp.com";
 
+
+
+
+    /* Constructor */
+
     /**
      * @param context      of the activity for sharedpreferences
      * @param APICallbacks in order to send back data to the domain
@@ -74,6 +79,11 @@ public class APIServices {
         this.APICallbacks = APICallbacks;
         this.context = context;
     }
+
+
+
+
+    /* Add methods */
 
     /**
      * @param meal that needs to be added
@@ -103,7 +113,11 @@ public class APIServices {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                APICallbacks.addedMeal(false);
+                if(error.networkResponse.statusCode==401){
+                    APICallbacks.invalidToken();
+                } else {
+                    APICallbacks.addedMeal(false);
+                }
                 error.printStackTrace();
             }
         }) {
@@ -165,7 +179,11 @@ public class APIServices {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                APICallbacks.addedFellowEater(false);
+                if(error.networkResponse.statusCode==401){
+                    APICallbacks.invalidToken();
+                } else {
+                    APICallbacks.addedFellowEater(false);
+                }
                 error.printStackTrace();
             }
         }) {
@@ -179,6 +197,11 @@ public class APIServices {
         };
         mRequestQueue.add(request);
     }
+
+
+
+
+    /* Login method */
 
     /**
      * @param studentNumber for identification
@@ -223,6 +246,11 @@ public class APIServices {
         mRequestQueue.add(request);
     }
 
+
+
+
+    /* Get methods */
+
     /**
      * Get ALL students and then get images afterwards
      */
@@ -248,6 +276,11 @@ public class APIServices {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse.statusCode==401){
+                    APICallbacks.invalidToken();
+                } else {
+                    getStudentImages(rs);
+                }
                 error.printStackTrace();
             }
         }) {
@@ -288,6 +321,11 @@ public class APIServices {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse.statusCode==401){
+                    APICallbacks.invalidToken();
+                } else {
+                    getMealImages(rs);
+                }
                 error.printStackTrace();
             }
         }) {
@@ -335,10 +373,14 @@ public class APIServices {
                 }, 0, 0, null, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //noinspection ResultOfMethodCallIgnored
-                        f.delete();
-                        if (++counter[0] == meals.size()) {
-                            APICallbacks.loadMeals(meals);
+                        if(error.networkResponse.statusCode==401){
+                            APICallbacks.invalidToken();
+                        } else {
+                            //noinspection ResultOfMethodCallIgnored
+                            f.delete();
+                            if (++counter[0] == meals.size()) {
+                                APICallbacks.loadMeals(meals);
+                            }
                         }
                     }
                 }) {
@@ -356,116 +398,6 @@ public class APIServices {
         if (counter[0] != meals.size()) {
             APICallbacks.loadMeals(meals);
         }
-    }
-
-    /**
-     * @param meal to delete
-     */
-    public void deleteMeal(Meal meal) {
-        Log.i("API", "deleteMeal " + meal.getId());
-        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata", Context.MODE_PRIVATE);
-        final String token = sharedPreferences.getString("APITOKEN", null);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, BASEURL + "/api/meal/" + meal.getId(), null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                APICallbacks.removedMeal(true);
-                Log.i("API", "getFellowEaters successful");
-            }
-        }, new Response.ErrorListener() {
-            @Override
-
-            public void onErrorResponse(VolleyError error) {
-                APICallbacks.removedMeal(false);
-                error.printStackTrace();
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                String auth = "Bearer " + token;
-                headers.put("Accept", "application/json");
-                headers.put("Content-Type", "application/json");
-                headers.put("Authorization", auth);
-
-                return headers;
-            }
-        };
-        mRequestQueue.add(request);
-    }
-
-    /**
-     * @param fellowEater to be deleted
-     */
-    public void deleteFellowEater(FellowEater fellowEater) {
-        Log.i("API", "deleteFellowEater " + fellowEater.getId());
-        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata", Context.MODE_PRIVATE);
-        final String token = sharedPreferences.getString("APITOKEN", null);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, BASEURL + "/api/felloweater/" + fellowEater.getId(), null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                APICallbacks.removedFellowEater(true);
-                Log.i("API", "getFellowEaters successful");
-            }
-        }, new Response.ErrorListener() {
-            @Override
-
-            public void onErrorResponse(VolleyError error) {
-                APICallbacks.removedFellowEater(false);
-                error.printStackTrace();
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                String auth = "Bearer " + token;
-                headers.put("Accept", "application/json");
-                headers.put("Content-Type", "application/json");
-                headers.put("Authorization", auth);
-
-                return headers;
-            }
-        };
-        mRequestQueue.add(request);
-    }
-
-    /**
-     * get ALL felloweaters
-     */
-    public void getFellowEaters() {
-        Log.i("API", "getFellowEaters");
-        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata", Context.MODE_PRIVATE);
-        final String token = sharedPreferences.getString("APITOKEN", null);
-        final ArrayList<FellowEater> rs = new ArrayList<>();
-        JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, BASEURL + "/api/felloweater", null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                try {
-                    for (int i = 0; i < response.length(); i++) {
-                        JSONObject felloweater = response.getJSONObject(i);
-                        FellowEater fellowEater = new FellowEater(felloweater.getInt("ID"), new Student(felloweater.getString("StudentNumber")), felloweater.getInt("AmountOfGuests"), new Meal(felloweater.getInt("MealID")));
-                        rs.add(fellowEater);
-                        APICallbacks.loadFellowEaters(rs);
-                    }
-                    Log.i("API", "getFellowEaters successful");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                String auth = "Bearer " + token;
-                headers.put("Authorization", auth);
-                return headers;
-            }
-        };
-        mRequestQueue.add(jsObjRequest);
     }
 
     /**
@@ -499,12 +431,16 @@ public class APIServices {
             }, 0, 0, null, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    File fileDir = context.getFilesDir();
-                    File f = new File(fileDir, "studentPictures_" + s.getstudentNumber());
-                    //noinspection ResultOfMethodCallIgnored
-                    f.delete();
-                    if (++counter[0] == students.size()) {
-                        APICallbacks.loadStudents(students);
+                    if(error.networkResponse.statusCode==401){
+                        APICallbacks.invalidToken();
+                    } else {
+                        File fileDir = context.getFilesDir();
+                        File f = new File(fileDir, "studentPictures_" + s.getstudentNumber());
+                        //noinspection ResultOfMethodCallIgnored
+                        f.delete();
+                        if (++counter[0] == students.size()) {
+                            APICallbacks.loadStudents(students);
+                        }
                     }
                 }
             }) {
@@ -519,6 +455,137 @@ public class APIServices {
             mRequestQueue.add(jsObjRequest);
         }
     }
+
+    /**
+     * get ALL felloweaters
+     */
+    public void getFellowEaters() {
+        Log.i("API", "getFellowEaters");
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata", Context.MODE_PRIVATE);
+        final String token = sharedPreferences.getString("APITOKEN", null);
+        final ArrayList<FellowEater> rs = new ArrayList<>();
+        JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, BASEURL + "/api/felloweater", null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject felloweater = response.getJSONObject(i);
+                        FellowEater fellowEater = new FellowEater(felloweater.getInt("ID"), new Student(felloweater.getString("StudentNumber")), felloweater.getInt("AmountOfGuests"), new Meal(felloweater.getInt("MealID")));
+                        rs.add(fellowEater);
+                        APICallbacks.loadFellowEaters(rs);
+                    }
+                    Log.i("API", "getFellowEaters successful");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse.statusCode==401){
+                    APICallbacks.invalidToken();
+                } else {
+                    error.printStackTrace();
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
+        mRequestQueue.add(jsObjRequest);
+    }
+
+
+
+
+    /* Delete methods */
+
+    /**
+     * @param meal to delete
+     */
+    public void deleteMeal(Meal meal) {
+        Log.i("API", "deleteMeal " + meal.getId());
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata", Context.MODE_PRIVATE);
+        final String token = sharedPreferences.getString("APITOKEN", null);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, BASEURL + "/api/meal/" + meal.getId(), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                APICallbacks.removedMeal(true);
+                Log.i("API", "getFellowEaters successful");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+
+            public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse.statusCode==401){
+                    APICallbacks.invalidToken();
+                } else {
+                    APICallbacks.removedMeal(false);
+                    error.printStackTrace();
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String auth = "Bearer " + token;
+                headers.put("Accept", "application/json");
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", auth);
+
+                return headers;
+            }
+        };
+        mRequestQueue.add(request);
+    }
+
+    /**
+     * @param fellowEater to be deleted
+     */
+    public void deleteFellowEater(FellowEater fellowEater) {
+        Log.i("API", "deleteFellowEater " + fellowEater.getId());
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata", Context.MODE_PRIVATE);
+        final String token = sharedPreferences.getString("APITOKEN", null);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, BASEURL + "/api/felloweater/" + fellowEater.getId(), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                APICallbacks.removedFellowEater(true);
+                Log.i("API", "getFellowEaters successful");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+
+            public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse.statusCode==401){
+                    APICallbacks.invalidToken();
+                } else {
+                    APICallbacks.removedFellowEater(false);
+                    error.printStackTrace();
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String auth = "Bearer " + token;
+                headers.put("Accept", "application/json");
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", auth);
+
+                return headers;
+            }
+        };
+        mRequestQueue.add(request);
+    }
+
+
+
+    /* Put methods */
 
     /**
      * @param student object that dictates what the new student object will look like
@@ -548,8 +615,12 @@ public class APIServices {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                APICallbacks.changedStudent(false);
-                error.printStackTrace();
+                if(error.networkResponse.statusCode==401){
+                    APICallbacks.invalidToken();
+                } else {
+                    APICallbacks.changedStudent(false);
+                    error.printStackTrace();
+                }
             }
         }) {
             @Override
@@ -590,8 +661,12 @@ public class APIServices {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                APICallbacks.changedStudent(false);
-                error.printStackTrace();
+                if(error.networkResponse.statusCode==401){
+                    APICallbacks.invalidToken();
+                } else {
+                    APICallbacks.changedStudent(false);
+                    error.printStackTrace();
+                }
             }
         }) {
             @Override
