@@ -83,4 +83,8 @@ public class DashboardActivity extends AppCompatActivity implements InvalidToken
     public void invalidToken() {
         startActivity(new Intent(getApplicationContext(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
 }
