@@ -1,6 +1,8 @@
 package nl.mheijden.prog3app.controllers.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,6 +20,7 @@ public class DashboardActivity extends AppCompatActivity implements InvalidToken
         Button button2 = findViewById(R.id.studentsButton);
         Button button3 = findViewById(R.id.newMealButton);
         Button button4 = findViewById(R.id.accountButton);
+        Button button5 = findViewById(R.id.dashboard_uitloggen);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,6 +45,12 @@ public class DashboardActivity extends AppCompatActivity implements InvalidToken
                 openAccount();
             }
         });
+        button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logOut();
+            }
+        });
     }
 
     private void openMeals() {
@@ -62,6 +71,13 @@ public class DashboardActivity extends AppCompatActivity implements InvalidToken
     private void openAccount() {
         Intent i = new Intent(this, AccountsActivity.class);
         startActivity(i);
+    }
+    private void logOut() {
+        SharedPreferences sharedPreferences = getSharedPreferences("userdata", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("LOGGEDIN", false);
+        editor.apply();
+        invalidToken();
     }
     @Override
     public void invalidToken() {

@@ -386,6 +386,10 @@ public class MaaltijdenApp implements APICallbacks {
      */
     @Override
     public void invalidToken() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userdata", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("LOGGEDIN", false);
+        editor.apply();
         invalidTokenCallback.invalidToken();
     }
 }

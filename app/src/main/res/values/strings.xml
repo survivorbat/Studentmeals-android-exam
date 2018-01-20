@@ -76,4 +76,5 @@
     <string name="app_changedstudent_success">Succesvol aangepast</string>
     <string name="app_input_imagechosen">Afbeelding gekozen</string>
     <string name="app_previewimage">Voorbeeld foto</string>
+    <string name="app_dashboard_logout">Uitloggen</string>
 </resources>
