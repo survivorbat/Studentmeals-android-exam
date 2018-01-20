@@ -596,11 +596,7 @@ public class APIServices {
         final String token = sharedPreferences.getString("APITOKEN", null);
         JSONObject put = new JSONObject();
         try {
-            if (student.getPassword().equals("")) {
-                put = new JSONObject("{\"studentNumber\": \"" + student.getstudentNumber() + "\",\"firstname\":\"" + student.getFirstname() + "\",\"lastname\":\"" + student.getLastname() + "\",\"insertion\":\"" + student.getInsertion() + "\",\"lastname\":\"" + student.getLastname() + "\",\"email\":\"" + student.getEmail() + "\",\"phonenumber\":\"" + student.getPhonenumber() + "\",\"password\":\"" + student.getPassword() + "\"}");
-            } else {
-                put = new JSONObject("{\"studentNumber\": \"" + student.getstudentNumber() + "\",\"firstname\":\"" + student.getFirstname() + "\",\"lastname\":\"" + student.getLastname() + "\",\"insertion\":\"" + student.getInsertion() + "\",\"lastname\":\"" + student.getLastname() + "\",\"email\":\"" + student.getEmail() + "\",\"phonenumber\":\"" + student.getPhonenumber() + "\"}");
-            }
+            put = new JSONObject("{\"studentNumber\": \"" + student.getstudentNumber() + "\",\"firstname\":\"" + student.getFirstname() + "\",\"lastname\":\"" + student.getLastname() + "\",\"insertion\":\"" + student.getInsertion() + "\",\"lastname\":\"" + student.getLastname() + "\",\"email\":\"" + student.getEmail() + "\",\"phonenumber\":\"" + student.getPhonenumber() + "\",\"password\":\"" + student.getPassword() + "\"}");
         } catch (JSONException e) {
             e.printStackTrace();
             APICallbacks.changedStudent(false);
