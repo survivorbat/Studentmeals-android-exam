@@ -45,7 +45,7 @@
             android:text="@string/app_placeholder"
             android:textColor="@color/colorAccent"
             android:textIsSelectable="true"
-            android:textSize="24sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/meal_datumtijd"

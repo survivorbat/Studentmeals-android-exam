@@ -80,36 +80,24 @@ public class StudentDAO implements DAO<Student> {
      * @param data is a list of objects to call insertOne for
      */
     public void insertData(ArrayList<Student> data) {
-        clear();
-        for (Student student : data) {
-            insertOne(student);
-        }
-    }
-
-    /**
-     * @param object you want to insert into the database
-     */
-    public void insertOne(Student object) {
-        android.database.sqlite.SQLiteDatabase t = db.getWritableDatabase();
-        ContentValues i = new ContentValues();
-        i.put("StudentNumber", object.getstudentNumber());
-        i.put("FirstName", object.getFirstname());
-        i.put("Insertion", object.getInsertion());
-        i.put("LastName", object.getLastname());
-        i.put("Email", object.getEmail());
-        i.put("PhoneNumber", object.getPhonenumber());
-        t.replace("Students", "StudentNumber, Firstname, Insertion, Lastname, Email, PhoneNumber", i);
-        t.close();
-        db.close();
-    }
-
-    /**
-     * Clear table
-     */
-    @Override
-    public void clear() {
         SQLiteDatabase db = this.db.getWritableDatabase();
         db.execSQL("DELETE FROM Students;");
-        db.close();
+        db.beginTransaction();
+        ContentValues i = new ContentValues();
+        try {
+            for (Student student : data) {
+                i.put("StudentNumber", student.getstudentNumber());
+                i.put("FirstName", student.getFirstname());
+                i.put("Insertion", student.getInsertion());
+                i.put("LastName", student.getLastname());
+                i.put("Email", student.getEmail());
+                i.put("PhoneNumber", student.getPhonenumber());
+                db.insertOrThrow("Students", "StudentNumber, Firstname, Insertion, Lastname, Email, PhoneNumber", i);
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
     }
 }

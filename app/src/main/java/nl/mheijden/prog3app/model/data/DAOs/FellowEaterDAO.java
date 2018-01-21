@@ -63,34 +63,24 @@ public class FellowEaterDAO implements DAO<FellowEater> {
      * @param data is a list of objects to call insertOne for
      */
     public void insertData(ArrayList<FellowEater> data) {
-        clear();
-        for (FellowEater fellowEater : data) {
-            insertOne(fellowEater);
+        SQLiteDatabase db = this.db.getWritableDatabase();
+        db.execSQL("DELETE FROM FellowEaters;");
+        db.beginTransaction();
+        ContentValues i = new ContentValues();
+        try {
+            for (FellowEater fellowEater : data) {
+                i.put("ID", fellowEater.getId());
+                i.put("AmountOfGuests", fellowEater.getGuests());
+                i.put("StudentNumber", fellowEater.getStudent().getstudentNumber());
+                i.put("MealID", fellowEater.getMeal().getId());
+                db.insertOrThrow("FellowEaters", "ID, AmountOfGuests, StudentNumber, MealID", i);
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            db.close();
         }
     }
 
-    /**
-     * @param object you want to insert into the database
-     */
-    public void insertOne(FellowEater object) {
-        android.database.sqlite.SQLiteDatabase t = db.getWritableDatabase();
-        ContentValues i = new ContentValues();
-        i.put("ID", object.getId());
-        i.put("AmountOfGuests", object.getGuests());
-        i.put("StudentNumber", object.getStudent().getstudentNumber());
-        i.put("MealID", object.getMeal().getId());
-        t.replace("FellowEaters", "ID, AmountOfGuests, StudentNumber, MealID", i);
-        t.close();
-        db.close();
-    }
 
-    /**
-     * Clear table
-     */
-    @Override
-    public void clear() {
-        SQLiteDatabase db = this.db.getWritableDatabase();
-        db.execSQL("DELETE FROM FellowEaters;");
-        db.close();
-    }
 }

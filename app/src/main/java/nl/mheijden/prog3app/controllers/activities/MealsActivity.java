@@ -51,25 +51,19 @@ public class MealsActivity extends AppCompatActivity implements ReloadCallback, 
             }
         });
     }
-
-    protected void onResume() {
-        super.onResume();
-        SharedPreferences sharedPreferences = getSharedPreferences("userdata", Context.MODE_PRIVATE);
-        if (sharedPreferences.getBoolean("SHOULDRELOAD", false)) {
-            onReloadInitiated();
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("SHOULDRELOAD", false);
-            editor.apply();
-        }
-    }
-
     private void handleViewClick(Meal m) {
         Intent intent = new Intent(this, MealsActivity_Detail.class);
         intent.putExtra("Meal", m);
         startActivity(intent);
     }
 
+    protected void onResume(){
+        super.onResume();
+        onReloadInitiated();
+    }
+
     private void onReloadInitiated() {
+        layout.setRefreshing(true);
         app.reloadMeals(this);
     }
 

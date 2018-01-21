@@ -38,6 +38,11 @@ public class StudentsActivity extends AppCompatActivity implements ReloadCallbac
         list.setAdapter(adapter);
     }
 
+    protected void onResume(){
+        super.onResume();
+        refreshInitiated();
+    }
+
     private void refreshInitiated() {
         app.reloadStudents(this);
         layout.setRefreshing(true);

@@ -24,15 +24,17 @@ import java.io.IOException;
 import nl.mheijden.prog3app.R;
 import nl.mheijden.prog3app.controllers.callbacks.ChangeStudentCallback;
 import nl.mheijden.prog3app.controllers.callbacks.InvalidTokenCallback;
+import nl.mheijden.prog3app.controllers.callbacks.ReloadCallback;
 import nl.mheijden.prog3app.model.domain.MaaltijdenApp;
 import nl.mheijden.prog3app.model.domain.Student;
 
-public class AccountsActivity extends AppCompatActivity implements ChangeStudentCallback, InvalidTokenCallback {
+public class AccountsActivity extends AppCompatActivity implements ChangeStudentCallback, InvalidTokenCallback, ReloadCallback {
     private Student student;
     private EditText firstname, lastname, insertion, phonenumber, email, password, passwordconfirm;
     private Bitmap newImage;
     private Button imageAdd;
     private ImageView previewImage;
+    private MaaltijdenApp app;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -40,7 +42,7 @@ public class AccountsActivity extends AppCompatActivity implements ChangeStudent
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accounts);
 
-        MaaltijdenApp app = new MaaltijdenApp(this);
+        app = new MaaltijdenApp(this);
         student = app.getUser();
 
         imageAdd = findViewById(R.id.accounts_selectpic);
@@ -148,7 +150,7 @@ public class AccountsActivity extends AppCompatActivity implements ChangeStudent
     public void onUserChanged(boolean result) {
         if (result) {
             Toast.makeText(this, R.string.app_changedstudent_success, Toast.LENGTH_SHORT).show();
-            this.finish();
+            app.reloadStudents(this);
         } else {
             Toast.makeText(this, getText(R.string.app_error_conn), Toast.LENGTH_SHORT).show();
         }
@@ -202,5 +204,10 @@ public class AccountsActivity extends AppCompatActivity implements ChangeStudent
     @Override
     public void invalidToken() {
         startActivity(new Intent(getApplicationContext(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }
+
+    @Override
+    public void reloaded(boolean result) {
+        this.finish();
     }
 }

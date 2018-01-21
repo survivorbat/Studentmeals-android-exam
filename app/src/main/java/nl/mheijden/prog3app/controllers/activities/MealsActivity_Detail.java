@@ -59,7 +59,7 @@ public class MealsActivity_Detail extends AppCompatActivity implements LeaveCont
             } else {
                 meal_chef.setText(getText(R.string.app_meals_cheficon) + " " + meal.getChef().getFirstname() + " " + meal.getChef().getLastname());
             }
-            meal_price.setText(getText(R.string.app_meals_moneyicon) + " €" + meal.getPrice());
+            meal_price.setText(getText(R.string.app_meals_moneyicon) + " €" + String.format("%.2f", meal.getPrice()));
             meal_date.setText(getText(R.string.app_meals_timeicon) + " " + meal.getDate() + "");
             meal_amount.setText(getText(R.string.app_dashboard_button_students) + " " + meal.getAmountOfEaters() + "/" + meal.getMaxFellowEaters());
 
@@ -138,10 +138,6 @@ public class MealsActivity_Detail extends AppCompatActivity implements LeaveCont
 
     public void onDeleteMealComplete(boolean result) {
         if (result) {
-            SharedPreferences sharedPreferences = getSharedPreferences("userdata", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("SHOULDRELOAD", true);
-            editor.apply();
             this.finish();
         } else {
             Toast.makeText(this, getText(R.string.app_error_conn), Toast.LENGTH_SHORT).show();
@@ -151,23 +147,12 @@ public class MealsActivity_Detail extends AppCompatActivity implements LeaveCont
     @Override
     public void onLeaveComplete(boolean result) {
         if (result) {
-            SharedPreferences sharedPreferences = getSharedPreferences("userdata", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("SHOULDRELOAD", true);
-            editor.apply();
             this.finish();
         } else {
             Toast.makeText(this, getText(R.string.app_error_conn), Toast.LENGTH_SHORT).show();
         }
     }
 
-    protected void onResume() {
-        super.onResume();
-        SharedPreferences sharedPreferences = getSharedPreferences("userdata", Context.MODE_PRIVATE);
-        if (sharedPreferences.getBoolean("SHOULDRELOAD", false)) {
-            this.finish();
-        }
-    }
     @Override
     public void invalidToken() {
         startActivity(new Intent(getApplicationContext(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));

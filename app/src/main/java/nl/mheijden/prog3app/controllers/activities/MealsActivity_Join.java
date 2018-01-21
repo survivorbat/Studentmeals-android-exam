@@ -77,11 +77,7 @@ public class MealsActivity_Join extends AppCompatActivity implements JoinControl
     public void onJoinComplete(boolean result) {
         if (result) {
             Toast.makeText(this, R.string.app_joinmeal_success, Toast.LENGTH_SHORT).show();
-            SharedPreferences sharedPreferences = getSharedPreferences("userdata", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("SHOULDRELOAD", true);
-            editor.apply();
-            this.finish();
+            startActivity(new Intent(getApplicationContext(),MealsActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         } else {
             Toast.makeText(this, getText(R.string.app_error_conn), Toast.LENGTH_SHORT).show();
         }

@@ -27,7 +27,7 @@
         android:text="@string/app_students_title"
         android:textColor="@color/colorAccent"
         android:textIsSelectable="true"
-        android:textSize="24sp"
+        android:textSize="18sp"
         tools:targetApi="o" />
 
     <LinearLayout

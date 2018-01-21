@@ -102,40 +102,27 @@ public class MealDAO implements DAO<Meal> {
      * @param data is a list of objects to call insertOne for
      */
     public void insertData(ArrayList<Meal> data) {
-        clear();
-        for (Meal meal : data) {
-            insertOne(meal);
+        SQLiteDatabase wd = db.getWritableDatabase();
+        wd.execSQL("DELETE FROM Meals");
+        ContentValues i = new ContentValues();
+        wd.beginTransaction();
+        try {
+            for (Meal meal : data) {
+                i.put("ID", meal.getId());
+                i.put("Dish", meal.getDish());
+                i.put("DateTime", meal.getDate());
+                i.put("Info", meal.getInfo());
+                i.put("ChefID", meal.getChef().getstudentNumber());
+                i.put("Picture", meal.getInfo());
+                i.put("Price", meal.getPrice());
+                i.put("MaxFellowEaters", meal.getMaxFellowEaters());
+                i.put("DoesCookEat", meal.isDoesCookEat());
+                wd.insertOrThrow("Meals", "ID, Dish, DateTime, Info, ChefID, Picture, Price, MaxFellowEaters, DoesCookEat", i);
+            }
+            wd.setTransactionSuccessful();
+        } finally {
+            wd.endTransaction();
+            wd.close();
         }
     }
-
-    /**
-     * @param object you want to insert into the database
-     */
-    public void insertOne(Meal object) {
-        android.database.sqlite.SQLiteDatabase t = db.getWritableDatabase();
-        ContentValues i = new ContentValues();
-        i.put("ID", object.getId());
-        i.put("Dish", object.getDish());
-        i.put("DateTime", object.getDate());
-        i.put("Info", object.getInfo());
-        i.put("ChefID", object.getChef().getstudentNumber());
-        i.put("Picture", object.getInfo());
-        i.put("Price", object.getPrice());
-        i.put("MaxFellowEaters", object.getMaxFellowEaters());
-        i.put("DoesCookEat", object.isDoesCookEat());
-        t.replace("Meals", "ID, Dish, DateTime, Info, ChefID, Picture, Price, MaxFellowEaters, DoesCookEat", i);
-        t.close();
-        db.close();
-    }
-
-    /**
-     * Clear table
-     */
-    @Override
-    public void clear() {
-        SQLiteDatabase db = this.db.getWritableDatabase();
-        db.execSQL("DELETE FROM Meals;");
-        db.close();
-    }
-
 }

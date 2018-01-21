@@ -25,16 +25,4 @@ interface DAO<T> {
      */
     @SuppressWarnings("unused")
     void insertData(ArrayList<T> data);
-
-    /**
-     * @param object you want to insert into the database
-     */
-    @SuppressWarnings("unused")
-    void insertOne(T object);
-
-    /**
-     * Clear table
-     */
-    @SuppressWarnings("unused")
-    void clear();
 }
