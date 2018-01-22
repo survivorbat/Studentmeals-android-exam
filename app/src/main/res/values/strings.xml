@@ -77,4 +77,5 @@
     <string name="app_input_imagechosen">Afbeelding gekozen</string>
     <string name="app_previewimage">Voorbeeld foto</string>
     <string name="app_dashboard_logout">Uitloggen</string>
+    <string name="app_error_relogin">Sessie sleutel verlopen, gelieve opnieuw in te loggen</string>
 </resources>

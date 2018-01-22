@@ -3,9 +3,11 @@ package nl.mheijden.prog3app.model.domain;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import nl.mheijden.prog3app.R;
 import nl.mheijden.prog3app.controllers.callbacks.ChangeStudentCallback;
 import nl.mheijden.prog3app.controllers.callbacks.DeleteMealControllerCallback;
 import nl.mheijden.prog3app.controllers.callbacks.InvalidTokenCallback;
@@ -390,6 +392,7 @@ public class MaaltijdenApp implements APICallbacks {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("LOGGEDIN", false);
         editor.apply();
+        Toast.makeText(context, R.string.app_error_relogin,Toast.LENGTH_LONG).show();
         invalidTokenCallback.invalidToken();
     }
 }
