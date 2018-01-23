@@ -68,7 +68,7 @@
     <string name="app_changedstudent_success">Successfully changed</string>
     <string name="app_input_imagechosen">Image chosen</string>
     <string name="app_previewimage">Preview image</string>
-    <string name="app_dashboard_logout">Uitloggen</string>
+    <string name="app_dashboard_logout">Logout</string>
     <string name="app_error_relogin">Session key expired, please login again</string>
     <string name="app_input_error_time">Put the time here, format: 00:00</string>
 </resources>
