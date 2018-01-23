@@ -90,8 +90,14 @@ public class APIServices {
      */
     public void addMaaltijd(Meal meal) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        meal.getPicture().compress(Bitmap.CompressFormat.JPEG, 20, baos); //bm is the bitmap object
-        byte[] b = baos.toByteArray();
+        byte[] b;
+        try {
+            meal.getPicture().compress(Bitmap.CompressFormat.JPEG, 20, baos); //bm is the bitmap object
+            b = baos.toByteArray();
+        }
+        catch (NullPointerException e){
+            b = "".getBytes();
+        }
         SharedPreferences sharedPreferences = context.getSharedPreferences("userdata", Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("APITOKEN", null);
         JSONObject post = new JSONObject();

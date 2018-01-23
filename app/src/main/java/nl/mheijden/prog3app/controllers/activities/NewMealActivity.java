@@ -134,12 +134,16 @@ public class NewMealActivity extends AppCompatActivity implements NewMealControl
 
     private void confirmMeal() {
         boolean errorFree = true;
-        if (date.getText().toString().trim().isEmpty() || time.toString().trim().isEmpty() || !isValidDate(date.getText().toString())) {
+        if (date.getText().toString().trim().isEmpty() || !isValidDate(date.getText().toString())) {
             errorFree = false;
             date.setError(getText(R.string.newmeal_error_dateformat));
             if (rs.contains(date.getText().toString() + " " + time.getText().toString())) {
                 date.setError(getText(R.string.newmeal_takendate));
             }
+        }
+        if(!time.getText().toString().matches("^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$") || time.toString().trim().isEmpty()){
+            errorFree=false;
+            time.setError(getText(R.string.app_input_error_time));
         }
         if (dish.getText().toString().trim().isEmpty()) {
             dish.setError(getText(R.string.app_input_error_dish));
